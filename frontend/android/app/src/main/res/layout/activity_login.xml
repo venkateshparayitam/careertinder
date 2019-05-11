@@ -13,22 +13,24 @@
         android:layout_above="@+id/RLLoginForm">
 
         <ImageView
-            android:layout_centerHorizontal="true"
-            android:background="@mipmap/icon"
-
             android:id="@+id/IVAppIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_width="100dp"
+
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/icon" />
 
         <TextView
             android:id="@+id/TVAppName"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_below="@+id/IVAppIcon"
-            android:text="Career-Tinder"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/IVAppIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="Career-Tinder"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -96,17 +98,17 @@
 
     <TextView
         android:id="@+id/TVReg"
-        android:text="Register"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="#00ca9d"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:gravity="center"
+        android:text="Register"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
