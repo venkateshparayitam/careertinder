@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".activities.PostSignup">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/picturePlaceholder" />
+
+        <Button
+            android:id="@+id/updatePicture"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Update"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/picture" />
+
+        <EditText
+            android:id="@+id/ETUniversity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/pioads"
+            android:drawablePadding="10dp"
+            android:hint="University"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/updatePicture" />
+
+        <EditText
+            android:id="@+id/ETEducation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_import_contacts_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Highest Education"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETUniversity" />
+
+        <EditText
+            android:id="@+id/ETWorkExperience"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_ballot_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Work Experience in Months"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETEducation" />
+
+        <TextView
+            android:id="@+id/plainText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif"
+            android:text="Please provide your top 3 skills"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETWorkExperience" />
+
+        <EditText
+            android:id="@+id/ETSkillOne"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_attach_file_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Skill One"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plainText" />
+
+        <EditText
+            android:id="@+id/ETSkillTwo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_attach_file_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Skill Two"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETSkillOne" />
+
+        <EditText
+            android:id="@+id/ETSkillThree"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_attach_file_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Skill Three"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETSkillTwo" />
+
+        <Switch
+            android:id="@+id/switchEU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:switchPadding="50dp"
+            android:text="EU Citizen"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETSkillThree" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

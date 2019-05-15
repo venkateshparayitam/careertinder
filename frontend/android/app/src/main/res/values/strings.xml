@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Career Tinder</string>
+    <string name="loginBtn">Login</string>
+    <string name="registerBtn">Register</string>
+    <string name="createAccountBtn">Create My Account!</string>
+    <string name="joinCareerTinder">Join Career Tinder now!</string>
+    <string name="fullNameText">Full Name</string>
+    <string name="emailAddressText">Email Address</string>
+    <string name="passwordText">Password</string>
+    <string name="confirmPasswordText">Confirm Password</string>
+    <string name="userTypeText">I am:</string>
+    <string name="studentText">a Job Seeker</string>
+    <string name="companyText">an Employer</string>
+
+</resources>
