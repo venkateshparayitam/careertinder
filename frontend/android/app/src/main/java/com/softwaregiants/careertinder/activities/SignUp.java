@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.SignUpModel;
@@ -26,7 +28,10 @@ public class SignUp extends AppCompatActivity {
     EditText password;
     EditText confirmPassword;
 
-    String userTypeString = "";
+    RadioButton jobseeker;
+    RadioButton employer;
+
+    String userTypeString = "not set";
     String name = "";
     String email = "";
     String pass = "";
@@ -46,6 +51,11 @@ public class SignUp extends AppCompatActivity {
         emailAddress = (EditText)findViewById(R.id.emailAddress);
         password = (EditText)findViewById(R.id.password);
         confirmPassword = (EditText)findViewById(R.id.confirmPassword);
+
+        jobseeker = (RadioButton)findViewById(R.id.jobSeekerRadioButton);
+        jobseeker.setOnClickListener(js_radio_listener);
+        employer = (RadioButton)findViewById(R.id.employerRadioButton);
+        employer.setOnClickListener(e_radio_listener);
     }
 
     View.OnClickListener ocl = new View.OnClickListener() {
@@ -55,19 +65,54 @@ public class SignUp extends AppCompatActivity {
             email = emailAddress.getText().toString();
             pass = password.getText().toString();
             confirmPass = confirmPassword.getText().toString();
-            if (matchPasswords(pass, confirmPass)) {
-                SignUpModel signUpModel = new SignUpModel();
-                signUpModel.setName(name);
-                signUpModel.setEmail(email);
-                signUpModel.setPassword(pass);
-                signUpModel.setUserType(userTypeString);
-
-                mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+            SignUpModel signUpModel = new SignUpModel();
+            signUpModel.setName(name);
+            signUpModel.setEmail(email);
+            signUpModel.setPassword(pass);
+            signUpModel.setUserType(userTypeString);
+            if(name.equals("")){
+                Toast.makeText(mContext,"You have a name, do ya?", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (email.equals("") || (!validateEmail(email))) {
+                if(email.equals("")){
+                    Toast.makeText(mContext, "Hey, enter your email address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    Toast.makeText(mContext, "Your Email address is not valid", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if (!checkPasswordLength(pass) || pass.equals("")){
+                    if(pass.equals("")){
+                        Toast.makeText(mContext,"Please enter a password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!checkPasswordLength(pass)){
+                        Toast.makeText(mContext,"Password should be at least 8 characters", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+            }
+            else if (!matchPasswords(pass, confirmPass) || confirmPass.equals("")){
+                if (confirmPass.equals("")){
+                    Toast.makeText(mContext,"Please re-enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!matchPasswords(pass, confirmPass)){
+                    Toast.makeText(mContext,"Password don't match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if(userTypeString.equals("not set")){
+                    Toast.makeText(mContext,"SELECT ONE : Job Seeker or Employer?", Toast.LENGTH_SHORT).show();
+                    return;
             }
             else{
-                Toast.makeText(mContext,"Passwords don't match", Toast.LENGTH_SHORT).show();
+                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
             }
         }
+
     };
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
@@ -82,20 +127,16 @@ public class SignUp extends AppCompatActivity {
         }
     };
 
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-
-        switch(view.getId()) {
-            case R.id.jobSeekerRadioButton:
-                if (checked)
-                    userTypeString = "jobseeker";
-                    break;
-            case R.id.employerRadioButton:
-                if (checked)
-                    userTypeString = "employer";
-                    break;
+    View.OnClickListener js_radio_listener = new View.OnClickListener(){
+        public void onClick(View view) {
+            userTypeString = "jobseeker";
         }
-    }
+    };
+    View.OnClickListener e_radio_listener = new View.OnClickListener(){
+        public void onClick(View view) {
+            userTypeString = "employer";
+        }
+    };
 
     public boolean matchPasswords(String p, String c){
         if(p.equals(c)){
@@ -104,5 +145,18 @@ public class SignUp extends AppCompatActivity {
         else{
             return false;
         }
+    }
+
+    public boolean checkPasswordLength(String pas){
+        if(pas.length() < 8){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public boolean validateEmail(String email){
+        return EmailValidator.getInstance().isValid(email);
     }
 }

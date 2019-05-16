@@ -2,7 +2,7 @@ package com.softwaregiants.careertinder.models;
 
 public class SignUpModel extends BaseBean {
     private String name;
-    private String email;
+    private String emailid;
     private String password;
     private String userType;
 
@@ -15,11 +15,11 @@ public class SignUpModel extends BaseBean {
     }
 
     public String getEmail() {
-        return email;
+        return emailid;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailid = email;
     }
 
     public String getPassword() {

@@ -14,7 +14,7 @@ public interface ApiInterface {
     @GET("5cd0aab83300006200b12587")
     Call<BaseBean> getSuccessCode();
 
-    @POST("signup")
+    @POST("api/signUp")
     Call<BaseBean> signUp(@Body SignUpModel signUpModel);
 
 }
