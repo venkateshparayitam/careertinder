@@ -40,15 +40,7 @@ public class CTUserEntity implements Serializable {
 	
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private CTApplicantEntity applicant;
-    
-	
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    		  name = "user_company", 
-    		  joinColumns = @JoinColumn(name = "student_id"), 
-    		  inverseJoinColumns = @JoinColumn(name = "user_id"))
-    		List<CTApplicantEntity> likedCourses;
+    private CTApplicantEntity applicant;    
     
 
 	public Long getId() {
