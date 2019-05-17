@@ -100,7 +100,7 @@ public class UserController {
 		
 	}
 	
-	@GetMapping(path = "/display/", produces = "text/plain")
+	@GetMapping(path = "/display", produces = "text/plain")
 	public String Acknowledge() {
 	    return "It is working";
 	}
