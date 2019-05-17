@@ -8,12 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: ApplicantEntity
- * @author: Pravin Garad.
+ * @author: Pravin Garad
  */
 
 @Entity
@@ -22,15 +21,14 @@ public class CTCompanyEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne (cascade=CascadeType.ALL)   
-    private CTUserEntity user;	
+		
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "company_id", updatable = false, nullable = true)
 	private Long id;
 	
-	
+    
 	
 	@Column(name = "job_id", updatable = false, nullable = true)
 	private int jobid;
@@ -40,7 +38,16 @@ public class CTCompanyEntity implements Serializable {
 	
 	@Column(name="work_experience")
 	private int workexperience;
-
+	
+	@ManyToOne (cascade=CascadeType.ALL)
+	  private CTUserEntity user_company;
+	
+    /*
+	@ManyToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="id")
+    private CTUserEntity user_company;
+	*/
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,17 +79,18 @@ public class CTCompanyEntity implements Serializable {
 	public void setWorkexperience(int workexperience) {
 		this.workexperience = workexperience;
 	}
+
 	
 	public CTUserEntity getUser()
 	   {
-	      return user;
+	      return user_company;
 	   }
 	
 	public void setUser(CTUserEntity user)
 	   {
-	      this.user = user;
+	      this.user_company = user;
 	   }
-
+	
 
 
 }

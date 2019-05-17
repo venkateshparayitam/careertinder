@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 /**
  * Entity implementation class for Entity: ApplicantEntity
- * @author: Pravin Garad.
+ * @author: Pravin Garad
  */
 
 @Entity

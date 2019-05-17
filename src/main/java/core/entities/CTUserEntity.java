@@ -11,7 +11,8 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name="ctuser", catalog="career_tinder")
+@Table(name="ctuser", catalog="career_tinder", uniqueConstraints=@UniqueConstraint(columnNames="emailid"))
+
 public class CTUserEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;    
@@ -34,21 +35,17 @@ public class CTUserEntity implements Serializable {
 	@Column(name = "userType", updatable = false, nullable = true)
 	private String userType;
 	
-	@Column(name = "authToken", updatable = false, nullable = true)
-	private String authToken;
+	@Column(name = "authtoken", updatable = false, nullable = true)
+	private String authtoken;
 
 	
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private CTApplicantEntity applicant;
+  
     
-	
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-    		  name = "user_company", 
-    		  joinColumns = @JoinColumn(name = "student_id"), 
-    		  inverseJoinColumns = @JoinColumn(name = "user_id"))
-    		List<CTApplicantEntity> likedCourses;
+    @OneToMany (mappedBy = "user_company")
+    List <CTCompanyEntity> company;
     
 
 	public Long getId() {
@@ -90,11 +87,11 @@ public class CTUserEntity implements Serializable {
 	}
 
 	public String getAuthToken() {
-		return authToken;
+		return authtoken;
 	}
 
 	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+		this.authtoken = authToken;
 	}
 	
 	public String getName() {
@@ -104,5 +101,17 @@ public class CTUserEntity implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public List<CTCompanyEntity> getCompany() {
+		return company;
+	}
+
+
+	public void setCompany(List<CTCompanyEntity> company) {
+		this.company = company;
+	}
+	
+	
    
 }
