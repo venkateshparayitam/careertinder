@@ -2,6 +2,8 @@ package com.softwaregiants.careertinder.networking;
 
 import com.softwaregiants.careertinder.activities.SignUp;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.LoginModel;
+import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.models.SignUpModel;
 
 import retrofit2.Call;
@@ -16,5 +18,8 @@ public interface ApiInterface {
 
     @POST("api/signUp")
     Call<BaseBean> signUp(@Body SignUpModel signUpModel);
+
+    @POST("api/login")
+    Call<BaseBean> login(@Body LoginModel loginModel);
 
 }

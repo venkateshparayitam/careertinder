@@ -18,7 +18,7 @@
 
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:background="@mipmap/icon" />
+            android:background="@drawable/career_tinder_logo" />
 
         <TextView
             android:id="@+id/TVAppName"
@@ -106,6 +106,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
+        android:onClick="register"
         android:text="Register"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
