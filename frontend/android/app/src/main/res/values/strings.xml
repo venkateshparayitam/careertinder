@@ -16,5 +16,15 @@
     <string name="jobTitleText">Job Title</string>
     <string name="desiredSkillsText">Desired Skills</string>
 
+    <string-array name="city_array">
+        <item>Nuremberg</item>
+        <item>Furth</item>
+        <item>Erlangen</item>
+        <item>Forcheim</item>
+        <item>Bamberg</item>
+        <item>Bayreuth</item>
+        <item>Hirschaid</item>
+        <item>Wurzburg</item>
+    </string-array>
 
 </resources>
