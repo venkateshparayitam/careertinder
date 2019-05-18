@@ -35,7 +35,7 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name = "emailid", updatable = false, nullable = true)
 	private String emailid;
 	
-	@Column(name="work_experience")
+	@Column(name="work_experience", nullable = false)
 	private int workexperience;
 	
 	@Column(name="university", nullable = true)
