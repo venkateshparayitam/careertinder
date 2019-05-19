@@ -75,7 +75,7 @@ public class CTApplicantEntity implements Serializable {
 	private String secondlanguage;
 	
 	@Column(name="birthday", nullable = true)
-	private LocalDate birthday;
+	private String birthday;
 	
 	@Column(name="nationality")
 	private String nationality;
@@ -239,12 +239,12 @@ public class CTApplicantEntity implements Serializable {
 	}
 
 
-	public LocalDate getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
 
-	public void setBirthday(LocalDate birthday) {
+	public void setBirthday(String birthday) {
     //of the form("YYYY-MM-DD");
 		this.birthday = birthday;
 	}
