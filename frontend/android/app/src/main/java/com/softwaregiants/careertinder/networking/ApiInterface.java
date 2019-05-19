@@ -1,6 +1,7 @@
 package com.softwaregiants.careertinder.networking;
 
 import com.softwaregiants.careertinder.activities.SignUp;
+import com.softwaregiants.careertinder.models.AddJobOpeningModel;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
@@ -12,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -26,4 +28,7 @@ public interface ApiInterface {
 
     @POST("api/postSignUp")
     Call<ResponseBody> postSignUp(@Body PostSignUpModel postSignUpModel);
+
+    @POST("api/createProfileCompany/{url}")
+    Call<ResponseBody> addNewJobOpening(@Body AddJobOpeningModel addJobOpeningModel, @Path("url") String auth_code);
 }

@@ -34,6 +34,9 @@ public class LoginActivity extends AppCompatActivity {
 
     LoginModel loginModel;
 
+    Intent candidateIntent;
+    Intent companyIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
+
+        candidateIntent = new Intent(this, PostSignup.class);
+        companyIntent = new Intent(this, AddNewJobOpening.class);
     }
 
     View.OnClickListener ocl = new View.OnClickListener() {
@@ -58,36 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch( v.getId() ) {
                 case R.id.btnHit: {
-                    usernameText = username.getText().toString();
-                    passwordText = password.getText().toString();
-
-                    if(usernameText.equals("") || (!validateEmail(usernameText))){
-                        if (usernameText.equals("")){
-                            Toast.makeText(mContext,"Please enter Username",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (!validateEmail(usernameText)){
-                            Toast.makeText(mContext,"Username is not valid",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    else if (passwordText.equals("") || passwordText.length() < 8){
-                        if (passwordText.equals("")){
-                            Toast.makeText(mContext,"Please enter Password",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        if (passwordText.length() < 8){
-                            Toast.makeText(mContext,"Please should be at least 8 characters",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    else {
-                        loginModel = new LoginModel();
-                        loginModel.setEmailid(usernameText);
-                        loginModel.setPassword(passwordText);
-                        mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
-                        break;
-                    }
+                    login();
+                    break;
                 }
             }
         }
@@ -102,6 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                     + "User Type: " + loginSuccessModel.getUser_type();
 
             Toast.makeText(mContext,resp,Toast.LENGTH_SHORT).show();
+
+            if (loginSuccessModel.getUser_type().equals("jobseeker")){
+                candidateIntent.putExtra("authcode", loginSuccessModel.getAuth_code());
+                startActivity(candidateIntent);
+            }
+            else if (loginSuccessModel.getUser_type().equals("employer")){
+                companyIntent.putExtra("authcode", loginSuccessModel.getAuth_code());
+                startActivity(companyIntent);
+            }
         }
 
         @Override
@@ -118,5 +105,37 @@ public class LoginActivity extends AppCompatActivity {
     public void register(View view){
         Intent i = new Intent(this, SignUp.class);
         startActivity(i);
+    }
+
+    public void login(){
+        usernameText = username.getText().toString();
+        passwordText = password.getText().toString();
+
+        if(usernameText.equals("") || (!validateEmail(usernameText))){
+            if (usernameText.equals("")){
+                Toast.makeText(mContext,"Please enter Username",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!validateEmail(usernameText)){
+                Toast.makeText(mContext,"Username is not valid",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else if (passwordText.equals("") || passwordText.length() < 8){
+            if (passwordText.equals("")){
+                Toast.makeText(mContext,"Please enter Password",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (passwordText.length() < 8){
+                Toast.makeText(mContext,"Please should be at least 8 characters",Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        else {
+            loginModel = new LoginModel();
+            loginModel.setEmailid(usernameText);
+            loginModel.setPassword(passwordText);
+            mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+        }
     }
 }
