@@ -14,17 +14,10 @@ import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
-import com.softwaregiants.careertinder.networking.ApiInterface;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 
 import org.apache.commons.validator.routines.EmailValidator;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,9 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     String passwordText = "";
 
     LoginModel loginModel;
-
-    private Retrofit retrofit;
-    private ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +51,6 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
-
-        /*
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.105:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        apiInterface = retrofit.create(ApiInterface.class);
-        */
     }
 
     View.OnClickListener ocl = new View.OnClickListener() {
@@ -103,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         loginModel = new LoginModel();
                         loginModel.setEmailid(usernameText);
                         loginModel.setPassword(passwordText);
-                        //test();
                         mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
                         break;
                     }
@@ -112,45 +93,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
-    /*
-    public void test(){
-        Call<LoginSuccessModel> call = apiInterface.login(loginModel);
-
-        call.enqueue(new Callback<LoginSuccessModel>() {
-            @Override
-            public void onResponse(Call<LoginSuccessModel> call, Response<LoginSuccessModel> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(mContext,"Response Code: " + response.code(),Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                else{
-                    LoginSuccessModel loginSuccessModel = response.body();
-                    String resp = "Auth Code: " + loginSuccessModel.getAuth_code() + "\n"
-                            + "User Type: " + loginSuccessModel.getUser_type();
-
-                    Toast.makeText(mContext,resp,Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginSuccessModel> call, Throwable t) {
-
-                Toast.makeText(mContext,"Failed",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    */
-
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
 
         @Override
         public void onSuccess(BaseBean baseBean) {
-            /*
             LoginSuccessModel loginSuccessModel = (LoginSuccessModel) baseBean;
             String resp = "Auth Code: " + loginSuccessModel.getAuth_code() + "\n"
                     + "User Type: " + loginSuccessModel.getUser_type();
-            */
-            Toast.makeText(mContext,baseBean.getStatusCode(),Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(mContext,resp,Toast.LENGTH_SHORT).show();
         }
 
         @Override

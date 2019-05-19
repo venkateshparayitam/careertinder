@@ -4,8 +4,10 @@ import com.softwaregiants.careertinder.activities.SignUp;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
+import com.softwaregiants.careertinder.models.PostSignUpModel;
 import com.softwaregiants.careertinder.models.SignUpModel;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -17,9 +19,11 @@ public interface ApiInterface {
     Call<BaseBean> getSuccessCode();
 
     @POST("api/signUp")
-    Call<BaseBean> signUp(@Body SignUpModel signUpModel);
+    Call<ResponseBody> signUp(@Body SignUpModel signUpModel);
 
     @POST("api/login")
-    Call<BaseBean> login(@Body LoginModel loginModel);
+    Call<ResponseBody> login(@Body LoginModel loginModel);
 
+    @POST("api/postSignUp")
+    Call<ResponseBody> postSignUp(@Body PostSignUpModel postSignUpModel);
 }
