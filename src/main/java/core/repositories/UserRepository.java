@@ -29,4 +29,5 @@ public interface UserRepository extends JpaRepository<CTUserEntity, Long>, CrudR
     @Query(value = "SELECT * FROM ctuser WHERE authtoken = ?1", nativeQuery = true)
     public CTUserEntity getByToken(String token);
     
+    
 }
