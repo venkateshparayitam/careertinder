@@ -24,4 +24,9 @@ public interface UserRepository extends JpaRepository<CTUserEntity, Long>, CrudR
     @Transactional
     @Query(value = "SELECT * from ctuser where emailid = ?1 and password =?2", nativeQuery = true)  
     public CTUserEntity checkPassword(String email, String password);
+    
+    @Transactional 
+    @Query(value = "SELECT * FROM ctuser WHERE authtoken = ?1", nativeQuery = true)
+    public CTUserEntity getByToken(String token);
+    
 }
