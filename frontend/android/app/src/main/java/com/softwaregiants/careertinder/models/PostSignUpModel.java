@@ -11,6 +11,7 @@ public class PostSignUpModel extends BaseBean {
     private String address;
     private String about_me;
     private String dateBirth;
+    private String place;
     private Boolean eu_citizen;
 
     public String getUniversity() { return university; }
@@ -41,6 +42,9 @@ public class PostSignUpModel extends BaseBean {
 
     public String getDateBirth() { return dateBirth; }
     public void setDateBirth(String dateBirth) { this.dateBirth = dateBirth; }
+
+    public String getPlace() { return place; }
+    public void setPlace(String place) { this.place = place; }
 
     public Boolean getEu_citizen() { return eu_citizen; }
     public void setEu_citizen(Boolean eu_citizen) { this.eu_citizen = eu_citizen; }
