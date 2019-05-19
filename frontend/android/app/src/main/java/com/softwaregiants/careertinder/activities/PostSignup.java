@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.PostSignUpModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 
@@ -98,6 +99,58 @@ public class PostSignup extends AppCompatActivity {
             about_me_value = about_me.getText().toString();
             dateBirth_value = dateBirth.getText().toString();
             eu_citizen_value = eu_citizen.isChecked();
+
+            PostSignUpModel postSignUpModel = new PostSignUpModel();
+            postSignUpModel.setUniversity(university_value);
+            postSignUpModel.setHighest_education(highest_education_value);
+            postSignUpModel.setWork_experience(work_experience_value);
+            postSignUpModel.setSkill_one(skill_one_value);
+            postSignUpModel.setSkill_two(skill_two_value);
+            postSignUpModel.setSkill_three(skill_three_value);
+            postSignUpModel.setAddress(address_value);
+            postSignUpModel.setAbout_me(about_me_value);
+            postSignUpModel.setDateBirth(dateBirth_value);
+            postSignUpModel.setEu_citizen(eu_citizen_value);
+
+            if(university_value.equals("")){
+                Toast.makeText(mContext,"Please enter university name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (highest_education_value.equals("")){
+                Toast.makeText(mContext,"Please enter your highest education", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (work_experience_value.equals("")){
+                Toast.makeText(mContext,"Please enter your work experience", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (skill_one_value.equals("")){
+                Toast.makeText(mContext,"Please enter your Skill One", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (skill_two_value.equals("")){
+                Toast.makeText(mContext,"Please enter your Skill Two", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (skill_three_value.equals("")){
+                Toast.makeText(mContext,"Please enter your Skill Three", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (address_value.equals("")){
+                Toast.makeText(mContext,"Please enter your Address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (about_me_value.equals("")){
+                Toast.makeText(mContext,"Please tell something about yourself", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (dateBirth_value.equals("")){
+                Toast.makeText(mContext,"Please enter your date of birth", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else{
+                mRetrofitClient.mApiInterface.postSignUp(postSignUpModel).enqueue(mRetrofitClient);
+            }
         }
     };
 
@@ -127,11 +180,10 @@ public class PostSignup extends AppCompatActivity {
         dateBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
+                final Calendar calendar = Calendar.getInstance();
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                int month = calendar.get(Calendar.MONTH);
+                int year = calendar.get(Calendar.YEAR);
                 picker = new DatePickerDialog(PostSignup.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override

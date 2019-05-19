@@ -4,6 +4,7 @@ import com.softwaregiants.careertinder.activities.SignUp;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
+import com.softwaregiants.careertinder.models.PostSignUpModel;
 import com.softwaregiants.careertinder.models.SignUpModel;
 
 import okhttp3.ResponseBody;
@@ -23,4 +24,6 @@ public interface ApiInterface {
     @POST("api/login")
     Call<ResponseBody> login(@Body LoginModel loginModel);
 
+    @POST("api/postSignUp")
+    Call<ResponseBody> postSignUp(@Body PostSignUpModel postSignUpModel);
 }

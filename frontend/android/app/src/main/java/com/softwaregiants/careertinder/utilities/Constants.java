@@ -6,5 +6,4 @@ public interface Constants {
     //API Methods
     String API_METHOD_LOGIN = "login";
     String API_METHOD_SIGNUP = "sign_up";
-
 }
