@@ -16,7 +16,7 @@ import core.entities.CTUserEntity;;
 public interface ApplicantRepository extends JpaRepository<CTApplicantEntity, Long> {
 	
 	    @Transactional
-	    @Query(value = "SELECT * FROM ctuser WHERE emailid = ?1", nativeQuery = true)
+	    @Query(value = "SELECT * FROM ctapplicant WHERE emailid = ?1", nativeQuery = true)
 	    public CTApplicantEntity findByEmail(String email);
 
 }

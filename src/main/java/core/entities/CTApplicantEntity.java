@@ -1,7 +1,6 @@
 package core.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,8 +40,8 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="university", nullable = true)
 	private String university;
 	
-	@Column(name="euCitizen", nullable = true)
-	private boolean eu;
+	@Column(name="eu_citizen")
+	private boolean eu = false;
 	
 	@Column(name="qualification")
 	private String qualification;
@@ -199,13 +198,18 @@ public class CTApplicantEntity implements Serializable {
 	}
 
 
-	public boolean isEu() {
+	public boolean getEu() {
 		return eu;
 	}
 
 
 	public void setEu(boolean eu) {
 		this.eu = eu;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 
