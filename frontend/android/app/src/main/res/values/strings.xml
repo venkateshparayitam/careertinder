@@ -15,6 +15,15 @@
     <string name="createJobOpeningText">Create Job Opening!</string>
     <string name="jobTitleText">Job Title</string>
     <string name="desiredSkillsText">Desired Skills</string>
+    <string name="skillText">Skill</string>
+    <string name="desiredQualificationText">Desired Qualification</string>
+    <string name="desiredWorkExText">Desired Work Experience (in Months)</string>
+    <string name="placeOfWorkText">Place of Work</string>
+    <string name="jobDescriptionText">Job Description</string>
+    <string name="nameOfYourCompanyText">Name of your Company</string>
+    <string name="desiredCandidateText">DESIRED CANDIDATE PROFILE</string>
+    <string name="desiredLanguagesText">Desired Language Skills</string>
+    <string name="languageText">Language</string>
 
     <string-array name="city_array">
         <item>Nuremberg</item>

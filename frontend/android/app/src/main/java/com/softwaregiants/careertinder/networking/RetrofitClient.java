@@ -43,12 +43,22 @@ public class RetrofitClient implements Callback<ResponseBody> {
                 String rawResponse = response.body().string();
                 BaseBean baseBean = new Gson().fromJson( rawResponse, BaseBean.class);
                 switch (baseBean.getApiMethod()) {
-                    case Constants.API_METHOD_LOGIN:
+                    case Constants.API_METHOD_LOGIN: {
                         LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
                         mApiResponseCallBack.onSuccess(loginSuccessModel);
+                        break;
+                    }
+                    case Constants.API_METHOD_SIGNUP: {
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        break;
+                    }
+                    case Constants.API_METHOD_ADD_NEW_JOB_OPENING: {
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        break;
+                    }
                 }
             } catch (Exception e) {
-                mApiResponseCallBack.onFailure(e);
+                //mApiResponseCallBack.onFailure(e);
             }
         }
     }

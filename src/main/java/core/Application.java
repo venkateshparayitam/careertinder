@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 
 /**
- * Main method for testing
+ * Spring Boot Application execution start point
  * @author: Pravin Garad
  */
 

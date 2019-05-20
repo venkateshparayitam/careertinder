@@ -1,6 +1,7 @@
 package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -68,11 +69,6 @@ public class SignUp extends AppCompatActivity {
             email = emailAddress.getText().toString();
             pass = password.getText().toString();
             confirmPass = confirmPassword.getText().toString();
-            SignUpModel signUpModel = new SignUpModel();
-            signUpModel.setName(name);
-            signUpModel.setEmail(email);
-            signUpModel.setPassword(pass);
-            signUpModel.setUserType(userTypeString);
             if(name.equals("")){
                 Toast.makeText(mContext,"You have a name, do ya?", Toast.LENGTH_SHORT).show();
                 return;
@@ -112,7 +108,12 @@ public class SignUp extends AppCompatActivity {
                     return;
             }
             else{
-                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                SignUpModel signUpModel = new SignUpModel();
+                signUpModel.setName(name);
+                signUpModel.setEmail(email);
+                signUpModel.setPassword(pass);
+                signUpModel.setUserType(userTypeString);
+                mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
             }
         }
 
@@ -121,7 +122,13 @@ public class SignUp extends AppCompatActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            Toast.makeText(mContext,baseBean.getStatusCode(),Toast.LENGTH_SHORT).show();
+            if (baseBean.getStatusCode().equals("email_exists")){
+                Toast.makeText(mContext,"Account already exists with this email",Toast.LENGTH_SHORT).show();
+            }
+            else if (baseBean.getStatusCode().equals("account_created")) {
+                Toast.makeText(mContext,"Account Created",Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
 
         @Override
@@ -162,4 +169,5 @@ public class SignUp extends AppCompatActivity {
     public boolean validateEmail(String email){
         return EmailValidator.getInstance().isValid(email);
     }
+
 }

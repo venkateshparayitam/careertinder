@@ -12,7 +12,7 @@ import core.repositories.*;
 import core.supplementary.RandomString;
 
 /**
- * 
+ * Creation of User Controller to API calls.
  * @author: Pravin Garad.
  */
 
@@ -26,9 +26,6 @@ public class UserController {
 	
 	@Autowired
 	ApplicantRepository applicant_repository;
-	
-	@Autowired
-	CompanyRepository company_repository;
 	
 	@PostMapping(path ="/signUp", produces = "application/json")
 	public ResponseCode signup(@Valid @RequestBody CTUserEntity user) {
@@ -54,12 +51,11 @@ public class UserController {
 			else if(user.getUserType().equals("employer"))
 			{
 					CTCompanyEntity company = new CTCompanyEntity();
-					company.setName(user.getName());
+					company.setCompanyname(user.getName());
 					
 					user_repository.save(user);
 					user_repository.updateUser(new RandomString().getAlphaNumericString(random), user.getEmailid()); 
-					company.setUser(user);
-					company_repository.save(company);
+					
 					
 			}
 			
@@ -67,12 +63,14 @@ public class UserController {
 		catch(Exception ex)
 		{
 			ResponseCode response = new ResponseCode();
-			response.setStatus_code("Emailid already exists: "+ex.toString());
+			response.setStatus_code("email_exists");
+            response.setMethod("sign_up");
 			return response;
 		}
 		
 		ResponseCode response_success = new ResponseCode();
-		response_success.setStatus_code("Record Saved: ");
+		response_success.setStatus_code("account_created");
+		response_success.setMethod("sign_up");
 		return response_success;	
 		
 	 }
@@ -89,6 +87,7 @@ public class UserController {
 				response.setStatus_code("Success");
 				response.setAuth_code(password.getAuthToken());
 				response.setUser_type(password.getUserType());
+                response.setMethod("login");
 				return response;
 			}
 			else
@@ -100,16 +99,12 @@ public class UserController {
 		
 	}
 	
-	@GetMapping(path = "/display", produces = "text/plain")
-	public String Acknowledge() {
-	    return "It is working";
-	}
-	
 	
 public class ResponseCode{
 	String status_code;
 	String auth_code;
 	String user_type;
+    String method;
 
 	public String getStatus_code() {
 		return status_code;
@@ -117,6 +112,14 @@ public class ResponseCode{
 
 	public void setStatus_code(String status_code) {
 		this.status_code = status_code;
+	}
+    
+    public String getMethod() {
+		return method;
+	}
+    
+    public void setMethod(String method) {
+		this.method = method;
 	}
 
 	public String getAuth_code() {
@@ -135,7 +138,6 @@ public class ResponseCode{
 		this.user_type = user_type;
 	}
 
-	
 	
 }
 
