@@ -55,6 +55,10 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
                     }
+                    case Constants.API_METHOD_POST_SIGNUP: {
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 mApiResponseCallBack.onFailure(e);
