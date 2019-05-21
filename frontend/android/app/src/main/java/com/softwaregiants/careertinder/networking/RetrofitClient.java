@@ -7,7 +7,6 @@ import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.utilities.Constants;
 
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +57,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
                     }
                 }
             } catch (Exception e) {
-                //mApiResponseCallBack.onFailure(e);
+                mApiResponseCallBack.onFailure(e);
             }
         }
     }

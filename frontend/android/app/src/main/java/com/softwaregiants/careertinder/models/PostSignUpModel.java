@@ -1,18 +1,41 @@
 package com.softwaregiants.careertinder.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PostSignUpModel extends BaseBean {
 
     private String university;
+
+    @SerializedName("qualification")
     private String highest_education;
+
     private String work_experience;
+
+    @SerializedName("first_skill")
     private String skill_one;
+
+    @SerializedName("second_skill")
     private String skill_two;
+
+    @SerializedName("third_skill")
     private String skill_three;
+
     private String address;
+
+    @SerializedName("bio")
     private String about_me;
+
+    @SerializedName("birthday")
     private String dateBirth;
+
     private String place;
+
     private Boolean eu_citizen;
+
+    private String additional_skill;
+    private String first_language;
+    private String second_language;
+
 
     public String getUniversity() { return university; }
     public void setUniversity(String university) { this.university = university; }
@@ -48,4 +71,28 @@ public class PostSignUpModel extends BaseBean {
 
     public Boolean getEu_citizen() { return eu_citizen; }
     public void setEu_citizen(Boolean eu_citizen) { this.eu_citizen = eu_citizen; }
+
+    public String getAdditional_skill() {
+        return additional_skill;
+    }
+
+    public void setAdditional_skill(String additional_skill) {
+        this.additional_skill = additional_skill;
+    }
+
+    public String getFirst_language() {
+        return first_language;
+    }
+
+    public void setFirst_language(String first_language) {
+        this.first_language = first_language;
+    }
+
+    public String getSecond_language() {
+        return second_language;
+    }
+
+    public void setSecond_language(String second_language) {
+        this.second_language = second_language;
+    }
 }

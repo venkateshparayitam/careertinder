@@ -1,9 +1,8 @@
 package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,6 +14,8 @@ import com.softwaregiants.careertinder.models.AddJobOpeningModel;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
+import com.softwaregiants.careertinder.utilities.Constants;
 
 public class AddNewJobOpening extends AppCompatActivity {
 
@@ -55,7 +56,7 @@ public class AddNewJobOpening extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_add_new_job_opening);
 
-        authCode = getIntent().getExtras().getString("authcode", "");
+        authCode = PreferenceManager.getInstance(mContext).getString(Constants.PK_AUTH_CODE, "");
 
         btn = findViewById(R.id.createJobOpeningBtn);
         btn.setOnClickListener(ocl);
@@ -148,7 +149,7 @@ public class AddNewJobOpening extends AppCompatActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals("job_opening_created")){
+            if (baseBean.getStatusCode().equals(Constants.SC_JOB_CREATED_SUCCESS)){
                 Toast.makeText(mContext,"Job Opening Created", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -158,7 +159,7 @@ public class AddNewJobOpening extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,"Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,Constants.MSG_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
         }
     };
 

@@ -5,10 +5,13 @@ import com.google.gson.annotations.SerializedName;
 public class BaseBean {
 
     @SerializedName("status_code")
-    String statusCode;
+    private String statusCode;
 
     @SerializedName("method")
-    String apiMethod;
+    private String apiMethod;
+
+    @SerializedName("error_msg")
+    private String errorMsg;
 
     public String getStatusCode() {
         return statusCode;
@@ -24,5 +27,13 @@ public class BaseBean {
 
     public void setApiMethod(String apiMethod) {
         this.apiMethod = apiMethod;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }
