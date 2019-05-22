@@ -66,6 +66,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         break;
                     }
                     case Constants.API_METHOD_POST_SIGNUP:
+                        //TODO remove default
                     default:{
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
