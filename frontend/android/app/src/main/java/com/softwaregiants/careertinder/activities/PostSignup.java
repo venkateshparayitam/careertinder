@@ -50,6 +50,7 @@ import java.util.List;
 
 public class PostSignup extends AppCompatActivity {
 
+    //region Globals
     final String EMPTY_STRING = "";
     Button submitButton;
     Button updateImageButton;
@@ -85,6 +86,7 @@ public class PostSignup extends AppCompatActivity {
     String skill_two_value = EMPTY_STRING;
     String skill_three_value = EMPTY_STRING;
     String skill_addnl_value = EMPTY_STRING;
+    String authToken;
 
     String address_value = EMPTY_STRING;
     String about_me_value = EMPTY_STRING;
@@ -95,6 +97,7 @@ public class PostSignup extends AppCompatActivity {
     private String second_language = EMPTY_STRING;
 
     Boolean eu_citizen_value = false;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +139,7 @@ public class PostSignup extends AppCompatActivity {
         place_spinner = findViewById(R.id.spinnerPlace);
         lang1_spinner = findViewById(R.id.spinnerLanguage1);
         lang2_spinner = findViewById(R.id.spinnerLanguage2);
+        authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, EMPTY_STRING);
     }
 
 
@@ -176,6 +180,7 @@ public class PostSignup extends AppCompatActivity {
         }
     }
 
+    //region submit listener
     View.OnClickListener submitListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -203,7 +208,7 @@ public class PostSignup extends AppCompatActivity {
             postSignUpModel.setSkill_three(skill_three_value);
             postSignUpModel.setAdditional_skill(skill_addnl_value);
             postSignUpModel.setAddress(address_value);
-            postSignUpModel.setAbout_me(about_me_value);
+            postSignUpModel.setAboutme(about_me_value);
             postSignUpModel.setDateBirth(dateBirth_value);
             postSignUpModel.setEu_citizen(eu_citizen_value);
             postSignUpModel.setPlace(place_value);
@@ -247,15 +252,21 @@ public class PostSignup extends AppCompatActivity {
                 return;
             }
             else{
-                mRetrofitClient.mApiInterface.postSignUp(postSignUpModel, PreferenceManager.getInstance(mContext).getString(Constants.PK_AUTH_CODE, EMPTY_STRING)).enqueue(mRetrofitClient);
+                mRetrofitClient.mApiInterface.postSignUp(postSignUpModel,authToken).enqueue(mRetrofitClient);
             }
         }
     };
+    //endregion
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            Toast.makeText(mContext,baseBean.getStatusCode(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,"Your profile was created successfully.",Toast.LENGTH_SHORT).show();
+            //TODO
+//            if (baseBean.getStatusCode().equals("")) {
+                startActivity(new Intent(mContext,CandidateDashboardActivity.class));
+                finish();
+//            }
         }
 
         @Override
@@ -372,7 +383,6 @@ public class PostSignup extends AppCompatActivity {
         }
         return EMPTY_STRING;
     }
-
 
     public void choosePhotoFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,

@@ -2,8 +2,8 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -11,13 +11,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import org.apache.commons.validator.routines.EmailValidator;
-
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.SignUpModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
+import com.softwaregiants.careertinder.utilities.Constants;
+
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class SignUp extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     String email = "";
     String pass = "";
     String confirmPass = "";
+    SignUpModel signUpModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +72,12 @@ public class SignUp extends AppCompatActivity {
             pass = password.getText().toString();
             confirmPass = confirmPassword.getText().toString();
             if(name.equals("")){
-                Toast.makeText(mContext,"You have a name, do ya?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,"Please enter your Full Name", Toast.LENGTH_SHORT).show();
                 return;
             }
             else if (email.equals("") || (!validateEmail(email))) {
                 if(email.equals("")){
-                    Toast.makeText(mContext, "Hey, enter your email address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Please enter your email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!validateEmail(email)) {
@@ -108,7 +110,7 @@ public class SignUp extends AppCompatActivity {
                     return;
             }
             else{
-                SignUpModel signUpModel = new SignUpModel();
+                signUpModel = new SignUpModel();
                 signUpModel.setName(name);
                 signUpModel.setEmail(email);
                 signUpModel.setPassword(pass);
@@ -127,6 +129,10 @@ public class SignUp extends AppCompatActivity {
             }
             else if (baseBean.getStatusCode().equals("account_created")) {
                 Toast.makeText(mContext,"Account Created",Toast.LENGTH_SHORT).show();
+//                if (signUpModel.getUserType().equals(Constants.USER_TYPE_JOB_SEEKER)) {
+//
+//                }
+                startActivity(new Intent(mContext,LoginActivity.class));
                 finish();
             }
         }
@@ -139,12 +145,12 @@ public class SignUp extends AppCompatActivity {
 
     View.OnClickListener js_radio_listener = new View.OnClickListener(){
         public void onClick(View view) {
-            userTypeString = "jobseeker";
+            userTypeString = Constants.USER_TYPE_JOB_SEEKER;
         }
     };
     View.OnClickListener e_radio_listener = new View.OnClickListener(){
         public void onClick(View view) {
-            userTypeString = "employer";
+            userTypeString = Constants.USER_TYPE_EMPLOYER;
         }
     };
 

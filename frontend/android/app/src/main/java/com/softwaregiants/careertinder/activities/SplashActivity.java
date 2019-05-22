@@ -29,9 +29,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (PreferenceManager.getInstance(getApplicationContext()).getBoolean(Constants.PK_LOGIN_STATE,false)) {
-                    if ( PreferenceManager.getInstance(mContext).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_JOB_SEEKER) )  {
+                    if ( PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_JOB_SEEKER) )  {
                         nextActivity = new Intent(mContext,CandidateDashboardActivity.class);
-                    } else if ( PreferenceManager.getInstance(mContext).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_EMPLOYER) )  {
+                    } else if ( PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_EMPLOYER) )  {
                         nextActivity = new Intent(mContext,CompanyDashboardActivity.class);
                     } else {
                         //TODO

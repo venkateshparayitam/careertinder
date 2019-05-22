@@ -1,7 +1,7 @@
 package com.softwaregiants.careertinder.utilities;
 
 public interface Constants {
-    String BASE_URL = "http://192.168.1.109:8080/" ;
+    String BASE_URL = "http://192.168.43.176:8080/" ;
 
     //API Methods
     String API_METHOD_LOGIN = "login";
@@ -11,7 +11,7 @@ public interface Constants {
 
     //Success Codes
     String SC_JOB_CREATED_SUCCESS = "job_opening_created";
-    String SC_SUCCESS = "job_opening_created";
+    String SC_SUCCESS = "Success";
 
     //Messages
     String MSG_NETWORK_ERROR = "There is a technical error. Please try again.";
@@ -21,6 +21,7 @@ public interface Constants {
     String PK_AUTH_CODE = "PK_AUTH_CODE";
     String PK_LOGIN_STATE = "PK_LOGIN_STATE";
     String PK_USER_TYPE = "PK_USER_TYPE";
+    String PK_EMAIL = "PK_EMAIL";
 
     //Misc
     String USER_TYPE_JOB_SEEKER = "jobseeker";

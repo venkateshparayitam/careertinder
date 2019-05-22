@@ -23,7 +23,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    //region globals
     private Button btnHit;
     Context mContext;
     RetrofitClient mRetrofitClient;
@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Intent candidateIntent;
     Intent companyIntent;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         companyIntent = new Intent(this, AddNewJobOpening.class);
     }
 
+    //region onclick listener
     View.OnClickListener ocl = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -72,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
+    //endregion
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
 
@@ -79,9 +82,10 @@ public class LoginActivity extends AppCompatActivity {
         public void onSuccess(BaseBean baseBean) {
             LoginSuccessModel loginSuccessModel = (LoginSuccessModel) baseBean;
             if (loginSuccessModel.getStatusCode().equals(Constants.SC_SUCCESS)) {
-                PreferenceManager.getInstance(mContext).putString(Constants.PK_AUTH_CODE, loginSuccessModel.getAuth_code());
-                PreferenceManager.getInstance(mContext).putString(Constants.PK_USER_TYPE, loginSuccessModel.getUser_type());
-                PreferenceManager.getInstance(mContext).putBoolean(Constants.PK_LOGIN_STATE, true);
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_AUTH_CODE, loginSuccessModel.getAuth_code());
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_EMAIL, usernameText);
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_USER_TYPE, loginSuccessModel.getUser_type());
+                PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_LOGIN_STATE, true);
 
                 if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
                     startActivity(candidateIntent);
@@ -89,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                 else if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_EMPLOYER)){
                     startActivity(companyIntent);
                 }
+                finish();
             } else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
             }

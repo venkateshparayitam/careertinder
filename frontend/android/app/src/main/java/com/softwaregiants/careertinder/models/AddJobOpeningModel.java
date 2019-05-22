@@ -28,9 +28,11 @@ public class AddJobOpeningModel {
 
     private String skill3;
 
-    private String preferredlanguage1;
+    @SerializedName("preferedLanguage1")
+    private String preferredLanguage1;
 
-    private String preferredlanguage2;
+    @SerializedName("preferedLanguage2")
+    private String preferredLanguage2;
 
     public String getCompanyName() {
         return companyName;
@@ -105,18 +107,18 @@ public class AddJobOpeningModel {
     }
 
     public String getPreferredlanguage1() {
-        return preferredlanguage1;
+        return preferredLanguage1;
     }
 
-    public void setPreferredlanguage1(String preferredlanguage1) {
-        this.preferredlanguage1 = preferredlanguage1;
+    public void setPreferredLanguage1(String preferredLanguage1) {
+        this.preferredLanguage1 = preferredLanguage1;
     }
 
     public String getPreferredlanguage2() {
-        return preferredlanguage2;
+        return preferredLanguage2;
     }
 
-    public void setPreferredlanguage2(String preferredlanguage2) {
-        this.preferredlanguage2 = preferredlanguage2;
+    public void setPreferredLanguage2(String preferredLanguage2) {
+        this.preferredLanguage2 = preferredLanguage2;
     }
 }
