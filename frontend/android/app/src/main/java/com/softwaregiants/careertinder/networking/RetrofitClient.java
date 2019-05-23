@@ -1,10 +1,12 @@
 package com.softwaregiants.careertinder.networking;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 
 import okhttp3.OkHttpClient;
@@ -23,7 +25,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public ApiInterface mApiInterface;
     private String TAG = RetrofitClient.class.getSimpleName();
 
-    public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack) {
+    public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack, Context preferenceContext) {
         if ( retrofit == null ) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             // set your desired log level
@@ -31,8 +33,9 @@ public class RetrofitClient implements Callback<ResponseBody> {
 
             OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
 
+            String url = PreferenceManager.getInstance(preferenceContext.getApplicationContext()).getString(Constants.PK_CUSTOM_URL,Constants.BASE_URL);
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
+                    .baseUrl( url )
                     .client(httpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

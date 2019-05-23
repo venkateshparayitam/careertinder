@@ -51,7 +51,7 @@ public class SignUp extends AppCompatActivity {
         createMyAccount = findViewById(R.id.createMyAccountBtn);
         createMyAccount.setOnClickListener(ocl);
         mContext = this;
-        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback);
+        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         fullName = (EditText)findViewById(R.id.fullName);
         emailAddress = (EditText)findViewById(R.id.emailAddress);

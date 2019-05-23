@@ -33,4 +33,15 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/TVSW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:padding="17dp"
+        android:textColor="@color/colorPrimary"
+        android:text="Software\nGiants"/>
+
 </RelativeLayout>

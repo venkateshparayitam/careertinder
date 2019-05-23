@@ -26,4 +26,8 @@ public interface Constants {
     //Misc
     String USER_TYPE_JOB_SEEKER = "jobseeker";
     String USER_TYPE_EMPLOYER = "employer";
+
+    //Dev Mode
+    boolean isDeveloperBuild = true;
+    String PK_CUSTOM_URL = "PK_CUSTOM_URL";
 }

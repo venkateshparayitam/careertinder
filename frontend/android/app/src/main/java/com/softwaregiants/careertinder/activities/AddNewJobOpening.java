@@ -1,9 +1,7 @@
 package com.softwaregiants.careertinder.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,11 +16,10 @@ import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 
-public class AddNewJobOpening extends AppCompatActivity {
+public class AddNewJobOpening extends ImagePickerActivity {
 
     //region class variables
     private Button btn;
-    Context mContext;
     RetrofitClient mRetrofitClient;
 
     EditText ETCompanyName;
@@ -59,12 +56,16 @@ public class AddNewJobOpening extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_add_new_job_opening);
 
+        init();
+    }
+
+    public void init() {
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
 
         btn = findViewById(R.id.createJobOpeningBtn);
         btn.setOnClickListener(ocl);
         mContext = this;
-        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback);
+        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         ETCompanyName = (EditText)findViewById(R.id.ETCompanyName);
         ETJobTitle = (EditText)findViewById(R.id.ETJobTitle);
@@ -77,6 +78,11 @@ public class AddNewJobOpening extends AppCompatActivity {
         ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
         ETLanguage1 = (EditText)findViewById(R.id.ETLanguage1);
         ETLanguage2 = (EditText)findViewById(R.id.ETLanguage2);
+
+        imageUser = findViewById(R.id.picture);
+        updateImageButton = findViewById(R.id.updatePicture);
+        updateImageButton.setOnClickListener(updateImageListener);
+        requestMultiplePermissions();
     }
 
     //region onclick listener

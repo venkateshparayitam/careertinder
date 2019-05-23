@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnHit = findViewById(R.id.btnHit);
         btnHit.setOnClickListener(ocl);
         mContext = this;
-        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback);
+        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
