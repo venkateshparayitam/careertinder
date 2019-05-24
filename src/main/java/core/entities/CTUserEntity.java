@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Entity implementation class for Entity: UserEntity
  * @author: Pravin Garad.
@@ -41,6 +43,7 @@ public class CTUserEntity implements Serializable {
 	
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private CTApplicantEntity applicant;
   
     

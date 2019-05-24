@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Entity implementation class for Entity: ApplicantEntity
  * @author: Pravin Garad
@@ -79,8 +81,10 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="nationality")
 	private String nationality;
 	
+	
 	@OneToOne(mappedBy = "applicant", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
+	@JsonManagedReference
             private CTUserEntity user;
 	
 	

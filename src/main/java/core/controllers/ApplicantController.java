@@ -2,6 +2,7 @@ package core.controllers;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import core.entities.CTApplicantEntity;
 import core.entities.CTUserEntity;
 import core.repositories.ApplicantRepository;
 import core.repositories.UserRepository;
+import core.services.ApplicantService;
 
 /**
  * @author: Bora Bejleri
@@ -29,6 +31,8 @@ public class ApplicantController {
 	    
 	    @Autowired
 	    protected UserRepository user_repository;
+	    
+	    @Autowired ApplicantService applicantService;
 	    
 	    @RequestMapping(path = "/candidate/create/{token}", method = RequestMethod.POST, produces = "application/json")
 	    public ArrayList<String> setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
@@ -112,6 +116,40 @@ public class ApplicantController {
 //	    	return response;
 //	    }
 	    
+	    
+	    @RequestMapping(path = "/candidate/all", method = RequestMethod.GET, produces = "application/json")
+	    public List<CTApplicantEntity> getAll(){
+	    	
+	    	List<CTApplicantEntity> profiles = new ArrayList<CTApplicantEntity>();
+	    	List<CTApplicantEntity> student_info = new ArrayList<CTApplicantEntity>();
+	    	CTApplicantEntity databaseApplicant = new CTApplicantEntity();
+	    	profiles = this.applicantService.getAllApplicantProfiles();
+	    	
+	    	for(CTApplicantEntity student : profiles) {
+	    		
+	    		databaseApplicant.setName(student.getUser().getName());
+	    		databaseApplicant.setWorkexperience(student.getWorkexperience());
+		    	databaseApplicant.setBirthday(student.getBirthday());
+		    	databaseApplicant.setFirstskill(student.getFirstskill());
+		    	databaseApplicant.setSecondskill(student.getSecondskill());
+		    	databaseApplicant.setThirdskill(student.getThirdskill());
+		    	databaseApplicant.setAdditionalskill(student.getAdditionalskill());
+		    	databaseApplicant.setAddress(student.getAddress());
+		    	databaseApplicant.setBio(student.getBio());
+		    	databaseApplicant.setEu(student.getEu());
+		    	databaseApplicant.setFirstlanguage(student.getFirstlanguage());
+		    	databaseApplicant.setSecondlanguage(student.getSecondlanguage());
+		    	databaseApplicant.setNationality(student.getNationality());
+		    	databaseApplicant.setUniversity(student.getUniversity());
+		    	databaseApplicant.setMothertounge(student.getMothertounge());
+		    	databaseApplicant.setQualification(student.getQualification());
+		    	
+		    	student_info.add(databaseApplicant);
+	    		
+	    	}
+			return student_info;
+	    	
+	    }
 	    
 	}
 
