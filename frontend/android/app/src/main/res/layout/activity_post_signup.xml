@@ -135,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLanguage2" />
 
         <EditText
             android:id="@+id/ETSkillTwo"
@@ -170,6 +170,23 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ETSkillTwo" />
+
+        <EditText
+            android:id="@+id/ETSkillAddnl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/et_login"
+            android:drawableLeft="@drawable/baseline_attach_file_black_24"
+            android:drawablePadding="10dp"
+            android:hint="Optional Additional Skill"
+            android:paddingLeft="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETSkillThree" />
 
         <EditText
             android:id="@+id/ETAddress"
@@ -229,7 +246,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ETAboutMe" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinnerPlace"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -240,6 +257,32 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ETAddress" />
+
+        <Spinner
+            android:id="@+id/spinnerLanguage1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/spinner_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPlace" />
+
+        <Spinner
+            android:id="@+id/spinnerLanguage2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/spinner_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLanguage1" />
 
         <Switch
             android:id="@+id/switchEU"
@@ -254,7 +297,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETSkillThree" />
+            app:layout_constraintTop_toBottomOf="@+id/ETSkillAddnl" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

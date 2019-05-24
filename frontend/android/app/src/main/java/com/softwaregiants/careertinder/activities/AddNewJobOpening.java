@@ -1,8 +1,6 @@
 package com.softwaregiants.careertinder.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -15,11 +13,13 @@ import com.softwaregiants.careertinder.models.AddJobOpeningModel;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
+import com.softwaregiants.careertinder.utilities.Constants;
 
-public class AddNewJobOpening extends AppCompatActivity {
+public class AddNewJobOpening extends ImagePickerActivity {
 
+    //region class variables
     private Button btn;
-    Context mContext;
     RetrofitClient mRetrofitClient;
 
     EditText ETCompanyName;
@@ -47,6 +47,7 @@ public class AddNewJobOpening extends AppCompatActivity {
     String Language2 = "";
 
     String authCode = "";
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +56,16 @@ public class AddNewJobOpening extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_add_new_job_opening);
 
-        authCode = getIntent().getExtras().getString("authcode", "");
+        init();
+    }
+
+    public void init() {
+        authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
 
         btn = findViewById(R.id.createJobOpeningBtn);
         btn.setOnClickListener(ocl);
         mContext = this;
-        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback);
+        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         ETCompanyName = (EditText)findViewById(R.id.ETCompanyName);
         ETJobTitle = (EditText)findViewById(R.id.ETJobTitle);
@@ -73,8 +78,14 @@ public class AddNewJobOpening extends AppCompatActivity {
         ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
         ETLanguage1 = (EditText)findViewById(R.id.ETLanguage1);
         ETLanguage2 = (EditText)findViewById(R.id.ETLanguage2);
+
+        imageUser = findViewById(R.id.picture);
+        updateImageButton = findViewById(R.id.updatePicture);
+        updateImageButton.setOnClickListener(updateImageListener);
+        requestMultiplePermissions();
     }
 
+    //region onclick listener
     View.OnClickListener ocl = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -138,27 +149,30 @@ public class AddNewJobOpening extends AppCompatActivity {
                 addJobOpeningModel.setSkill1(Skill1);
                 addJobOpeningModel.setSkill2(Skill2);
                 addJobOpeningModel.setSkill3(Skill3);
-                addJobOpeningModel.setPreferredlanguage1(Language1);
-                addJobOpeningModel.setPreferredlanguage2(Language2);
+                addJobOpeningModel.setPreferredLanguage1(Language1);
+                addJobOpeningModel.setPreferredLanguage2(Language2);
                 mRetrofitClient.mApiInterface.addNewJobOpening(addJobOpeningModel, authCode).enqueue(mRetrofitClient);
             }
         }
     };
+    //endregion
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals("job_opening_created")){
+            if (baseBean.getStatusCode().equals(Constants.SC_JOB_CREATED_SUCCESS)){
                 Toast.makeText(mContext,"Job Opening Created", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(mContext,CompanyDashboardActivity.class));
+                finish();
             }
             else {
-                Toast.makeText(mContext,baseBean.getStatusCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, baseBean.getStatusCode(), Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,"Failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,Constants.MSG_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
         }
     };
 

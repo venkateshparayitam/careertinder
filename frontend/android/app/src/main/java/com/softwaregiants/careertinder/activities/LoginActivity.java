@@ -2,8 +2,8 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,12 +16,14 @@ import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
+import com.softwaregiants.careertinder.utilities.Constants;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    //region globals
     private Button btnHit;
     Context mContext;
     RetrofitClient mRetrofitClient;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Intent candidateIntent;
     Intent companyIntent;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         btnHit = findViewById(R.id.btnHit);
         btnHit.setOnClickListener(ocl);
         mContext = this;
-        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback);
+        mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         companyIntent = new Intent(this, AddNewJobOpening.class);
     }
 
+    //region onclick listener
     View.OnClickListener ocl = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -70,24 +74,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     };
+    //endregion
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
 
         @Override
         public void onSuccess(BaseBean baseBean) {
             LoginSuccessModel loginSuccessModel = (LoginSuccessModel) baseBean;
-            String resp = "Auth Code: " + loginSuccessModel.getAuth_code() + "\n"
-                    + "User Type: " + loginSuccessModel.getUser_type();
+            if (loginSuccessModel.getStatusCode().equals(Constants.SC_SUCCESS)) {
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_AUTH_CODE, loginSuccessModel.getAuth_code());
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_EMAIL, usernameText);
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_USER_TYPE, loginSuccessModel.getUser_type());
+                PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_LOGIN_STATE, true);
 
-            Toast.makeText(mContext,resp,Toast.LENGTH_SHORT).show();
-
-            if (loginSuccessModel.getUser_type().equals("jobseeker")){
-                candidateIntent.putExtra("authcode", loginSuccessModel.getAuth_code());
-                startActivity(candidateIntent);
-            }
-            else if (loginSuccessModel.getUser_type().equals("employer")){
-                companyIntent.putExtra("authcode", loginSuccessModel.getAuth_code());
-                startActivity(companyIntent);
+                if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
+                    startActivity(candidateIntent);
+                }
+                else if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_EMPLOYER)){
+                    startActivity(companyIntent);
+                }
+                finish();
+            } else {
+                Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
             }
         }
 

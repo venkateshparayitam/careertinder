@@ -96,7 +96,7 @@
             android:background="@drawable/et_login"
             android:drawableStart="@drawable/baseline_ballot_black_24"
             android:ems="10"
-            android:gravity="start|top"
+            android:gravity="center_vertical"
             android:hint="@string/jobDescriptionText"
             android:inputType="textMultiLine"
             android:paddingLeft="15dp"

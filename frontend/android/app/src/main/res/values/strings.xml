@@ -36,4 +36,27 @@
         <item>Wurzburg</item>
     </string-array>
 
+
+    <string-array name="language_array_1">
+        <item>Deutsch</item>
+        <item>Francais</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Italiano</item>
+        <item>Português</item>
+        <item>Polski</item>
+        <item>官话</item>
+    </string-array>
+
+    <string-array name="language_array_2">
+        <item>Deutsch</item>
+        <item>Francais</item>
+        <item>English</item>
+        <item>Español</item>
+        <item>Italiano</item>
+        <item>Português</item>
+        <item>Polski</item>
+        <item>官话</item>
+        <item>None</item>
+    </string-array>
 </resources>
