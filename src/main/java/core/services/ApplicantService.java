@@ -20,9 +20,8 @@ public class ApplicantService {
 	
 	public List<CTApplicantEntity> getAllApplicantProfiles(){
 		
-		
 		return this.applicantRepository.findAll();
 		
 	}
-
+    
 }
