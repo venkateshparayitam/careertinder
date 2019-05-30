@@ -22,6 +22,7 @@ import core.repositories.ApplicantRepository;
 import core.repositories.UserRepository;
 import core.services.ApplicantService;
 import core.supplementary.ApplicantWrapper;
+import core.supplementary.CandidateResponse;
 
 /**
  * @author: Bora Bejleri
@@ -39,8 +40,8 @@ public class ApplicantController {
 	    @Autowired ApplicantService applicantService;
 	    
 	    @RequestMapping(path = "/candidate/create/{token}", method = RequestMethod.POST, produces = "application/json")
-	    public ArrayList<String> setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
-	    	ArrayList<String> response = new ArrayList<String>();
+	    public CandidateResponse setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
+	    	CandidateResponse response = new CandidateResponse();
 	    	if(candidate != null) {
 	    		CTUserEntity user_with_token = user_repository.getByToken(token);
 	    		if (user_with_token != null) {
@@ -63,16 +64,16 @@ public class ApplicantController {
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
-	    		    	response.add(token);
-	    		    	response.add("Success!");
+	    		    	response.setAuth_token(token);;
+	    		    	response.setMessage("Success!");
 	    		    	return response;
-	    			} response.add("Candidate does not exist");
+	    			} response.setMessage("Candidate does not exist");
 	    			  return response;
-	    		}response.add("Token does not correspond to any candidate");
+	    		} response.setMessage("Token does not correspond to any candidate");
   			     return response;
 	    	}
 	    	
-	    	response.add("Invalid request body");
+	    	response.setMessage("Invalid request body");
 	    	return response;	    	
 	    }
 //	    @RequestMapping(path = "/candidate/create", method = RequestMethod.POST, produces = "application/json")

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class CandidateResponse {
 
 	private String message;
-	private String auth_token = UUID.randomUUID().toString();
+	private String auth_token;
 	
 	public String getMessage() {
 		return message;

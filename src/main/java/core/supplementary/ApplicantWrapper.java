@@ -4,6 +4,10 @@ import java.util.List;
 
 import core.entities.CTApplicantEntity;
 
+/**
+ * @author: Bora Bejleri
+ */
+
 public class ApplicantWrapper {
 	
 	private List<CTApplicantEntity> applicant_profiles;
