@@ -2,10 +2,13 @@ package core.controllers;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,9 @@ import core.entities.CTApplicantEntity;
 import core.entities.CTUserEntity;
 import core.repositories.ApplicantRepository;
 import core.repositories.UserRepository;
+import core.services.ApplicantService;
+import core.supplementary.ApplicantWrapper;
+import core.supplementary.CandidateResponse;
 
 /**
  * @author: Bora Bejleri
@@ -30,9 +36,11 @@ public class ApplicantController {
 	    @Autowired
 	    protected UserRepository user_repository;
 	    
+	    @Autowired ApplicantService applicantService;
+	    
 	    @RequestMapping(path = "/candidate/create/{token}", method = RequestMethod.POST, produces = "application/json")
-	    public ArrayList<String> setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
-	    	ArrayList<String> response = new ArrayList<String>();
+	    public CandidateResponse setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
+	    	CandidateResponse response = new CandidateResponse();
 	    	if(candidate != null) {
 	    		CTUserEntity user_with_token = user_repository.getByToken(token);
 	    		if (user_with_token != null) {
@@ -55,16 +63,23 @@ public class ApplicantController {
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
-	    		    	response.add(token);
-	    		    	response.add("Success!");
+	    		    	response.setAuth_token(token);
+	    		    	response.setResponse_code("Success");
+	    		    	response.setApi_method("/candidate/create/" + token);
 	    		    	return response;
-	    			} response.add("Candidate does not exist");
+	    		    	
+	    			} response.setApi_method("/candidate/create/" + token);
+	    			  response.setResponse_code("Failed");
+	    			  response.setMessage("Job seeker does not exist.");
 	    			  return response;
-	    		}response.add("Token does not correspond to any candidate");
+	    			  
+	    		}response.setApi_method("/candidate/create/" + token);
+	    		 response.setResponse_code("Failed");
+	    		 response.setMessage("User does not exist.");
   			     return response;
 	    	}
 	    	
-	    	response.add("Invalid request body");
+	    	response.setMessage("Invalid job seeker data");
 	    	return response;	    	
 	    }
 //	    @RequestMapping(path = "/candidate/create", method = RequestMethod.POST, produces = "application/json")
@@ -112,6 +127,57 @@ public class ApplicantController {
 //	    	return response;
 //	    }
 	    
+	    @SuppressWarnings("deprecation")
+		@RequestMapping(path="/candidate/page", method = RequestMethod.GET, produces="application/json")
+	    public Page<CTApplicantEntity> getPagination(){
+	    	return this.applicant_repository.findAll(new PageRequest(0, 2));
+	    }
+	    
+	    
+	    @RequestMapping(path = "/candidate/all", method = RequestMethod.GET, produces = "application/json")
+	    public ApplicantWrapper getAll(){
+	    	
+	    	List<CTApplicantEntity> profiles = new ArrayList<CTApplicantEntity>();
+	    	List<CTApplicantEntity> student_info = new ArrayList<CTApplicantEntity>();
+	    	ApplicantWrapper applicant_response = new ApplicantWrapper();
+	    	CTApplicantEntity databaseApplicant = new CTApplicantEntity();
+	    	profiles = this.applicantService.getAllApplicantProfiles();
+	    	
+	    	if (!profiles.isEmpty()) {
+	    	 
+	    		for (CTApplicantEntity student : profiles) {
+	    		
+	    		databaseApplicant.setName(student.getUser().getName());
+	    		databaseApplicant.setWorkexperience(student.getWorkexperience());
+		    	databaseApplicant.setBirthday(student.getBirthday());
+		    	databaseApplicant.setFirstskill(student.getFirstskill());
+		    	databaseApplicant.setSecondskill(student.getSecondskill());
+		    	databaseApplicant.setThirdskill(student.getThirdskill());
+		    	databaseApplicant.setAdditionalskill(student.getAdditionalskill());
+		    	databaseApplicant.setAddress(student.getAddress());
+		    	databaseApplicant.setBio(student.getBio());
+		    	databaseApplicant.setEu(student.getEu());
+		    	databaseApplicant.setFirstlanguage(student.getFirstlanguage());
+		    	databaseApplicant.setSecondlanguage(student.getSecondlanguage());
+		    	databaseApplicant.setNationality(student.getNationality());
+		    	databaseApplicant.setUniversity(student.getUniversity());
+		    	databaseApplicant.setMothertounge(student.getMothertounge());
+		    	databaseApplicant.setQualification(student.getQualification());
+		    	
+		    	student_info.add(databaseApplicant);
+		    	applicant_response.setApplicant_profiles(student_info);
+	    		
+	         	}
+	    		applicant_response.setApi_method("/candidate/all");
+	    		applicant_response.setResponse_code("Success");
+	    		return applicant_response;
+	    	}
+	    	applicant_response.setApi_method("/candidate/all");
+	    	applicant_response.setResponse_code("Failed");
+	    	applicant_response.setResponse_message("No jobseeker profiles at the moment!");
+			return applicant_response;
+	    	
+	    }
 	    
 	}
 
