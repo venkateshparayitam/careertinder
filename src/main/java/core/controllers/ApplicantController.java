@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,16 +63,23 @@ public class ApplicantController {
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
-	    		    	response.setAuth_token(token);;
-	    		    	response.setMessage("Success!");
+	    		    	response.setAuth_token(token);
+	    		    	response.setResponse_code("Success");
+	    		    	response.setApi_method("/candidate/create/" + token);
 	    		    	return response;
-	    			} response.setMessage("Candidate does not exist");
+	    		    	
+	    			} response.setApi_method("/candidate/create/" + token);
+	    			  response.setResponse_code("Failed");
+	    			  response.setMessage("Job seeker does not exist.");
 	    			  return response;
-	    		} response.setMessage("Token does not correspond to any candidate");
+	    			  
+	    		}response.setApi_method("/candidate/create/" + token);
+	    		 response.setResponse_code("Failed");
+	    		 response.setMessage("User does not exist.");
   			     return response;
 	    	}
 	    	
-	    	response.setMessage("Invalid request body");
+	    	response.setMessage("Invalid job seeker data");
 	    	return response;	    	
 	    }
 //	    @RequestMapping(path = "/candidate/create", method = RequestMethod.POST, produces = "application/json")
@@ -137,7 +143,9 @@ public class ApplicantController {
 	    	CTApplicantEntity databaseApplicant = new CTApplicantEntity();
 	    	profiles = this.applicantService.getAllApplicantProfiles();
 	    	
-	    	for (CTApplicantEntity student : profiles) {
+	    	if (!profiles.isEmpty()) {
+	    	 
+	    		for (CTApplicantEntity student : profiles) {
 	    		
 	    		databaseApplicant.setName(student.getUser().getName());
 	    		databaseApplicant.setWorkexperience(student.getWorkexperience());
@@ -159,7 +167,14 @@ public class ApplicantController {
 		    	student_info.add(databaseApplicant);
 		    	applicant_response.setApplicant_profiles(student_info);
 	    		
+	         	}
+	    		applicant_response.setApi_method("/candidate/all");
+	    		applicant_response.setResponse_code("Success");
+	    		return applicant_response;
 	    	}
+	    	applicant_response.setApi_method("/candidate/all");
+	    	applicant_response.setResponse_code("Failed");
+	    	applicant_response.setResponse_message("No jobseeker profiles at the moment!");
 			return applicant_response;
 	    	
 	    }
