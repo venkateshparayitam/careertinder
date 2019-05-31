@@ -39,6 +39,9 @@ public class CTUserEntity implements Serializable {
 	
 	@Column(name = "authtoken", updatable = false, nullable = true)
 	private String authtoken;
+	
+	@Column(name = "profilecreated" ) 
+	private boolean profileCreated = false;
 
 	
     @OneToOne(fetch = FetchType.LAZY)
@@ -114,7 +117,15 @@ public class CTUserEntity implements Serializable {
 	public void setCompany(List<CTCompanyEntity> company) {
 		this.company = company;
 	}
-	
-	
+
+
+	public boolean isProfileCreated() {
+		return profileCreated;
+	}
+
+
+	public void setProfileCreated(boolean profileCreated) {
+		this.profileCreated = profileCreated;
+	}
    
 }

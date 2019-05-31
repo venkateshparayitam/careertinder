@@ -62,6 +62,8 @@ public class ApplicantController {
 	    		    	databaseApplicant.setMothertounge(candidate.getMothertounge());
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
+	    		    	user_with_token.setProfileCreated(true);
+	    		    	user_repository.save(user_with_token);
 	    		    	
 	    		    	response.setAuth_token(token);
 	    		    	response.setResponse_code("Success");
