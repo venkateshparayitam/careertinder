@@ -36,8 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     LoginModel loginModel;
 
-    Intent candidateIntent;
-    Intent companyIntent;
+    Intent nextIntent;
     //endregion
 
     @Override
@@ -57,9 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
-
-        candidateIntent = new Intent(this, PostSignup.class);
-        companyIntent = new Intent(this, AddNewJobOpening.class);
     }
 
     //region onclick listener
@@ -88,11 +84,17 @@ public class LoginActivity extends AppCompatActivity {
                 PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_LOGIN_STATE, true);
 
                 if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
-                    startActivity(candidateIntent);
+                    if (loginSuccessModel.getIs_profile_created().equalsIgnoreCase("no")) {
+                        nextIntent = new Intent(mContext, PostSignup.class);
+                    } else {
+                        //TODO change to candidate dashboard
+                        nextIntent = new Intent(mContext, PostSignup.class);
+                    }
                 }
                 else if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_EMPLOYER)){
-                    startActivity(companyIntent);
+                    nextIntent = new Intent(mContext, JobOpeningListActivity.class);
                 }
+                startActivity(nextIntent);
                 finish();
             } else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();

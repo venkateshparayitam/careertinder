@@ -3,6 +3,15 @@ package com.softwaregiants.careertinder.models;
 public class LoginSuccessModel extends BaseBean {
     private String auth_code;
     private String user_type;
+    private String is_profile_created;
+
+    public String getIs_profile_created() {
+        return is_profile_created;
+    }
+
+    public void setIs_profile_created(String is_profile_created) {
+        this.is_profile_created = is_profile_created;
+    }
 
     public String getAuth_code() {
         return auth_code;
