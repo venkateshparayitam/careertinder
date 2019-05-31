@@ -76,6 +76,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 PreferenceManager.getInstance(mContext).putString(Constants.PK_CUSTOM_URL,etURL.getText().toString());
+                startActivity(new Intent(mContext,SplashActivity.class));
+                finish();
             }
         });
 
