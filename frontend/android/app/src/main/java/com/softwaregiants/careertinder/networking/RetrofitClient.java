@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
@@ -70,6 +71,10 @@ public class RetrofitClient implements Callback<ResponseBody> {
                     }
                     case Constants.API_METHOD_POST_SIGNUP:
                         //TODO remove default
+                    case Constants.API_METHOD_GET_JOB_OPENINGS:
+                        JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
+                        mApiResponseCallBack.onSuccess(jobOpeningsListModel);
+                        break;
                     default:{
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;

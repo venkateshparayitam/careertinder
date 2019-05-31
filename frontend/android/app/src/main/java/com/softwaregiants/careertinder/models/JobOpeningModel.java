@@ -2,7 +2,7 @@ package com.softwaregiants.careertinder.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AddJobOpeningModel {
+public class JobOpeningModel {
 
     @SerializedName("companyname")
     private String companyName;

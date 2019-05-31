@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
-import com.softwaregiants.careertinder.models.AddJobOpeningModel;
+import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
@@ -139,19 +139,19 @@ public class AddNewJobOpening extends ImagePickerActivity {
                 return;
             }
             else{
-                AddJobOpeningModel addJobOpeningModel = new AddJobOpeningModel();
-                addJobOpeningModel.setCompanyName(CompanyName);
-                addJobOpeningModel.setJobTitle(JobTitle);
-                addJobOpeningModel.setJobDescription(JobDescription);
-                addJobOpeningModel.setDesiredQualification(DesiredQualification);
-                addJobOpeningModel.setDesiredWorkExperience(DesiredWorkExperience);
-                addJobOpeningModel.setPlaceOfWork(PlaceOfWOrk);
-                addJobOpeningModel.setSkill1(Skill1);
-                addJobOpeningModel.setSkill2(Skill2);
-                addJobOpeningModel.setSkill3(Skill3);
-                addJobOpeningModel.setPreferredLanguage1(Language1);
-                addJobOpeningModel.setPreferredLanguage2(Language2);
-                mRetrofitClient.mApiInterface.addNewJobOpening(addJobOpeningModel, authCode).enqueue(mRetrofitClient);
+                JobOpeningModel jobOpeningModel = new JobOpeningModel();
+                jobOpeningModel.setCompanyName(CompanyName);
+                jobOpeningModel.setJobTitle(JobTitle);
+                jobOpeningModel.setJobDescription(JobDescription);
+                jobOpeningModel.setDesiredQualification(DesiredQualification);
+                jobOpeningModel.setDesiredWorkExperience(DesiredWorkExperience);
+                jobOpeningModel.setPlaceOfWork(PlaceOfWOrk);
+                jobOpeningModel.setSkill1(Skill1);
+                jobOpeningModel.setSkill2(Skill2);
+                jobOpeningModel.setSkill3(Skill3);
+                jobOpeningModel.setPreferredLanguage1(Language1);
+                jobOpeningModel.setPreferredLanguage2(Language2);
+                mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
             }
         }
     };

@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 else if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_EMPLOYER)){
-                    nextIntent = new Intent(mContext, JobOpeningListActivity.class);
+                    nextIntent = new Intent(mContext, JobOpeningsListActivity.class);
                 }
                 startActivity(nextIntent);
                 finish();

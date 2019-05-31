@@ -24,6 +24,7 @@
     <string name="desiredCandidateText">DESIRED CANDIDATE PROFILE</string>
     <string name="desiredLanguagesText">Desired Language Skills</string>
     <string name="languageText">Language</string>
+    <string name="jobOpenings">JOB OPENINGS</string>
 
     <string-array name="city_array">
         <item>Nuremberg</item>
