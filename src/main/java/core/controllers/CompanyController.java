@@ -108,9 +108,17 @@ public class CompanyController {
 	public ResponseCode allJobsCompany() {
 
 			ResponseCode response_get_all_jobs = new ResponseCode();
-			response_get_all_jobs.setStatus_code("Success");
-			response_get_all_jobs.setJoblist(new ArrayList<CTCompanyEntity>(company_repository.findAll()));
 			
+			try
+			{
+			response_get_all_jobs.setStatus_code("Success");
+			response_get_all_jobs.setMethod("get_job_list");
+			response_get_all_jobs.setJoblist(new ArrayList<CTCompanyEntity>(company_repository.findAll()));
+			}
+			catch (Exception ex)
+			{
+				response_get_all_jobs.setMessage("Please try again later");
+			}
 			return response_get_all_jobs;
 	}
 }
