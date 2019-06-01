@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,8 +26,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_splash);
         mContext = this;
         TVSW = findViewById( R.id.TVSW);
@@ -41,7 +38,11 @@ public class SplashActivity extends AppCompatActivity {
                 if ( !devModeStarted ) {
                     if (PreferenceManager.getInstance(getApplicationContext()).getBoolean(Constants.PK_LOGIN_STATE, false)) {
                         if (PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_JOB_SEEKER)) {
-                            nextActivity = new Intent(mContext, CandidateDashboardActivity.class);
+                            if ( PreferenceManager.getInstance(getApplicationContext()).getBoolean(Constants.PK_PROFILE_CREATED, false) ) {
+                                nextActivity = new Intent(mContext, CandidateDashboardActivity.class);
+                            } else {
+                                nextActivity = new Intent(mContext, PostSignup.class);
+                            }
                         } else if (PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_EMPLOYER)) {
                             nextActivity = new Intent(mContext, JobOpeningsListActivity.class);
                         } else {

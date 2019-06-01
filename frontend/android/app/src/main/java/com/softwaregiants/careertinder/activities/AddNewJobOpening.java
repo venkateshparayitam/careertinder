@@ -3,14 +3,13 @@ package com.softwaregiants.careertinder.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
-import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
@@ -52,8 +51,6 @@ public class AddNewJobOpening extends ImagePickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_add_new_job_opening);
 
         init();

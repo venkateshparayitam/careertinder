@@ -20,7 +20,7 @@ public interface ApiInterface {
     @POST("api/login")
     Call<ResponseBody> login(@Body LoginModel loginModel);
 
-    @POST("api/candidate/create/{authToken}")
+    @POST("candidate/create/{authToken}")
     Call<ResponseBody> postSignUp(@Body PostSignUpModel postSignUpModel, @Path("authToken") String auth_code);
 
     @POST("api/createProfileCompany/{authToken}")
@@ -28,4 +28,7 @@ public interface ApiInterface {
 
     @GET("api/listJobsCompany/{authToken}")
     Call<ResponseBody> getJobOpenings(@Path("authToken") String auth_code);
+
+    @GET("api/allJobsCompany")
+    Call<ResponseBody> getMatchedJobOpenings();
 }

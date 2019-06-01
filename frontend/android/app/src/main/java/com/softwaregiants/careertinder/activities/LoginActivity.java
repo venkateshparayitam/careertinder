@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
-        getSupportActionBar().hide(); // hide the title bar
         setContentView(R.layout.activity_login);
         init();
     }
@@ -87,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (loginSuccessModel.getIs_profile_created().equalsIgnoreCase("no")) {
                         nextIntent = new Intent(mContext, PostSignup.class);
                     } else {
-                        //TODO change to candidate dashboard
-                        nextIntent = new Intent(mContext, PostSignup.class);
+                        PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
+                        nextIntent = new Intent(mContext, CandidateDashboardActivity.class);
                     }
                 }
                 else if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_EMPLOYER)){

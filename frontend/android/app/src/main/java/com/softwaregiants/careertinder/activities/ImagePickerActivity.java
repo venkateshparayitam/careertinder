@@ -2,7 +2,6 @@ package com.softwaregiants.careertinder.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,7 +9,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,14 +30,13 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
-public class ImagePickerActivity extends AppCompatActivity {
+public class ImagePickerActivity extends BaseActivity {
 
     private static final String IMAGE_DIRECTORY = "/career_tinder";
     protected int GALLERY = 1;
     protected int CAMERA = 2;
     final String EMPTY_STRING = "";
     ImageView imageUser;
-    Context mContext;
     Button updateImageButton;
 
     protected void  requestMultiplePermissions(){

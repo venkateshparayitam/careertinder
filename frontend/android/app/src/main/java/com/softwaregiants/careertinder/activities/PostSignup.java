@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -70,9 +69,6 @@ public class PostSignup extends ImagePickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_post_signup);
 
         setupSpinners();
@@ -194,6 +190,7 @@ public class PostSignup extends ImagePickerActivity {
             Toast.makeText(mContext,"Your profile was created successfully.",Toast.LENGTH_SHORT).show();
             //TODO
 //            if (baseBean.getStatusCode().equals("")) {
+                PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
                 startActivity(new Intent(mContext,CandidateDashboardActivity.class));
                 finish();
 //            }

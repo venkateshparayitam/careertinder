@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class BaseBean {
 
-    @SerializedName("status_code")
+    @SerializedName("response_code")
     private String statusCode;
 
-    @SerializedName("method")
+    @SerializedName("api_method")
     private String apiMethod;
 
-    @SerializedName("error_msg")
+    @SerializedName("message")
     private String errorMsg;
 
     public String getStatusCode() {

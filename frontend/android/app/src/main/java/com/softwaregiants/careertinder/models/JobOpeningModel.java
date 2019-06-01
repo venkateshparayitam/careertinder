@@ -1,8 +1,11 @@
 package com.softwaregiants.careertinder.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class JobOpeningModel {
+public class JobOpeningModel implements Parcelable {
 
     @SerializedName("companyname")
     private String companyName;
@@ -28,11 +31,28 @@ public class JobOpeningModel {
 
     private String skill3;
 
-    @SerializedName("preferedLanguage1")
+    @SerializedName("preferedlanguage1")
     private String preferredLanguage1;
 
-    @SerializedName("preferedLanguage2")
+    @SerializedName("preferedlanguage2")
     private String preferredLanguage2;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<JobOpeningModel> CREATOR = new Creator<JobOpeningModel>() {
+        @Override
+        public JobOpeningModel createFromParcel(Parcel in) {
+            return new JobOpeningModel(in);
+        }
+
+        @Override
+        public JobOpeningModel[] newArray(int size) {
+            return new JobOpeningModel[size];
+        }
+    };
 
     public String getCompanyName() {
         return companyName;
@@ -120,5 +140,38 @@ public class JobOpeningModel {
 
     public void setPreferredLanguage2(String preferredLanguage2) {
         this.preferredLanguage2 = preferredLanguage2;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(companyName);
+        dest.writeString(jobTitle);
+        dest.writeString(jobDescription);
+        dest.writeString(desiredQualification);
+        dest.writeString(desiredWorkExperience);
+        dest.writeString(placeOfWork);
+        dest.writeString(skill1);
+        dest.writeString(skill2);
+        dest.writeString(skill3);
+        dest.writeString(preferredLanguage1);
+        dest.writeString(preferredLanguage2);
+    }
+
+    public JobOpeningModel() {
+    }
+
+    protected JobOpeningModel(Parcel in) {
+        companyName = in.readString();
+        jobTitle = in.readString();
+        jobDescription = in.readString();
+        desiredQualification = in.readString();
+        desiredWorkExperience = in.readString();
+        placeOfWork = in.readString();
+        skill1 = in.readString();
+        skill2 = in.readString();
+        skill3 = in.readString();
+        preferredLanguage1 = in.readString();
+        preferredLanguage2 = in.readString();
     }
 }

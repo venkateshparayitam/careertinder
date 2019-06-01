@@ -13,10 +13,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.JobOpeningsListActivity"></activity>
+        tools:ignore="GoogleAppIndexingWarning"
+        android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.JobOpeningsListActivity"/>
         <activity android:name=".activities.CompanyDashboardActivity" />
         <activity android:name=".activities.CandidateDashboardActivity" />
         <activity android:name=".activities.SplashActivity">
@@ -30,6 +30,7 @@
         <activity android:name=".activities.SignUp" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.PostSignup" />
+        <activity android:name=".activities.JobDetailActivity" />
     </application>
 
 </manifest>

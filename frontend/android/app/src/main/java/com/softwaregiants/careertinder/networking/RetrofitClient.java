@@ -69,8 +69,6 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
                     }
-                    case Constants.API_METHOD_POST_SIGNUP:
-                        //TODO remove default
                     case Constants.API_METHOD_GET_JOB_OPENINGS:
                         JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                         mApiResponseCallBack.onSuccess(jobOpeningsListModel);
