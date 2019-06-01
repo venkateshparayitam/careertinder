@@ -1,8 +1,11 @@
 package core.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.ArrayList;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import core.entities.CTCompanyEntity;
 
@@ -15,5 +18,7 @@ import core.entities.CTCompanyEntity;
 @Repository
 public interface CompanyRepository extends JpaRepository<CTCompanyEntity, Long> {
 
-	
+	 @Transactional
+	 @Query(value = "SELECT * from ctcompany where user_company_id = ?1", nativeQuery = true)  
+	 public ArrayList<CTCompanyEntity> getListOfJobs(Long user_id);
 }

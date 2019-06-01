@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity implementation class for Entity: ApplicantEntity.
  * @author: Pravin Garad
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="ctcompany", catalog="career_tinder")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CTCompanyEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -171,10 +174,12 @@ public class CTCompanyEntity implements Serializable {
 		this.preferredlanguage2 = preferredlanguage2;
 	}
 
+	/*
 	public CTUserEntity getUser_company() {
 		return user_company;
 	}
-
+	*/
+	
 	public void setUser_company(CTUserEntity user_company) {
 		this.user_company = user_company;
 	}

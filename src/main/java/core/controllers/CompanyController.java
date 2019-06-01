@@ -1,6 +1,8 @@
 package core.controllers;
 
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,53 @@ public class CompanyController {
 		response_success.setMethod("add_job_opening");
 		return response_success;
 	}
+
 	
+	@GetMapping(path ="/listJobsCompany/{authcode}", produces = "application/json")
+	public ResponseCode listJobsCompany(@PathVariable(value = "authcode") String authcode) {
+		
+		ResponseCode response_joblist = new ResponseCode();
+		
+		CTUserEntity user = new CTUserEntity();
+		
+		try
+		{
+			user = user_repository.getByToken(authcode);
+			
+			if (user != null)
+				
+			{
+				response_joblist.setStatus_code("Success");
+				response_joblist.setMethod("get_job_list");
+				response_joblist.setJoblist(company_repository.getListOfJobs(user.getId()));
+				
+				return response_joblist; 
+			}
+			else
+			{
+				response_joblist.setStatus_code("Fail");
+				response_joblist.setMethod("get_job_list");
+				
+				return response_joblist; 
+			}
+		}
+		catch(Exception ex)
+		{
+			response_joblist.setStatus_code("job not found");
+			response_joblist.setMethod("get_job_list");
+			return response_joblist;
+		}
+		
+	}
+	
+	@GetMapping(path ="/allJobsCompany", produces = "application/json")
+	public ResponseCode allJobsCompany() {
 
+			ResponseCode response_get_all_jobs = new ResponseCode();
+			response_get_all_jobs.setStatus_code("Success");
+			response_get_all_jobs.setJoblist(new ArrayList<CTCompanyEntity>(company_repository.findAll()));
+			
+			return response_get_all_jobs;
+	}
 }
-
 

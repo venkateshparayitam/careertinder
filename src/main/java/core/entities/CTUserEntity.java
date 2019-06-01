@@ -40,8 +40,8 @@ public class CTUserEntity implements Serializable {
 	@Column(name = "authtoken", updatable = false, nullable = true)
 	private String authtoken;
 	
-	@Column(name = "profilecreated" ) 
-	private boolean profileCreated = false;
+	@Column(name = "profcreated", updatable = false, nullable = true)
+	private String profcreated;
 
 	
     @OneToOne(fetch = FetchType.LAZY)
@@ -119,13 +119,15 @@ public class CTUserEntity implements Serializable {
 	}
 
 
-	public boolean isProfileCreated() {
-		return profileCreated;
+	public String getProfcreated() {
+		return profcreated;
 	}
 
 
-	public void setProfileCreated(boolean profileCreated) {
-		this.profileCreated = profileCreated;
+	public void setProfcreated(String profcreated) {
+		this.profcreated = profcreated;
 	}
+	
+	
    
 }

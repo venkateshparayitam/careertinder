@@ -18,8 +18,13 @@ public interface UserRepository extends JpaRepository<CTUserEntity, Long>, CrudR
 	
     @Transactional
     @Modifying
-    @Query(value = "UPDATE ctuser ue SET ue.authtoken = ?1 WHERE ue.emailid = ?2", nativeQuery = true)  
-    void updateUser(String authtoken, String email);
+    @Query(value = "UPDATE ctuser ue SET ue.authtoken = ?1, ue.profcreated =?3 WHERE ue.emailid = ?2", nativeQuery = true)  
+    void updateUser(String authtoken, String email, String profcreated);
+    
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE ctuser ue SET ue.profcreated = ?2 WHERE ue.emailid = ?1", nativeQuery = true)  
+    void updateUserProfCreation(String email, String profcreated);
     
     @Transactional
     @Query(value = "SELECT * from ctuser where emailid = ?1 and password =?2", nativeQuery = true)  
