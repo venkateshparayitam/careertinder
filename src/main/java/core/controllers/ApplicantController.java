@@ -63,6 +63,8 @@ public class ApplicantController {
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
+	    		    	user_repository.updateUserProfCreation(user_with_token.getEmailid(), "Yes");;
+	    		    	
 	    		    	response.setAuth_token(token);
 	    		    	response.setResponse_code("Success");
 	    		    	response.setApi_method("/candidate/create/" + token);

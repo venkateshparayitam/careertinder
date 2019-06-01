@@ -39,6 +39,9 @@ public class CTUserEntity implements Serializable {
 	
 	@Column(name = "authtoken", updatable = false, nullable = true)
 	private String authtoken;
+	
+	@Column(name = "profcreated", updatable = false, nullable = true)
+	private String profcreated;
 
 	
     @OneToOne(fetch = FetchType.LAZY)
@@ -113,6 +116,16 @@ public class CTUserEntity implements Serializable {
 
 	public void setCompany(List<CTCompanyEntity> company) {
 		this.company = company;
+	}
+
+
+	public String getProfcreated() {
+		return profcreated;
+	}
+
+
+	public void setProfcreated(String profcreated) {
+		this.profcreated = profcreated;
 	}
 	
 	

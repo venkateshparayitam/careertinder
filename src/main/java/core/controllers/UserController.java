@@ -9,7 +9,7 @@ import core.entities.CTApplicantEntity;
 import core.entities.CTCompanyEntity;
 import core.entities.CTUserEntity;
 import core.repositories.*;
-import core.supplementary.RandomString;
+import core.supplementary.*;
 
 /**
  * Creation of User Controller to API calls.
@@ -44,17 +44,17 @@ public class UserController {
 				applicant.setUser(user);
 				applicant_repository.save(applicant);
 				user.setApplicant(applicant);
+				user.setProfcreated("No");
 				user_repository.save(user);
-				user_repository.updateUser(new RandomString().getAlphaNumericString(random), user.getEmailid());
+				user_repository.updateUser(new RandomString().getAlphaNumericString(random), user.getEmailid(), "No");
 							
 			}
 			else if(user.getUserType().equals("employer"))
 			{
 					CTCompanyEntity company = new CTCompanyEntity();
 					company.setCompanyname(user.getName());
-					
 					user_repository.save(user);
-					user_repository.updateUser(new RandomString().getAlphaNumericString(random), user.getEmailid()); 
+					user_repository.updateUser(new RandomString().getAlphaNumericString(random), user.getEmailid(), "Not Applicable"); 
 					
 					
 			}
@@ -81,9 +81,18 @@ public class UserController {
 			CTUserEntity password = new CTUserEntity();
 			password = user_repository.checkPassword(user.getEmailid(), user.getPassword());
 			
+			ResponseCode response = new ResponseCode();
+			
 			if (password != null)
 			{
-				ResponseCode response = new ResponseCode();
+				if (password.getProfcreated().equalsIgnoreCase("No"))
+				{
+					response.setIs_profile_created("No");
+				}
+				else
+				{
+					response.setIs_profile_created("Yes");
+				}
 				response.setStatus_code("Success");
 				response.setAuth_code(password.getAuthToken());
 				response.setUser_type(password.getUserType());
@@ -92,54 +101,12 @@ public class UserController {
 			}
 			else
 			{
-				ResponseCode response = new ResponseCode();
 				response.setStatus_code("Invalid emailid or password");
 				return response;
 			}
 		
 	}
 	
-	
-public class ResponseCode{
-	String status_code;
-	String auth_code;
-	String user_type;
-    String method;
-
-	public String getStatus_code() {
-		return status_code;
-	}
-
-	public void setStatus_code(String status_code) {
-		this.status_code = status_code;
-	}
-    
-    public String getMethod() {
-		return method;
-	}
-    
-    public void setMethod(String method) {
-		this.method = method;
-	}
-
-	public String getAuth_code() {
-		return auth_code;
-	}
-
-	public void setAuth_code(String auth_code) {
-		this.auth_code = auth_code;
-	}
-
-	public String getUser_type() {
-		return user_type;
-	}
-
-	public void setUser_type(String user_type) {
-		this.user_type = user_type;
-	}
-
-	
-}
 
 }
 

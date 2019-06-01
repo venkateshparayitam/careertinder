@@ -1,10 +1,12 @@
 package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
 
 
     private Button btn;
+    Intent nextActivity;
     Context mContext;
     RetrofitClient mRetrofitClient;
 
@@ -49,6 +52,10 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        btn = findViewById(R.id.addJobOpeningBtn);
+        btn.setOnClickListener(onClickListener);
+        nextActivity = new Intent(this, AddNewJobOpening.class);
     }
 
     public void init(){
@@ -78,6 +85,14 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         @Override
         public void onFailure(Throwable t) {
             Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(nextActivity);
+            finish();
         }
     };
 }
