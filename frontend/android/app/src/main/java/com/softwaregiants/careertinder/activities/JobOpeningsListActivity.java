@@ -19,6 +19,7 @@ import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 
+
 public class JobOpeningsListActivity extends AppCompatActivity {
 
 
@@ -30,11 +31,12 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     public String authCode;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private JobOpeningsAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private JobOpeningsListModel jobOpeningsListModel;
-    private JobOpeningsAdapter jobOpeningsAdapter;
+
+    Intent companyDashboardIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +44,12 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_job_openings_list);
 
         init();
-
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
         btn = findViewById(R.id.addJobOpeningBtn);
         btn.setOnClickListener(onClickListener);
         nextActivity = new Intent(this, AddNewJobOpening.class);
+        companyDashboardIntent = new Intent(this, CompanyDashboardActivity.class);
+
+
     }
 
     public void init(){
@@ -65,7 +59,22 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
         mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+    }
 
+    public void buildRV(){
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new JobOpeningsAdapter(jobOpeningsListModel.getJobOpeningModelList());
+        recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new JobOpeningsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobTitle()));
+            }
+        });
     }
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
@@ -73,9 +82,8 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
+                buildRV();
                 // specify an adapter (see also next example)
-                mAdapter = new JobOpeningsAdapter(jobOpeningsListModel.getJobOpeningModelList());
-                recyclerView.setAdapter(mAdapter);
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -95,4 +103,6 @@ public class JobOpeningsListActivity extends AppCompatActivity {
             finish();
         }
     };
+
+
 }

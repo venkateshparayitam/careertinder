@@ -11,11 +11,14 @@ import android.widget.TextView;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.JobOpeningsViewHolder> {
 
-    private List<JobOpeningModel> jobOpenings;
+    private List<JobOpeningModel> jobOpenings = new ArrayList<JobOpeningModel>();
+    private OnItemClickListener onItemClickListener;
+    public JobOpeningModel jobOpening;
 
     public JobOpeningsAdapter(List<JobOpeningModel> jobOpeningModelList){
         this.jobOpenings = jobOpeningModelList;
@@ -26,7 +29,7 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
     public JobOpeningsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.job_openings_list_item, parent, false);
-        JobOpeningsViewHolder jobOpeningsViewHolder = new JobOpeningsViewHolder(itemView);
+        JobOpeningsViewHolder jobOpeningsViewHolder = new JobOpeningsViewHolder(itemView, onItemClickListener);
         return jobOpeningsViewHolder;
     }
 
@@ -52,12 +55,32 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
         public TextView placeOfWork;
         public TextView preferredSkill;
 
-        public JobOpeningsViewHolder(View v) {
+        public JobOpeningsViewHolder(View v, final OnItemClickListener listener) {
             super(v);
             jobOpening = (ImageView) v.findViewById(R.id.IVJobOpening);
             jobTitle = (TextView) v.findViewById(R.id.TVJobTitle);
             placeOfWork = (TextView) v.findViewById(R.id.TVPlaceOfWork);
             preferredSkill = (TextView) v.findViewById(R.id.TVPreferredSkill);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            listener.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.onItemClickListener = listener;
     }
 }
