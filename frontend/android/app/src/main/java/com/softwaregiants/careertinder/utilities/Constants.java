@@ -19,6 +19,7 @@ public interface Constants {
     String MSG_CONNECTION_ERROR = "There seems to an error connecting to the internet.";
     String MSG_TECHNICAL_ERROR = "There is a technical error. Please try again.";
     String MSG_ERROR = "Error";
+    String MSG_LOGIN_ERROR = "Please login again.";
 
     //Preference Keys
     String PK_AUTH_CODE = "PK_AUTH_CODE";

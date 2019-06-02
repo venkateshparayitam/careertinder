@@ -34,6 +34,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="menu_job_search">Job Search</string>
+    <string name="menu_job_list">Job List</string>
     <string name="menu_edit_profile">Edit Profile</string>
     <string name="menu_logout">Log Out</string>
     <string name="navigation_drawer_open">OPEN</string>
