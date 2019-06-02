@@ -46,6 +46,8 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+
+
         createMyAccount = findViewById(R.id.createMyAccountBtn);
         createMyAccount.setOnClickListener(ocl);
         mContext = this;
@@ -111,7 +113,7 @@ public class SignUp extends AppCompatActivity {
                 signUpModel = new SignUpModel();
                 signUpModel.setName(name);
                 signUpModel.setEmail(email);
-                signUpModel.setPassword(pass);
+                signUpModel.setPassword(UtilityMethods.sha1Hash(pass));
                 signUpModel.setUserType(userTypeString);
                 if ( UtilityMethods.isConnected(mContext) ) {
                     mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
