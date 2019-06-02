@@ -2,7 +2,14 @@ package com.softwaregiants.careertinder.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +20,12 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.PostSignUpModel;
@@ -20,8 +33,12 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.squareup.picasso.Picasso;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 
 public class CreateCandidateProfileActivity extends ImagePickerActivity {
@@ -63,6 +80,8 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
 
     private String first_language = EMPTY_STRING;
     private String second_language = EMPTY_STRING;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     Boolean eu_citizen_value = false;
     //endregion
@@ -222,8 +241,6 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
                 R.array.language_array_2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter2);
-
-
     }
 
     private void setupDatePicker() {
@@ -248,5 +265,75 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
         });
     }
 
+    private void uploadImageFile() {
+        StorageReference storageRef = storage.getReference();
 
+        // Get the data from an ImageView as bytes
+        imageUser.setDrawingCacheEnabled(true);
+        imageUser.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageUser.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                taskSnapshot.getMetadata();
+                downloadImageFile("passURLHere");
+            }
+        });
+    }
+    
+    private void downloadImageFile(String imageURL) {
+        StorageReference storageRef = storage.getReference();
+
+        storageRef.child(imageURL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(imageUser);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == this.RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    String path = saveImage(bitmap);
+                    Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    imageUser.setImageBitmap(bitmap);
+                    uploadImageFile();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(mContext, "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        } else if (requestCode == CAMERA) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            imageUser.setImageBitmap(thumbnail);
+            saveImage(thumbnail);
+            Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
