@@ -1,7 +1,6 @@
 package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -54,7 +53,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_job_opening);
+        setContentView(R.layout.activity_edit_job_opening);
 
         Intent intent = getIntent();
         jobOpeningModel = (JobOpeningModel) intent.getParcelableExtra("jobOpeningObject");
