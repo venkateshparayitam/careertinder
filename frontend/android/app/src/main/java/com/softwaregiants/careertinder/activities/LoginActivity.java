@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
                     if (loginSuccessModel.getIs_profile_created().equalsIgnoreCase("no")) {
-                        nextIntent = new Intent(mContext, PostSignup.class);
+                        nextIntent = new Intent(mContext, CreateCandidateProfileActivity.class);
                     } else {
                         PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
                         nextIntent = new Intent(mContext, CandidateDashboardActivity.class);
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view){
-        Intent i = new Intent(this, SignUp.class);
+        Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
     }
 

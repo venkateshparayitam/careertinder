@@ -29,9 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AddNewJobOpening" />
-        <activity android:name=".activities.SignUp" />
+        <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.PostSignup" />
+        <activity android:name=".activities.CreateCandidateProfileActivity" />
         <activity android:name=".activities.JobDetailActivity" />
     </application>
 

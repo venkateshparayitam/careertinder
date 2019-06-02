@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
@@ -37,6 +38,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private JobOpeningsListModel jobOpeningsListModel;
+    TextView TVNoItems;
 
     Intent companyDashboardIntent;
     Intent editJobOpeningIntent;
@@ -61,6 +63,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
 
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
+        TVNoItems = findViewById(R.id.TVNoItems);
 
         if ( UtilityMethods.isConnected(mContext) ) {
             mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
@@ -98,7 +101,11 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                buildRV();
+                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
+                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
+                    TVNoItems.setVisibility(View.INVISIBLE);
+                    buildRV();
+                }
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();

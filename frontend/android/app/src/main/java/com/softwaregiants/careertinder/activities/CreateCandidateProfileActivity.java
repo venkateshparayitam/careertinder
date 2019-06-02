@@ -24,7 +24,7 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import java.util.Calendar;
 
-public class PostSignup extends ImagePickerActivity {
+public class CreateCandidateProfileActivity extends ImagePickerActivity {
 
     //region Globals
     Button submitButton;
@@ -236,7 +236,7 @@ public class PostSignup extends ImagePickerActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
-                picker = new DatePickerDialog(PostSignup.this,
+                picker = new DatePickerDialog(CreateCandidateProfileActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
