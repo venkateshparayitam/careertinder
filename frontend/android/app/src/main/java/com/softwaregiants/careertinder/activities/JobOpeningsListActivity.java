@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     private JobOpeningsListModel jobOpeningsListModel;
 
     Intent companyDashboardIntent;
+    Intent editJobOpeningIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         btn.setOnClickListener(onClickListener);
         nextActivity = new Intent(this, AddNewJobOpening.class);
         companyDashboardIntent = new Intent(this, CompanyDashboardActivity.class);
+        editJobOpeningIntent = new Intent(this, EditJobOpeningActivity.class);
 
 
     }
@@ -72,7 +75,17 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new JobOpeningsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobTitle()));
+                startActivity(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()));
+            }
+
+            @Override
+            public void onEditClick(int position) {
+                startActivity(editJobOpeningIntent.putExtra("jobOpeningObject", (Parcelable) jobOpeningsListModel.getJobOpeningModelList().get(position)));
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+
             }
         });
     }
@@ -83,7 +96,6 @@ public class JobOpeningsListActivity extends AppCompatActivity {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
                 buildRV();
-                // specify an adapter (see also next example)
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -103,6 +115,4 @@ public class JobOpeningsListActivity extends AppCompatActivity {
             finish();
         }
     };
-
-
 }

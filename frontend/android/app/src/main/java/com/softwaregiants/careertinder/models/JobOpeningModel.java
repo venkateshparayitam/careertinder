@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class JobOpeningModel implements Parcelable {
 
+    @SerializedName("id")
+    private String jobId;
+
     @SerializedName("companyname")
     private String companyName;
 
@@ -53,6 +56,22 @@ public class JobOpeningModel implements Parcelable {
             return new JobOpeningModel[size];
         }
     };
+
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getPreferredLanguage1() {
+        return preferredLanguage1;
+    }
+
+    public String getPreferredLanguage2() {
+        return preferredLanguage2;
+    }
 
     public String getCompanyName() {
         return companyName;

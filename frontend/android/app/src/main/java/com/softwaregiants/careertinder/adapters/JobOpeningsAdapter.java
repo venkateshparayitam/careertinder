@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,6 +55,8 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
         public TextView jobTitle;
         public TextView placeOfWork;
         public TextView preferredSkill;
+        public ImageButton editJobOpening;
+        public ImageButton deleteJobOpening;
 
         public JobOpeningsViewHolder(View v, final OnItemClickListener listener) {
             super(v);
@@ -61,6 +64,8 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
             jobTitle = (TextView) v.findViewById(R.id.TVJobTitle);
             placeOfWork = (TextView) v.findViewById(R.id.TVPlaceOfWork);
             preferredSkill = (TextView) v.findViewById(R.id.TVPreferredSkill);
+            editJobOpening = (ImageButton) v.findViewById(R.id.imageButtonEdit);
+            deleteJobOpening = (ImageButton) v.findViewById(R.id.imageButtonDelete);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,11 +78,37 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
                     }
                 }
             });
+
+            editJobOpening.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            listener.onEditClick(pos);
+                        }
+                    }
+                }
+            });
+
+            deleteJobOpening.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            listener.onDeleteClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 
     public interface OnItemClickListener{
         void onItemClick(int position);
+        void onEditClick(int position);
+        void onDeleteClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
