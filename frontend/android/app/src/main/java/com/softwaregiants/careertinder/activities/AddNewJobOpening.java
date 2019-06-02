@@ -169,7 +169,6 @@ public class AddNewJobOpening extends ImagePickerActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,Constants.MSG_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
         }
     };
 

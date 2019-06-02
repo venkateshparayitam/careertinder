@@ -2,6 +2,8 @@ package com.softwaregiants.careertinder.utilities;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -25,5 +27,13 @@ public class UtilityMethods {
     public static int dpToPx(int dp, Context mContext) {
         return (int) (dp * ((float) mContext.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
 //        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public boolean isConnected(Context mContext)
+    {
+        ConnectivityManager manager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+
+        return (info != null && info.isConnected());
     }
 }

@@ -15,7 +15,8 @@ public interface Constants {
     String SC_SUCCESS = "Success";
 
     //Messages
-    String MSG_NETWORK_ERROR = "There is a technical error. Please try again.";
+    String MSG_CONNECTION_ERROR = "There seems to an error connecting to the internet.";
+    String MSG_TECHNICAL_ERROR = "There is a technical error. Please try again.";
     String MSG_ERROR = "Error";
 
     //Preference Keys

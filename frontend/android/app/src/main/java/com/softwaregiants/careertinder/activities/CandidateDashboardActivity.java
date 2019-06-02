@@ -62,7 +62,6 @@ public class CandidateDashboardActivity extends BaseActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

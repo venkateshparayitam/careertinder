@@ -2,9 +2,9 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -104,7 +104,6 @@ public class JobOpeningsListActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

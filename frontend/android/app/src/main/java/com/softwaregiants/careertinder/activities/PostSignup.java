@@ -198,7 +198,6 @@ public class PostSignup extends ImagePickerActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 
