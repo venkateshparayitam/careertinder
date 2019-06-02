@@ -22,6 +22,7 @@ import core.repositories.UserRepository;
 import core.services.ApplicantService;
 import core.supplementary.ApplicantWrapper;
 import core.supplementary.CandidateResponse;
+import core.supplementary.ResponseCode;
 
 /**
  * @author: Bora Bejleri
@@ -83,6 +84,33 @@ public class ApplicantController {
 	    	
 	    	response.setMessage("Invalid job seeker data");
 	    	return response;	    	
+	    }
+	    
+	    @RequestMapping(path = "/candidate/display/{token}", method = RequestMethod.GET, produces = "application/json")
+	    public ResponseCode getCandidateDetails(@PathVariable(value = "token") String token) {
+			ResponseCode res = new ResponseCode();
+	    	
+	    		CTUserEntity user_with_token = user_repository.getByToken(token);
+	    		if (user_with_token != null) {
+	    			String email = user_with_token.getEmailid();
+	    			CTApplicantEntity databaseApplicant = applicant_repository.findByEmail(email);
+	    			if(databaseApplicant != null) {
+
+	    		    	res.setMethod("Display");
+	    		    	res.setApplicant(databaseApplicant);
+	    		    	return res;
+	    			} 
+					else 
+					{
+					  res.setStatus_code("Candidate does not exist");
+	    			  return res;
+					}
+	    			
+	    		}res.setStatus_code("Token does not correspond to any candidate");
+  			     return res;
+	    	
+	    	
+	    	    	
 	    }
 //	    @RequestMapping(path = "/candidate/create", method = RequestMethod.POST, produces = "application/json")
 //	    public UserApplicantWrapper setCandidateDetails(@Valid @RequestBody UserApplicantWrapper candidate) {

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  * @author: Pravin Garad
  */
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="ctapplicant", catalog="career_tinder")
 public class CTApplicantEntity implements Serializable {
