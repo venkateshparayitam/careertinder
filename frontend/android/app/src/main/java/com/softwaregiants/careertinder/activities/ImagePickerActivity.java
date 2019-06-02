@@ -148,31 +148,6 @@ public class ImagePickerActivity extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri contentURI = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
-                    Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageUser.setImageBitmap(bitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(mContext, "Failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        } else if (requestCode == CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageUser.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
-            Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
-        }
     }
 }
