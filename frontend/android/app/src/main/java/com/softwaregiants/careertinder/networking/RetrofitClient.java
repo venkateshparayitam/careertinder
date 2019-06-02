@@ -87,6 +87,8 @@ public class RetrofitClient implements Callback<ResponseBody> {
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
+        } else {
+            Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
         }
     }
 
