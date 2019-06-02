@@ -11,8 +11,6 @@ import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 
-import java.net.ConnectException;
-
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -78,6 +76,9 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                         mApiResponseCallBack.onSuccess(jobOpeningsListModel);
                         break;
+                    case Constants.API_METHOD_EDIT_JOB_OPENING:
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        break;
                     default:{
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
@@ -93,11 +94,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, t.toString());
         mApiResponseCallBack.onFailure(t);
-        if (t instanceof ConnectException) {
-            Toast.makeText(mContext,Constants.MSG_CONNECTION_ERROR,Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
     }
 
 }

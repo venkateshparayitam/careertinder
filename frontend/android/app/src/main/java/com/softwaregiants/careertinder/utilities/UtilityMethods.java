@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class UtilityMethods {
     public static Point getDisplaySize(Context mContext){
@@ -29,11 +30,14 @@ public class UtilityMethods {
 //        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public boolean isConnected(Context mContext)
+    public static boolean isConnected(Context mContext)
     {
         ConnectivityManager manager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
-
-        return (info != null && info.isConnected());
+        boolean isConnected = (info != null && info.isConnected());
+        if ( !isConnected ) {
+            Toast.makeText(mContext,Constants.MSG_CONNECTION_ERROR,Toast.LENGTH_SHORT).show();
+        }
+        return isConnected;
     }
 }

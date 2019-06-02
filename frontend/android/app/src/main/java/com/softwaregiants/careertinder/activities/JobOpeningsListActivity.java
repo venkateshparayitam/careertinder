@@ -19,6 +19,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 
 public class JobOpeningsListActivity extends AppCompatActivity {
@@ -61,7 +62,9 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
-        mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+        if ( UtilityMethods.isConnected(mContext) ) {
+            mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+        }
     }
 
     public void buildRV(){

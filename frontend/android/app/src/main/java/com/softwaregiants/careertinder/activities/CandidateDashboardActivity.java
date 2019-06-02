@@ -45,7 +45,9 @@ public class CandidateDashboardActivity extends BaseActivity {
         swipePlaceHolderView = findViewById(R.id.swipeView);
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
-        mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+        if ( UtilityMethods.isConnected(mContext) ) {
+            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+        }
     }
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {

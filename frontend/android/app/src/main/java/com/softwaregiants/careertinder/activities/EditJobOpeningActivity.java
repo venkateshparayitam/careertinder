@@ -14,6 +14,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 public class EditJobOpeningActivity extends ImagePickerActivity {
 
@@ -164,7 +165,9 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.setSkill3(Skill3);
                 jobOpeningModel.setPreferredLanguage1(Language1);
                 jobOpeningModel.setPreferredLanguage2(Language2);
-                mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                }
             }
         }
     };

@@ -16,6 +16,7 @@ import com.softwaregiants.careertinder.models.SignUpModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -112,7 +113,9 @@ public class SignUp extends AppCompatActivity {
                 signUpModel.setEmail(email);
                 signUpModel.setPassword(pass);
                 signUpModel.setUserType(userTypeString);
-                mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                }
             }
         }
 

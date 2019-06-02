@@ -9,6 +9,7 @@ public interface Constants {
     String API_METHOD_ADD_NEW_JOB_OPENING = "add_job_opening";
     String API_METHOD_POST_SIGNUP = "post_signup";
     String API_METHOD_GET_JOB_OPENINGS = "get_job_list";
+    String API_METHOD_EDIT_JOB_OPENING = "edit_job_opening";
 
     //Success Codes
     String SC_JOB_CREATED_SUCCESS = "job_opening_created";

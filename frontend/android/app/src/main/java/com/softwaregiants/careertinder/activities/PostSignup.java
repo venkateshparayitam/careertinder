@@ -20,6 +20,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import java.util.Calendar;
 
@@ -178,7 +179,9 @@ public class PostSignup extends ImagePickerActivity {
                 return;
             }
             else{
-                mRetrofitClient.mApiInterface.postSignUp(postSignUpModel,authToken).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.postSignUp(postSignUpModel, authToken).enqueue(mRetrofitClient);
+                }
             }
         }
     };
