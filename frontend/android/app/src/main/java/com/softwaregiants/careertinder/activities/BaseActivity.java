@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
@@ -25,6 +27,7 @@ class BaseActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawer;
     Toolbar toolbar;
+    TextView TVNavEmail;
 
     public void addDrawer(String title) {
         switch ( PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE,"") ) {
@@ -33,17 +36,24 @@ class BaseActivity extends AppCompatActivity
             case Constants.USER_TYPE_JOB_SEEKER:
                 break;
         }
-        toolbar = findViewById(R.id.toolbar);
+        bindViews();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_job_search);
+        TVNavEmail.setText(PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_EMAIL, ""));
+    }
+
+    public void bindViews() {
+        toolbar = findViewById(R.id.toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        View hView =  navigationView.getHeaderView(0);
+        TVNavEmail = hView.findViewById(R.id.TVNavEmail);
     }
 
     @Override

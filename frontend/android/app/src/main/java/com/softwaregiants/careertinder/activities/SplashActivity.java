@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
@@ -46,7 +47,8 @@ public class SplashActivity extends AppCompatActivity {
                         } else if (PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_EMPLOYER)) {
                             nextActivity = new Intent(mContext, JobOpeningsListActivity.class);
                         } else {
-                            //TODO
+                            Toast.makeText(mContext, Constants.MSG_LOGIN_ERROR, Toast.LENGTH_SHORT).show();
+                            nextActivity = new Intent(mContext, LoginActivity.class);
                         }
                     } else {
                         nextActivity = new Intent(mContext, LoginActivity.class);

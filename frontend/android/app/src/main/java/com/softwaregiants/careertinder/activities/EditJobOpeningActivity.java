@@ -1,7 +1,6 @@
 package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +14,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 public class EditJobOpeningActivity extends ImagePickerActivity {
 
@@ -54,7 +54,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_job_opening);
+        setContentView(R.layout.activity_edit_job_opening);
 
         Intent intent = getIntent();
         jobOpeningModel = (JobOpeningModel) intent.getParcelableExtra("jobOpeningObject");
@@ -165,7 +165,9 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.setSkill3(Skill3);
                 jobOpeningModel.setPreferredLanguage1(Language1);
                 jobOpeningModel.setPreferredLanguage2(Language2);
-                mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                }
             }
         }
     };
@@ -186,7 +188,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,Constants.MSG_NETWORK_ERROR, Toast.LENGTH_SHORT).show();
         }
     };
 

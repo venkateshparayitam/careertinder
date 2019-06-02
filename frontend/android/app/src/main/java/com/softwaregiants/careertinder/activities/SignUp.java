@@ -16,6 +16,7 @@ import com.softwaregiants.careertinder.models.SignUpModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -44,6 +45,8 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+
 
         createMyAccount = findViewById(R.id.createMyAccountBtn);
         createMyAccount.setOnClickListener(ocl);
@@ -110,9 +113,11 @@ public class SignUp extends AppCompatActivity {
                 signUpModel = new SignUpModel();
                 signUpModel.setName(name);
                 signUpModel.setEmail(email);
-                signUpModel.setPassword(pass);
+                signUpModel.setPassword(UtilityMethods.sha1Hash(pass));
                 signUpModel.setUserType(userTypeString);
-                mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                }
             }
         }
 
@@ -136,7 +141,6 @@ public class SignUp extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

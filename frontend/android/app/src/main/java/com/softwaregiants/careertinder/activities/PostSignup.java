@@ -34,6 +34,7 @@ import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 import com.squareup.picasso.Picasso;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -197,7 +198,9 @@ public class PostSignup extends ImagePickerActivity {
                 return;
             }
             else{
-                mRetrofitClient.mApiInterface.postSignUp(postSignUpModel,authToken).enqueue(mRetrofitClient);
+                if ( UtilityMethods.isConnected(mContext) ) {
+                    mRetrofitClient.mApiInterface.postSignUp(postSignUpModel, authToken).enqueue(mRetrofitClient);
+                }
             }
         }
     };
@@ -217,7 +220,6 @@ public class PostSignup extends ImagePickerActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

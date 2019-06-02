@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.mindorks.placeholderview.SwipeDecor;
@@ -45,7 +46,9 @@ public class CandidateDashboardActivity extends BaseActivity {
         swipePlaceHolderView = findViewById(R.id.swipeView);
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
-        mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+        if ( UtilityMethods.isConnected(mContext) ) {
+            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+        }
     }
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
@@ -62,13 +65,12 @@ public class CandidateDashboardActivity extends BaseActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 
     private void initSwipeView() {
         swipePlaceHolderView.disableTouchSwipe();
-        int bottomMargin = UtilityMethods.dpToPx(160,mContext);
+
         Point windowSize = UtilityMethods.getDisplaySize(mContext);
 
         swipePlaceHolderView.addItemRemoveListener(new ItemRemovedListener() {
@@ -89,11 +91,11 @@ public class CandidateDashboardActivity extends BaseActivity {
                 .setHeightSwipeDistFactor(6)
                 .setSwipeDecor(new SwipeDecor()
                         .setViewWidth(windowSize.x)
-                        .setViewHeight(windowSize.y - bottomMargin)
+                        .setViewHeight(windowSize.y - getActionBarHeight())
 //                        .setMarginTop(300)
 //                        .setMarginLeft(100)
-//                        .setViewGravity(Gravity.TOP)
-                        .setPaddingTop(20)
+//                        .setViewGravity(Gravity.CENTER)
+//                        .setPaddingTop(20)
                         .setSwipeMaxChangeAngle(2f)
                         .setRelativeScale(0.01f)
                         .setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
@@ -126,4 +128,14 @@ public class CandidateDashboardActivity extends BaseActivity {
             }
         }
     };
+
+    private int getActionBarHeight() {
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        actionBarHeight = UtilityMethods.dpToPx(actionBarHeight,mContext);
+        return actionBarHeight;
+    }
 }

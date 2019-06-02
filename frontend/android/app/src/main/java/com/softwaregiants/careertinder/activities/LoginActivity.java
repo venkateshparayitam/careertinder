@@ -17,6 +17,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -100,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -141,8 +141,10 @@ public class LoginActivity extends AppCompatActivity {
         else {
             loginModel = new LoginModel();
             loginModel.setEmailid(usernameText);
-            loginModel.setPassword(passwordText);
-            mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+            loginModel.setPassword(UtilityMethods.sha1Hash(passwordText));
+            if ( UtilityMethods.isConnected(mContext) ) {
+                mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+            }
         }
     }
 }
