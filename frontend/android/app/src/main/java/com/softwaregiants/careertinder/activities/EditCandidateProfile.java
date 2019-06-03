@@ -2,12 +2,8 @@ package com.softwaregiants.careertinder.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,26 +14,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.CandidateProfileModel;
+import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
-public class CreateCandidateProfileActivity extends ImagePickerActivity {
+public class EditCandidateProfile extends ImagePickerActivity {
 
     //region Globals
     Button submitButton;
@@ -80,17 +72,21 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
     Boolean eu_citizen_value = false;
+    private CandidateProfileModel candidateProfileModel;
     //endregion
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_signup);
-
         setupSpinners();
         setupDatePicker();
         setupController();
+        addDrawer("Edit Profile", R.id.nav_edit_profile);
         requestMultiplePermissions();
+        if (UtilityMethods.isConnected(mContext)) {
+            mRetrofitClient.mApiInterface.getCandidateProfile(authToken).enqueue(mRetrofitClient);
+        }
     }
 
     private void setupController() {
@@ -205,13 +201,38 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            Toast.makeText(mContext,"Your profile was created successfully.",Toast.LENGTH_SHORT).show();
-            //TODO
-//            if (baseBean.getStatusCode().equals("")) {
-                PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
-                startActivity(new Intent(mContext,CandidateDashboardActivity.class));
-                finish();
-//            }
+            switch (baseBean.getApiMethod()) {
+                case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
+                    candidateProfileModel = ((GetCandidateDetailModel) baseBean).getApplicant();
+                    university.setText(candidateProfileModel.getUniversity());
+                    highest_education.setText(candidateProfileModel.getHighest_education());
+                    work_experience.setText(candidateProfileModel.getWork_experience());
+                    skill_one.setText(candidateProfileModel.getSkill_one());
+                    skill_two.setText(candidateProfileModel.getSkill_two());
+                    skill_three.setText(candidateProfileModel.getSkill_three());
+                    skill_addnl.setText(candidateProfileModel.getAdditional_skill());
+                    address.setText(candidateProfileModel.getAddress());
+                    about_me.setText(candidateProfileModel.getAboutme());
+                    dateBirth.setText(candidateProfileModel.getDateBirth());
+                    eu_citizen.setChecked(candidateProfileModel.getEu_citizen());
+                    List<String> myOptions = Arrays.asList((getResources().getStringArray(R.array.city_array)));
+                    int value = myOptions.indexOf(candidateProfileModel.getPlace());
+                    place_spinner.setSelection(value);
+                    myOptions = Arrays.asList((getResources().getStringArray(R.array.language_array_1)));
+                    value = myOptions.indexOf(candidateProfileModel.getFirst_language());
+                    lang1_spinner.setSelection(value);
+                    myOptions = Arrays.asList((getResources().getStringArray(R.array.language_array_2)));
+                    value = myOptions.indexOf(candidateProfileModel.getSecond_language());
+                    lang2_spinner.setSelection(value);
+                    break;
+                default:
+                    PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
+                    Toast.makeText(mContext,"Your profile was edited successfully.",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(mContext,CandidateDashboardActivity.class));
+                    finish();
+                    break;
+            }
+
         }
 
         @Override
@@ -248,7 +269,7 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
-                picker = new DatePickerDialog(CreateCandidateProfileActivity.this,
+                picker = new DatePickerDialog(EditCandidateProfile.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -258,77 +279,5 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
                 picker.show();
             }
         });
-    }
-
-    private void uploadImageFile() {
-        StorageReference storageRef = storage.getReference();
-
-        // Get the data from an ImageView as bytes
-        imageUser.setDrawingCacheEnabled(true);
-        imageUser.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) imageUser.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        UploadTask uploadTask = storageRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                taskSnapshot.getMetadata();
-                downloadImageFile("passURLHere");
-            }
-        });
-    }
-    
-    private void downloadImageFile(String imageURL) {
-        StorageReference storageRef = storage.getReference();
-
-        storageRef.child(imageURL).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(imageUser);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri contentURI = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
-                    Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageUser.setImageBitmap(bitmap);
-                    uploadImageFile();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(mContext, "Failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        } else if (requestCode == CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageUser.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
-            Toast.makeText(mContext, "Image Saved!", Toast.LENGTH_SHORT).show();
-        }
     }
 }

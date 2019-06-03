@@ -1,8 +1,8 @@
 package com.softwaregiants.careertinder.networking;
 
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.models.LoginModel;
-import com.softwaregiants.careertinder.models.PostSignUpModel;
 import com.softwaregiants.careertinder.models.SignUpModel;
 
 import okhttp3.ResponseBody;
@@ -22,7 +22,7 @@ public interface ApiInterface {
     Call<ResponseBody> login(@Body LoginModel loginModel);
 
     @POST("candidate/create/{authToken}")
-    Call<ResponseBody> postSignUp(@Body PostSignUpModel postSignUpModel, @Path("authToken") String auth_code);
+    Call<ResponseBody> postSignUp(@Body CandidateProfileModel candidateProfileModel, @Path("authToken") String auth_code);
 
     @POST("api/createProfileCompany/{authToken}")
     Call<ResponseBody> addNewJobOpening(@Body JobOpeningModel jobOpeningModel, @Path("authToken") String auth_code);
@@ -35,4 +35,8 @@ public interface ApiInterface {
 
     @PUT("api/createProfileCompany/{authToken}")
     Call<ResponseBody> updateJobOpening(@Body JobOpeningModel jobOpeningModel, @Path("authToken") String auth_code);
+
+    @GET("candidate/display/{authToken}")
+    Call<ResponseBody> getCandidateProfile(@Path("authToken") String auth_code);
+
 }

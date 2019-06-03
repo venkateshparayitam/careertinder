@@ -1,7 +1,7 @@
 package com.softwaregiants.careertinder.utilities;
 
 public interface Constants {
-    String BASE_URL = "http://192.168.1.102:8080/" ;
+    String BASE_URL = "http://192.168.1.109:8080/" ;
 
     //API Methods
     String API_METHOD_LOGIN = "login";
@@ -10,6 +10,7 @@ public interface Constants {
     String API_METHOD_POST_SIGNUP = "post_signup";
     String API_METHOD_GET_JOB_OPENINGS = "get_job_list";
     String API_METHOD_EDIT_JOB_OPENING = "edit_job_opening";
+    String API_METHOD_GET_CANDIDATE_PROFILE = "GET_CANDIDATE_PROFILE";
 
     //Success Codes
     String SC_JOB_CREATED_SUCCESS = "job_opening_created";

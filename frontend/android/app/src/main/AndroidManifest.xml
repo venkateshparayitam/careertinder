@@ -19,6 +19,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activities.EditJobOpeningActivity"></activity>
         <activity android:name=".activities.JobOpeningsListActivity" />
+        <activity android:name=".activities.EditCandidateProfile" />
         <activity android:name=".activities.CompanyDashboardActivity" />
         <activity android:name=".activities.CandidateDashboardActivity" />
         <activity android:name=".activities.SplashActivity">
