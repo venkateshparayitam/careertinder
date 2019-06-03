@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.CandidateListModel;
 import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
@@ -64,13 +65,22 @@ public class RetrofitClient implements Callback<ResponseBody> {
                 String rawResponse = response.body().string();
                 Log.i(TAG, "onResponse: JSON\n\n" + rawResponse + "\n\n"  );
                 BaseBean baseBean = new Gson().fromJson( rawResponse, BaseBean.class);
+                if ( baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE) ) {
+                    mApiResponseCallBack.onSuccess(baseBean);
+                    return;
+                }
+                else if ( baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES) ) {
+                    CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
+                    mApiResponseCallBack.onSuccess(candidateListModel);
+                    return;
+                }
                 switch (baseBean.getApiMethod()) {
                     case Constants.API_METHOD_LOGIN: {
                         LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
                         mApiResponseCallBack.onSuccess(loginSuccessModel);
                         break;
                     }
-                    case Constants.API_METHOD_SIGNUP: {
+                    case Constants.API_METHOD_SIGN_UP: {
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
                     }
