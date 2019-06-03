@@ -64,7 +64,7 @@ public class ApplicantController {
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
 	    		    	user_with_token.setProfcreated("Yes");
-	    		    	user_repository.save(user_with_token);
+	    		    	user_repository.save(user_with_token); 
 	    		    	
 	    		    	response.setAuth_token(token);
 	    		    	response.setResponse_code("Success");
@@ -149,6 +149,8 @@ public class ApplicantController {
 	    	if (!profiles.isEmpty()) {
 	    	 
 	    		for (CTApplicantEntity student : profiles) {
+	    			
+	    	    try {
 	    		
 	    		databaseApplicant.setName(student.getUser().getName());
 	    		databaseApplicant.setWorkexperience(student.getWorkexperience());
@@ -169,6 +171,13 @@ public class ApplicantController {
 		    	
 		    	student_info.add(databaseApplicant);
 		    	applicant_response.setApplicant_profiles(student_info);
+		    	
+	    	       }catch (Exception e) {
+	    	    	   applicant_response.setApi_method("/candidate/all");
+	    		       applicant_response.setResponse_code("Failed");
+	    		       applicant_response.setResponse_message("Something went wrong." + e);
+	    			   return applicant_response;
+	    	       }
 	    		
 	         	}
 	    		applicant_response.setApi_method("/candidate/all");
