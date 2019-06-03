@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.networking;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.softwaregiants.careertinder.models.BaseBean;
@@ -25,6 +26,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     private ApiResponseCallback mApiResponseCallBack;
     public ApiInterface mApiInterface;
     private String TAG = RetrofitClient.class.getSimpleName();
+    private Context mContext;
 
     public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack, Context preferenceContext) {
         if ( retrofit == null ) {
@@ -44,6 +46,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
         RetrofitClient mRetrofitClient = new RetrofitClient();
         mRetrofitClient.mApiInterface = retrofit.create(ApiInterface.class);
         mRetrofitClient.mApiResponseCallBack = mApiResponseCallBack;
+        mRetrofitClient.mContext = preferenceContext;
         return mRetrofitClient;
     }
 
@@ -73,6 +76,9 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                         mApiResponseCallBack.onSuccess(jobOpeningsListModel);
                         break;
+                    case Constants.API_METHOD_EDIT_JOB_OPENING:
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        break;
                     default:{
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
@@ -81,6 +87,8 @@ public class RetrofitClient implements Callback<ResponseBody> {
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }
+        } else {
+            Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -88,6 +96,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, t.toString());
         mApiResponseCallBack.onFailure(t);
+        Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
     }
 
 }

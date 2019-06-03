@@ -6,7 +6,7 @@ public class PostSignUpModel extends BaseBean {
 
     private String university;
 
-    @SerializedName("highereducation")
+    @SerializedName("qualification")
     private String highest_education;
 
     @SerializedName("workexperience")
@@ -23,11 +23,13 @@ public class PostSignUpModel extends BaseBean {
 
     private String address;
 
+    @SerializedName("bio")
     private String aboutme;
 
     @SerializedName("dob")
     private String dateBirth;
 
+    @SerializedName("nationality")
     private String place;
 
     @SerializedName("eu")
@@ -41,9 +43,6 @@ public class PostSignUpModel extends BaseBean {
 
     @SerializedName("secondlanguage")
     private String second_language;
-
-    @SerializedName("nationality")
-    private String nationality;
 
 
     public String getUniversity() { return university; }
@@ -103,13 +102,5 @@ public class PostSignUpModel extends BaseBean {
 
     public void setSecond_language(String second_language) {
         this.second_language = second_language;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".activities.JobOpeningsListActivity">
 
     <TextView
@@ -28,8 +29,25 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="60dp"
-        android:background="@android:color/white"
+        android:background="@color/colorAccent"
         android:foregroundGravity="center_horizontal"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TVJobOpenings" />
+
+    <TextView
+        android:id="@+id/TVNoItems"
+        android:text="No Jobs Created."
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="60dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:gravity="center"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,13 +56,19 @@
 
     <Button
         android:id="@+id/addJobOpeningBtn"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_btn"
         android:text="@string/addNewJobOpeningText"
+        android:padding="10dp"
         android:textColor="#F2F2F2"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:drawableTint="@color/colorWhite"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

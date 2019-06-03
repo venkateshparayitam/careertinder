@@ -6,9 +6,10 @@
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp">
+        android:padding="4dp">
 
         <ImageView
             android:id="@+id/IVJobOpening"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/IVJobOpening"
+            android:textColor="@color/colorWhite"
             android:paddingLeft="8dp"
             android:text="@string/jobTitleText"
             android:textSize="20sp"
@@ -32,8 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/TVJobTitle"
+            android:textColor="@color/colorWhite"
             android:layout_toEndOf="@+id/IVJobOpening"
-            android:drawableStart="@drawable/baseline_my_location_black_24"
+            android:drawableStart="@drawable/baseline_place_white_24"
+            android:drawablePadding="5dp"
             android:paddingLeft="4dp"
             android:text="@string/placeOfWorkText" />
 
@@ -42,8 +46,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/TVPlaceOfWork"
+            android:drawablePadding="5dp"
             android:layout_toEndOf="@id/IVJobOpening"
-            android:drawableStart="@drawable/baseline_assignment_ind_black_24"
+            android:textColor="@color/colorWhite"
+            android:drawableStart="@drawable/baseline_whatshot_white_24"
             android:paddingLeft="4dp"
             android:text="Preferred Skill" />
 
@@ -51,9 +57,11 @@
             android:id="@+id/imageButtonEdit"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_alignParentRight="true"
-            android:background="#FFFFFF"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
+            android:background="#00FFFFFF"
+            app:srcCompat="@android:drawable/ic_menu_edit"
+            android:drawableTint="@color/colorWhite" />
 
         <ImageButton
             android:id="@+id/imageButtonDelete"
@@ -61,8 +69,9 @@
             android:layout_height="40dp"
             android:layout_below="@id/imageButtonEdit"
             android:layout_alignParentRight="true"
-            android:background="#FFFFFF"
-            app:srcCompat="@android:drawable/ic_menu_delete" />
+            android:background="#00FFFFFF"
+            app:srcCompat="@android:drawable/ic_menu_delete"
+            android:drawableTint="@color/colorWhite" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

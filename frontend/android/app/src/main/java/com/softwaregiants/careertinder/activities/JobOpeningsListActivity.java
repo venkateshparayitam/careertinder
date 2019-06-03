@@ -2,13 +2,14 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
@@ -19,6 +20,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 
 public class JobOpeningsListActivity extends AppCompatActivity {
@@ -36,6 +38,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private JobOpeningsListModel jobOpeningsListModel;
+    TextView TVNoItems;
 
     Intent companyDashboardIntent;
     Intent editJobOpeningIntent;
@@ -60,8 +63,11 @@ public class JobOpeningsListActivity extends AppCompatActivity {
 
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
+        TVNoItems = findViewById(R.id.TVNoItems);
 
-        mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+        if ( UtilityMethods.isConnected(mContext) ) {
+            mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+        }
     }
 
     public void buildRV(){
@@ -95,7 +101,11 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                buildRV();
+                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
+                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
+                    TVNoItems.setVisibility(View.INVISIBLE);
+                    buildRV();
+                }
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -104,7 +114,6 @@ public class JobOpeningsListActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 

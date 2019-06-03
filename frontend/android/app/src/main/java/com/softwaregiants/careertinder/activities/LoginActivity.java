@@ -17,6 +17,7 @@ import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
                     if (loginSuccessModel.getIs_profile_created().equalsIgnoreCase("no")) {
-                        nextIntent = new Intent(mContext, PostSignup.class);
+                        nextIntent = new Intent(mContext, CreateCandidateProfileActivity.class);
                     } else {
                         PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
                         nextIntent = new Intent(mContext, CandidateDashboardActivity.class);
@@ -100,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Throwable t) {
-            Toast.makeText(mContext,t.getMessage(),Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view){
-        Intent i = new Intent(this, SignUp.class);
+        Intent i = new Intent(this, SignUpActivity.class);
         startActivity(i);
     }
 
@@ -141,8 +141,10 @@ public class LoginActivity extends AppCompatActivity {
         else {
             loginModel = new LoginModel();
             loginModel.setEmailid(usernameText);
-            loginModel.setPassword(passwordText);
-            mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+            loginModel.setPassword(UtilityMethods.sha1Hash(passwordText));
+            if ( UtilityMethods.isConnected(mContext) ) {
+                mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+            }
         }
     }
 }
