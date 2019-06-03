@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -120,8 +121,17 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            startActivity(nextActivity);
-            finish();
+            startActivityForResult(nextActivity,Constants.NEED_RESULT_JOB_OPENING_CREATION);
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if ( UtilityMethods.isConnected(mContext) ) {
+                mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+            }
+        }
+    }
 }
