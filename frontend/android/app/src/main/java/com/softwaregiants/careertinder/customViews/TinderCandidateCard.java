@@ -21,7 +21,7 @@ import com.mindorks.placeholderview.annotations.swipe.SwipeView;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.callback.BaseListener;
-import com.softwaregiants.careertinder.models.JobOpeningModel;
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
 
 /**
  * Created by janisharali on 19/08/16.
@@ -60,28 +60,28 @@ public class TinderCandidateCard {
     @SwipeView
     android.view.View view;
 
-    JobOpeningModel jobOpeningModel;
+    CandidateProfileModel candidateProfileModel;
     int pos;
     BaseListener mBaseListener;
 
     private TinderCandidateCard() {}
 
-    public TinderCandidateCard(JobOpeningModel jobOpeningModel, BaseListener mBaseListener, int pos) {
-        this.jobOpeningModel = jobOpeningModel;
+    public TinderCandidateCard(CandidateProfileModel candidateProfileModel, BaseListener mBaseListener, int pos) {
+        this.candidateProfileModel = candidateProfileModel;
         this.pos = pos;
         this.mBaseListener = mBaseListener;
     }
 
     @Resolve
     public void onResolve() {
-        TVName.setText("Company: " + jobOpeningModel.getCompanyName());
-        TVJobTitle.setText("Job Title: " + jobOpeningModel.getJobTitle());
-        TVQualification.setText("Qualification: " + jobOpeningModel.getDesiredQualification());
-        TVCity.setText("City: " + jobOpeningModel.getPlaceOfWork());
-        TVSkill1.setText("Skill 1: " + jobOpeningModel.getSkill1());
-        TVSkill2.setText("Skill 2: " + jobOpeningModel.getSkill2());
-        TVSkill3.setText("Skill 3: " + jobOpeningModel.getSkill3());
-        TVWorkEx.setText("Required Work Exp: " + jobOpeningModel.getDesiredWorkExperience() + " months");
+        TVName.setText("Name: " + candidateProfileModel.getName());
+        TVJobTitle.setVisibility(android.view.View.INVISIBLE);
+        TVQualification.setText("Qualification: " + candidateProfileModel.getHighest_education());
+        TVCity.setText("City: " + candidateProfileModel.getPlace());
+        TVSkill1.setText("Skill 1: " + candidateProfileModel.getSkill_one());
+        TVSkill2.setText("Skill 2: " + candidateProfileModel.getSkill_two());
+        TVSkill3.setText("Skill 3: " + candidateProfileModel.getSkill_three());
+        TVWorkEx.setText("Required Work Exp: " + candidateProfileModel.getWork_experience() + " months");
     }
 
     @SwipeOut

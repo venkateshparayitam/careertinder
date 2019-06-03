@@ -6,15 +6,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.softwaregiants.careertinder.R;
-import com.softwaregiants.careertinder.models.JobOpeningModel;
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
 
 public class CandidateDetailActivity extends BaseActivity {
 
-    JobOpeningModel jobOpeningModel;
+    CandidateProfileModel candidateProfileModel;
 
     ImageView picture;
     TextView TVCompanyName;
-    TextView TVJobTitle;
     TextView TVJobDescription;
 
     TextView TVDesiredQualification;
@@ -31,8 +30,8 @@ public class CandidateDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_detail);
-        jobOpeningModel = getIntent().getParcelableExtra("job");
+        setContentView(R.layout.activity_candidate_detail);
+        candidateProfileModel = getIntent().getParcelableExtra("job");
         init();
     }
 
@@ -48,7 +47,6 @@ public class CandidateDetailActivity extends BaseActivity {
 
         picture = findViewById(R.id.picture);
         TVCompanyName = findViewById(R.id.TVCompanyName);
-        TVJobTitle = findViewById(R.id.TVJobTitle);
         TVJobDescription = findViewById(R.id.TVJobDescription);
 
         TVDesiredQualification = findViewById(R.id.TVDesiredQualification);
@@ -62,20 +60,19 @@ public class CandidateDetailActivity extends BaseActivity {
         TVLanguage1 = findViewById(R.id.TVLanguage1);
         TVLanguage2 = findViewById(R.id.TVLanguage2);
 
-        TVCompanyName.setText(jobOpeningModel.getCompanyName());
-        TVJobTitle.setText(jobOpeningModel.getJobTitle());
-        TVJobDescription.setText(jobOpeningModel.getJobDescription());
+        TVCompanyName.setText(candidateProfileModel.getName());
+        TVJobDescription.setText(candidateProfileModel.getAboutme());
 
-        TVDesiredQualification.setText(jobOpeningModel.getDesiredQualification());
-        TVDesiredWorkExperience.setText(jobOpeningModel.getDesiredWorkExperience() + "months");
-        TVPlaceOfWork.setText(jobOpeningModel.getPlaceOfWork());
+        TVDesiredQualification.setText(candidateProfileModel.getHighest_education());
+        TVDesiredWorkExperience.setText(candidateProfileModel.getWork_experience() + "months");
+        TVPlaceOfWork.setText(candidateProfileModel.getPlace());
 
-        TVSkill1.setText(jobOpeningModel.getSkill1());
-        TVSkill2.setText(jobOpeningModel.getSkill2());
-        TVSkill3.setText(jobOpeningModel.getSkill3());
+        TVSkill1.setText(candidateProfileModel.getSkill_one());
+        TVSkill2.setText(candidateProfileModel.getSkill_two());
+        TVSkill3.setText(candidateProfileModel.getSkill_three());
 
-        TVLanguage1.setText(jobOpeningModel.getPreferredlanguage1());
-        TVLanguage2.setText(jobOpeningModel.getPreferredlanguage2());
+        TVLanguage1.setText(candidateProfileModel.getFirst_language());
+        TVLanguage2.setText(candidateProfileModel.getSecond_language());
 
     }
 }

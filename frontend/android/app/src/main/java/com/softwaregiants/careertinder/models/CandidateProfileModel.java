@@ -1,10 +1,15 @@
 package com.softwaregiants.careertinder.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class CandidateProfileModel extends BaseBean {
+public class CandidateProfileModel extends BaseBean implements Parcelable {
 
     private String university;
+
+    private String Name;
 
     @SerializedName("qualification")
     private String highest_education;
@@ -44,6 +49,38 @@ public class CandidateProfileModel extends BaseBean {
     @SerializedName("secondlanguage")
     private String second_language;
 
+    public  CandidateProfileModel () {}
+
+    protected CandidateProfileModel(Parcel in) {
+        university = in.readString();
+        Name = in.readString();
+        highest_education = in.readString();
+        work_experience = in.readString();
+        skill_one = in.readString();
+        skill_two = in.readString();
+        skill_three = in.readString();
+        address = in.readString();
+        aboutme = in.readString();
+        dateBirth = in.readString();
+        place = in.readString();
+        byte tmpEu_citizen = in.readByte();
+        eu_citizen = tmpEu_citizen == 0 ? null : tmpEu_citizen == 1;
+        additional_skill = in.readString();
+        first_language = in.readString();
+        second_language = in.readString();
+    }
+
+    public static final Creator<CandidateProfileModel> CREATOR = new Creator<CandidateProfileModel>() {
+        @Override
+        public CandidateProfileModel createFromParcel(Parcel in) {
+            return new CandidateProfileModel(in);
+        }
+
+        @Override
+        public CandidateProfileModel[] newArray(int size) {
+            return new CandidateProfileModel[size];
+        }
+    };
 
     public String getUniversity() { return university; }
     public void setUniversity(String university) { this.university = university; }
@@ -102,5 +139,37 @@ public class CandidateProfileModel extends BaseBean {
 
     public void setSecond_language(String second_language) {
         this.second_language = second_language;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(university);
+        dest.writeString(Name);
+        dest.writeString(highest_education);
+        dest.writeString(work_experience);
+        dest.writeString(skill_one);
+        dest.writeString(skill_two);
+        dest.writeString(skill_three);
+        dest.writeString(address);
+        dest.writeString(aboutme);
+        dest.writeString(dateBirth);
+        dest.writeString(place);
+        dest.writeByte((byte) (eu_citizen == null ? 0 : eu_citizen ? 1 : 2));
+        dest.writeString(additional_skill);
+        dest.writeString(first_language);
+        dest.writeString(second_language);
     }
 }

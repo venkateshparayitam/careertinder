@@ -14,8 +14,8 @@ import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.callback.BaseListener;
 import com.softwaregiants.careertinder.customViews.TinderCandidateCard;
 import com.softwaregiants.careertinder.models.BaseBean;
-import com.softwaregiants.careertinder.models.JobOpeningModel;
-import com.softwaregiants.careertinder.models.JobOpeningsListModel;
+import com.softwaregiants.careertinder.models.CandidateListModel;
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.utilities.Constants;
@@ -29,7 +29,7 @@ public class CompanyDashboardActivity extends BaseActivity {
 
     private SwipePlaceHolderView swipePlaceHolderView;
 //  TODO
-    List<JobOpeningModel> jobOpeningModelList;
+    List<CandidateProfileModel> candidateProfileModelList;
     private RetrofitClient mRetrofitClient;
     int items = 0;
 
@@ -47,7 +47,7 @@ public class CompanyDashboardActivity extends BaseActivity {
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+            mRetrofitClient.mApiInterface.getMatchedCandidates().enqueue(mRetrofitClient);
         }
     }
 
@@ -55,7 +55,7 @@ public class CompanyDashboardActivity extends BaseActivity {
         @Override
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
-                jobOpeningModelList = ((JobOpeningsListModel) baseBean).getJobOpeningModelList();
+                candidateProfileModelList = ((CandidateListModel) baseBean).getApplicantProfiles();
                 addNextItems(10);
             }
             else {
@@ -104,10 +104,10 @@ public class CompanyDashboardActivity extends BaseActivity {
 
     private void addNextItems(int count) {
         int iterator = 1;
-        JobOpeningModel jobOpeningModel;
-        while ( iterator <= count && items < jobOpeningModelList.size() ) {
-            jobOpeningModel = jobOpeningModelList.get(items);
-            swipePlaceHolderView.addView(new TinderCandidateCard(jobOpeningModel,
+        CandidateProfileModel candidateProfileModel;
+        while ( iterator <= count && items < candidateProfileModelList.size() ) {
+            candidateProfileModel = candidateProfileModelList.get(items);
+            swipePlaceHolderView.addView(new TinderCandidateCard(candidateProfileModel,
                     mBaseListener, items));
             iterator++;
             items++;
@@ -120,9 +120,9 @@ public class CompanyDashboardActivity extends BaseActivity {
         public void callback(ACTION_PERFORMED action, int pos, Object... args) {
             switch (action) {
                 case JOB_CLICK:
-                    JobOpeningModel jobOpeningModel = jobOpeningModelList.get(pos);
+                    CandidateProfileModel candidateProfileModel = candidateProfileModelList.get(pos);
                     Intent jobDetail = new Intent(mContext,JobDetailActivity.class);
-                    jobDetail.putExtra("job",jobOpeningModelList.get(pos));
+                    jobDetail.putExtra("job", candidateProfileModelList.get(pos));
                     mContext.startActivity( jobDetail );
                     break;
             }
