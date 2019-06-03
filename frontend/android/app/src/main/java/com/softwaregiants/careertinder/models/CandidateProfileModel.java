@@ -2,7 +2,7 @@ package com.softwaregiants.careertinder.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostSignUpModel extends BaseBean {
+public class CandidateProfileModel extends BaseBean {
 
     private String university;
 
@@ -26,7 +26,7 @@ public class PostSignUpModel extends BaseBean {
     @SerializedName("bio")
     private String aboutme;
 
-    @SerializedName("dob")
+    @SerializedName("birthday")
     private String dateBirth;
 
     @SerializedName("nationality")

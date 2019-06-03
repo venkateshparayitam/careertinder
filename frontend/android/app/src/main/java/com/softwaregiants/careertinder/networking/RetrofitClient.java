@@ -1,11 +1,13 @@
 package com.softwaregiants.careertinder.networking;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
@@ -27,6 +29,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public ApiInterface mApiInterface;
     private String TAG = RetrofitClient.class.getSimpleName();
     private Context mContext;
+    private ProgressDialog progressDialog;
 
     public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack, Context preferenceContext) {
         if ( retrofit == null ) {
@@ -50,8 +53,11 @@ public class RetrofitClient implements Callback<ResponseBody> {
         return mRetrofitClient;
     }
 
+
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if (progressDialog != null)
+            progressDialog.dismiss();
         if (response.isSuccessful()) {
             Log.d(TAG, response.toString());
             try {
@@ -79,6 +85,10 @@ public class RetrofitClient implements Callback<ResponseBody> {
                     case Constants.API_METHOD_EDIT_JOB_OPENING:
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
+                    case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
+                        GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
+                        mApiResponseCallBack.onSuccess(candidateProfileModel);
+                        break;
                     default:{
                         mApiResponseCallBack.onSuccess(baseBean);
                         break;
@@ -97,6 +107,17 @@ public class RetrofitClient implements Callback<ResponseBody> {
         Log.e(TAG, t.toString());
         mApiResponseCallBack.onFailure(t);
         Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
+        if (progressDialog != null)
+            progressDialog.dismiss();
+    }
+
+    public void createProgressBar(Context context) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setProgress(0);
+        progressDialog.show();
     }
 
 }

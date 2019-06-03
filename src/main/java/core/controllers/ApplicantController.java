@@ -65,7 +65,8 @@ public class ApplicantController {
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
-	    		    	user_repository.updateUserProfCreation(user_with_token.getEmailid(), "Yes");;
+	    		    	user_with_token.setProfcreated("Yes");
+	    		    	user_repository.save(user_with_token);
 	    		    	
 	    		    	response.setAuth_token(token);
 	    		    	response.setResponse_code("Success");

@@ -40,7 +40,7 @@ public class CTUserEntity implements Serializable {
 	@Column(name = "authtoken", updatable = false, nullable = true)
 	private String authtoken;
 	
-	@Column(name = "profcreated", updatable = false, nullable = true)
+	@Column(name = "profcreated", nullable = true)
 	private String profcreated;
 
 	
@@ -126,8 +126,6 @@ public class CTUserEntity implements Serializable {
 
 	public void setProfcreated(String profcreated) {
 		this.profcreated = profcreated;
-	}
-	
-	
+	}	
    
 }
