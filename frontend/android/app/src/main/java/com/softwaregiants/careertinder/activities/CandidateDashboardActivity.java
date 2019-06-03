@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.widget.Toast;
 
 import com.mindorks.placeholderview.SwipeDecor;
@@ -37,7 +36,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_dashboard);
-        addDrawer("Job Search");
+        addDrawer("Job Search",R.id.nav_job_search);
         init();
     }
 
@@ -129,13 +128,4 @@ public class CandidateDashboardActivity extends BaseActivity {
         }
     };
 
-    private int getActionBarHeight() {
-        int actionBarHeight = 0;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
-        }
-        actionBarHeight = UtilityMethods.dpToPx(actionBarHeight,mContext);
-        return actionBarHeight;
-    }
 }

@@ -162,7 +162,8 @@ public class AddNewJobOpening extends ImagePickerActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals(Constants.SC_JOB_CREATED_SUCCESS)){
                 Toast.makeText(mContext,"Job Opening Created", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(mContext,CompanyDashboardActivity.class));
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK,returnIntent);
                 finish();
             }
             else {

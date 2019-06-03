@@ -11,8 +11,8 @@
     <string name="userTypeText">I am:</string>
     <string name="studentText">a Job Seeker</string>
     <string name="companyText">an Employer</string>
-    <string name="addNewJobOpeningText">CREATE NEW</string>
-    <string name="updateJobOpening">UPDATE JOB OPENING</string>
+    <string name="addNewJobOpeningText">Add a job opening</string>
+    <string name="updateJobOpening">Update a job opening</string>
     <string name="createJobOpeningText">Create Job Opening!</string>
     <string name="jobTitleText">Job Title</string>
     <string name="desiredSkillsText">Desired Skills</string>

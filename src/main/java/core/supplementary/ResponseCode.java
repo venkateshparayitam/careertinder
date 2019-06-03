@@ -1,5 +1,6 @@
 package core.supplementary;
 
+import core.entities.CTApplicantEntity;
 import core.entities.CTCompanyEntity;
 import java.util.*;
 
@@ -15,6 +16,8 @@ public class ResponseCode{
     String api_method;
     String message;
     String is_profile_created;
+    String method;
+    CTApplicantEntity applicant = new CTApplicantEntity();
     
     ArrayList<CTCompanyEntity> joblist = new ArrayList<CTCompanyEntity>();
 
@@ -86,6 +89,16 @@ public class ResponseCode{
 	@JsonProperty
 	public void setIs_profile_created(String is_profile_created) {
 		this.is_profile_created = is_profile_created;
+	}
+
+	public CTApplicantEntity getApplicant() {
+		return applicant;
+	}
+
+	public void setApplicant(CTApplicantEntity applicant) {
+		this.applicant = applicant;
+
+		
 	}
 
 	

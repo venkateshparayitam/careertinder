@@ -22,6 +22,7 @@ import core.repositories.UserRepository;
 import core.services.ApplicantService;
 import core.supplementary.ApplicantWrapper;
 import core.supplementary.CandidateResponse;
+import core.supplementary.ResponseCode;
 
 /**
  * @author: Bora Bejleri
@@ -51,6 +52,7 @@ public class ApplicantController {
 	    		    	databaseApplicant.setBirthday(candidate.getBirthday());
 	    		    	databaseApplicant.setFirstskill(candidate.getFirstskill());
 	    		    	databaseApplicant.setSecondskill(candidate.getSecondskill());
+	    		    	databaseApplicant.setThirdskill(candidate.getThirdskill());
 	    		    	databaseApplicant.setAdditionalskill(candidate.getAdditionalskill());
 	    		    	databaseApplicant.setAddress(candidate.getAddress());
 	    		    	databaseApplicant.setBio(candidate.getBio());
@@ -84,6 +86,37 @@ public class ApplicantController {
 	    	
 	    	response.setMessage("Invalid job seeker data");
 	    	return response;	    	
+	    }
+	    
+	    @RequestMapping(path = "/candidate/display/{token}", method = RequestMethod.GET, produces = "application/json")
+	    public ResponseCode getCandidateDetails(@PathVariable(value = "token") String token) {
+			ResponseCode res = new ResponseCode();
+	    	
+	    		CTUserEntity user_with_token = user_repository.getByToken(token);
+	    		if (user_with_token != null) {
+	    			String email = user_with_token.getEmailid();
+	    			CTApplicantEntity databaseApplicant = applicant_repository.findByEmail(email);
+	    			if(databaseApplicant != null) {
+
+	    		    	res.setMethod("GET_CANDIDATE_PROFILE");
+	    		    	res.setApplicant(databaseApplicant);
+	    		    	res.setStatus_code("Success");
+	    		    	return res;
+	    			} 
+					else 
+					{
+					  res.setStatus_code("Failure");
+					  res.setMessage("Candidate does not exist");
+	    			  return res;
+					}
+	    			
+	    		}
+	    		res.setStatus_code("Failure");
+	    		res.setMessage("Token does not correspond to any candidate");
+  			    return res;
+	    	
+	    	
+	    	    	
 	    }
 //	    @RequestMapping(path = "/candidate/create", method = RequestMethod.POST, produces = "application/json")
 //	    public UserApplicantWrapper setCandidateDetails(@Valid @RequestBody UserApplicantWrapper candidate) {
