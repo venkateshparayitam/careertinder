@@ -36,16 +36,16 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name = "emailid", updatable = false, nullable = true)
 	private String emailid;
 	
-	@Column(name="work_experience", nullable = false)
+	@Column(name="work_experience", nullable = true)
 	private int workexperience;
 	
 	@Column(name="university", nullable = true)
 	private String university;
 	
-	@Column(name="eu_citizen")
+	@Column(name="eu_citizen", nullable = true)
 	private boolean eu = false;
 	
-	@Column(name="qualification")
+	@Column(name="qualification", nullable = true)
 	private String qualification;
 	
 	@Column(name="address", nullable = true)
@@ -69,10 +69,10 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="mother_tounge", nullable = true)
 	private String mothertounge;
 	
-	@Column(name="first_language")
+	@Column(name="first_language", nullable = true)
 	private String firstlanguage;
 	
-	@Column(name="second_language")
+	@Column(name="second_language", nullable = true)
 	private String secondlanguage;
 	
 	@Column(name="birthday", nullable = true)
