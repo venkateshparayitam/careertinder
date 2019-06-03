@@ -52,6 +52,7 @@ public class ApplicantController {
 	    		    	databaseApplicant.setBirthday(candidate.getBirthday());
 	    		    	databaseApplicant.setFirstskill(candidate.getFirstskill());
 	    		    	databaseApplicant.setSecondskill(candidate.getSecondskill());
+	    		    	databaseApplicant.setThirdskill(candidate.getThirdskill());
 	    		    	databaseApplicant.setAdditionalskill(candidate.getAdditionalskill());
 	    		    	databaseApplicant.setAddress(candidate.getAddress());
 	    		    	databaseApplicant.setBio(candidate.getBio());
@@ -96,18 +97,22 @@ public class ApplicantController {
 	    			CTApplicantEntity databaseApplicant = applicant_repository.findByEmail(email);
 	    			if(databaseApplicant != null) {
 
-	    		    	res.setMethod("Display");
+	    		    	res.setMethod("GET_CANDIDATE_PROFILE");
 	    		    	res.setApplicant(databaseApplicant);
+	    		    	res.setStatus_code("Success");
 	    		    	return res;
 	    			} 
 					else 
 					{
-					  res.setStatus_code("Candidate does not exist");
+					  res.setStatus_code("Failure");
+					  res.setMessage("Candidate does not exist");
 	    			  return res;
 					}
 	    			
-	    		}res.setStatus_code("Token does not correspond to any candidate");
-  			     return res;
+	    		}
+	    		res.setStatus_code("Failure");
+	    		res.setMessage("Token does not correspond to any candidate");
+  			    return res;
 	    	
 	    	
 	    	    	
