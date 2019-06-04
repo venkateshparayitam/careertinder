@@ -153,7 +153,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 return;
             }
             else{
-                JobOpeningModel jobOpeningModel = new JobOpeningModel();
+
                 jobOpeningModel.setCompanyName(CompanyName);
                 jobOpeningModel.setJobTitle(JobTitle);
                 jobOpeningModel.setJobDescription(JobDescription);
@@ -176,14 +176,8 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals(Constants.SC_JOB_CREATED_SUCCESS)){
-                Toast.makeText(mContext,"Job Opening Updated", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(mContext,CompanyDashboardActivity.class));
+                Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
                 finish();
-            }
-            else {
-                Toast.makeText(mContext, baseBean.getStatusCode(), Toast.LENGTH_SHORT).show();
-            }
         }
 
         @Override

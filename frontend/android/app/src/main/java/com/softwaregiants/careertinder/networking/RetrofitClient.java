@@ -65,43 +65,50 @@ public class RetrofitClient implements Callback<ResponseBody> {
                 String rawResponse = response.body().string();
                 Log.i(TAG, "onResponse: JSON\n\n" + rawResponse + "\n\n"  );
                 BaseBean baseBean = new Gson().fromJson( rawResponse, BaseBean.class);
-                if ( baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE) ) {
-                    mApiResponseCallBack.onSuccess(baseBean);
-                    return;
-                }
-                else if ( baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES) ) {
-                    CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
-                    mApiResponseCallBack.onSuccess(candidateListModel);
-                    return;
-                }
-                switch (baseBean.getApiMethod()) {
-                    case Constants.API_METHOD_LOGIN: {
-                        LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
-                        mApiResponseCallBack.onSuccess(loginSuccessModel);
-                        break;
+                if (baseBean.getStatusCode().equalsIgnoreCase(Constants.SC_SUCCESS)) {
+                    if (baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE)) {
+                        mApiResponseCallBack.onSuccess(baseBean);
+                        return;
+                    } else if (baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES)) {
+                        CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
+                        mApiResponseCallBack.onSuccess(candidateListModel);
+                        return;
                     }
-                    case Constants.API_METHOD_SIGN_UP: {
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
+                    switch (baseBean.getApiMethod()) {
+                        case Constants.API_METHOD_LOGIN: {
+                            LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
+                            mApiResponseCallBack.onSuccess(loginSuccessModel);
+                            break;
+                        }
+                        case Constants.API_METHOD_SIGN_UP: {
+                            mApiResponseCallBack.onSuccess(baseBean);
+                            break;
+                        }
+                        case Constants.API_METHOD_ADD_NEW_JOB_OPENING: {
+                            mApiResponseCallBack.onSuccess(baseBean);
+                            break;
+                        }
+                        case Constants.API_METHOD_GET_JOB_OPENINGS:
+                            JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
+                            mApiResponseCallBack.onSuccess(jobOpeningsListModel);
+                            break;
+                        case Constants.API_METHOD_EDIT_JOB_OPENING:
+                            mApiResponseCallBack.onSuccess(baseBean);
+                            break;
+                        case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
+                            GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
+                            mApiResponseCallBack.onSuccess(candidateProfileModel);
+                            break;
+                        default: {
+                            mApiResponseCallBack.onSuccess(baseBean);
+                            break;
+                        }
                     }
-                    case Constants.API_METHOD_ADD_NEW_JOB_OPENING: {
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    }
-                    case Constants.API_METHOD_GET_JOB_OPENINGS:
-                        JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
-                        mApiResponseCallBack.onSuccess(jobOpeningsListModel);
-                        break;
-                    case Constants.API_METHOD_EDIT_JOB_OPENING:
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
-                        GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
-                        mApiResponseCallBack.onSuccess(candidateProfileModel);
-                        break;
-                    default:{
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
+                } else {
+                    if (!baseBean.getErrorMsg().isEmpty() && null != baseBean.getErrorMsg()) {
+                        Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {

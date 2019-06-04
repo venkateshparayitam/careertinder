@@ -7,8 +7,49 @@ import com.google.gson.annotations.SerializedName;
 
 public class JobOpeningModel implements Parcelable {
 
-    @SerializedName("id")
+    @SerializedName("jobid")
     private String jobId;
+
+    @SerializedName("id")
+    private String userId;
+
+    public JobOpeningModel() {}
+
+    protected JobOpeningModel(Parcel in) {
+        jobId = in.readString();
+        userId = in.readString();
+        companyName = in.readString();
+        jobTitle = in.readString();
+        jobDescription = in.readString();
+        desiredQualification = in.readString();
+        desiredWorkExperience = in.readString();
+        placeOfWork = in.readString();
+        skill1 = in.readString();
+        skill2 = in.readString();
+        skill3 = in.readString();
+        preferredLanguage1 = in.readString();
+        preferredLanguage2 = in.readString();
+    }
+
+    public static final Creator<JobOpeningModel> CREATOR = new Creator<JobOpeningModel>() {
+        @Override
+        public JobOpeningModel createFromParcel(Parcel in) {
+            return new JobOpeningModel(in);
+        }
+
+        @Override
+        public JobOpeningModel[] newArray(int size) {
+            return new JobOpeningModel[size];
+        }
+    };
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     @SerializedName("companyname")
     private String companyName;
@@ -39,23 +80,6 @@ public class JobOpeningModel implements Parcelable {
 
     @SerializedName("preferedlanguage2")
     private String preferredLanguage2;
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<JobOpeningModel> CREATOR = new Creator<JobOpeningModel>() {
-        @Override
-        public JobOpeningModel createFromParcel(Parcel in) {
-            return new JobOpeningModel(in);
-        }
-
-        @Override
-        public JobOpeningModel[] newArray(int size) {
-            return new JobOpeningModel[size];
-        }
-    };
 
     public String getJobId() {
         return jobId;
@@ -161,36 +185,25 @@ public class JobOpeningModel implements Parcelable {
         this.preferredLanguage2 = preferredLanguage2;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(companyName);
-        dest.writeString(jobTitle);
-        dest.writeString(jobDescription);
-        dest.writeString(desiredQualification);
-        dest.writeString(desiredWorkExperience);
-        dest.writeString(placeOfWork);
-        dest.writeString(skill1);
-        dest.writeString(skill2);
-        dest.writeString(skill3);
-        dest.writeString(preferredLanguage1);
-        dest.writeString(preferredLanguage2);
-    }
-
-    public JobOpeningModel() {
-    }
-
-    protected JobOpeningModel(Parcel in) {
-        companyName = in.readString();
-        jobTitle = in.readString();
-        jobDescription = in.readString();
-        desiredQualification = in.readString();
-        desiredWorkExperience = in.readString();
-        placeOfWork = in.readString();
-        skill1 = in.readString();
-        skill2 = in.readString();
-        skill3 = in.readString();
-        preferredLanguage1 = in.readString();
-        preferredLanguage2 = in.readString();
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(jobId);
+        parcel.writeString(userId);
+        parcel.writeString(companyName);
+        parcel.writeString(jobTitle);
+        parcel.writeString(jobDescription);
+        parcel.writeString(desiredQualification);
+        parcel.writeString(desiredWorkExperience);
+        parcel.writeString(placeOfWork);
+        parcel.writeString(skill1);
+        parcel.writeString(skill2);
+        parcel.writeString(skill3);
+        parcel.writeString(preferredLanguage1);
+        parcel.writeString(preferredLanguage2);
     }
 }
