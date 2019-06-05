@@ -3,9 +3,7 @@ package com.softwaregiants.careertinder.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,7 +22,7 @@ import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 
-public class JobOpeningsListActivity extends AppCompatActivity {
+public class JobOpeningsListActivity extends BaseActivity {
 
 
     private Button btn;
@@ -69,6 +67,7 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         if ( UtilityMethods.isConnected(mContext) ) {
             mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
         }
+        addDrawer("Your Vacancies",0);
     }
 
     public void buildRV(){
@@ -82,12 +81,14 @@ public class JobOpeningsListActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new JobOpeningsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()));
+                startActivityForResult(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()),
+                        Constants.NEED_RESULT_COMPANY_DASHBOARD);
             }
 
             @Override
             public void onEditClick(int position) {
-                startActivity(editJobOpeningIntent.putExtra("jobOpeningObject", (Parcelable) jobOpeningsListModel.getJobOpeningModelList().get(position)));
+                startActivityForResult(editJobOpeningIntent.putExtra("jobOpeningObject", jobOpeningsListModel.getJobOpeningModelList().get(position)),
+                        Constants.NEED_RESULT_EDIT_COMPANY);
             }
 
             @Override
@@ -129,8 +130,19 @@ public class JobOpeningsListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if ( UtilityMethods.isConnected(mContext) ) {
-                mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+            switch (requestCode) {
+                case Constants.NEED_RESULT_EDIT_COMPANY:
+                case Constants.NEED_RESULT_JOB_OPENING_CREATION:
+                    if (UtilityMethods.isConnected(mContext)) {
+                        mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+                    }
+                    break;
+            }
+        } else {
+            switch (requestCode) {
+                case Constants.NEED_RESULT_EDIT_COMPANY:
+                case Constants.NEED_RESULT_COMPANY_DASHBOARD:
+                    finish();
             }
         }
     }

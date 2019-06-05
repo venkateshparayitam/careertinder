@@ -42,4 +42,6 @@ public interface Constants {
 
     //Activity result codes
     int NEED_RESULT_JOB_OPENING_CREATION = 12345;
+    int NEED_RESULT_EDIT_COMPANY = 12346;
+    int NEED_RESULT_COMPANY_DASHBOARD = 12347;
 }

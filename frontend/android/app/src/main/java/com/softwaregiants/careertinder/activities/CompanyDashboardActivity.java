@@ -37,7 +37,7 @@ public class CompanyDashboardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_dashboard);
-        addDrawer("",R.id.nav_candidates);
+        addDrawer("",0);
         init();
     }
 
@@ -128,4 +128,12 @@ public class CompanyDashboardActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
+        super.onBackPressed();
+    }
 }

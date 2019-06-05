@@ -47,7 +47,9 @@ class BaseActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 //        navigationView.setCheckedItem(R.id.nav_job_search);
-        navigationView.setCheckedItem(selection);
+        if (selection != 0) {
+            navigationView.setCheckedItem(selection);
+        }
         TVNavEmail.setText(PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_EMAIL, ""));
     }
 

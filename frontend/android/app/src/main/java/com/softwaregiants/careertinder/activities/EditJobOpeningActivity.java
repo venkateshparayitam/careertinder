@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +63,14 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     }
 
     public void init() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        getSupportActionBar().setTitle("Edit Vacancy");
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
 
         btn = findViewById(R.id.createJobOpeningBtn);
@@ -176,8 +185,10 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-                Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
-                finish();
+            Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
+            Intent returnIntent = new Intent();
+            setResult(RESULT_OK,returnIntent);
+            finish();
         }
 
         @Override
@@ -192,5 +203,23 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         } catch(NumberFormatException e){
             return false;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 }

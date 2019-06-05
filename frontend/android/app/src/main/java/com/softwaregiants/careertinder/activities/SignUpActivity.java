@@ -126,16 +126,12 @@ public class SignUpActivity extends AppCompatActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals("email_exists")){
-                Toast.makeText(mContext,"Account already exists with this email",Toast.LENGTH_SHORT).show();
-            }
-            else if (baseBean.getStatusCode().equals("account_created")) {
+            if (baseBean.getStatusCode().equals(Constants.SC_SUCCESS)) {
                 Toast.makeText(mContext,"Account Created",Toast.LENGTH_SHORT).show();
-//                if (signUpModel.getUserType().equals(Constants.USER_TYPE_JOB_SEEKER)) {
-//
-//                }
                 startActivity(new Intent(mContext,LoginActivity.class));
                 finish();
+            } else {
+                Toast.makeText(mContext,"Account already exists with this email",Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -105,7 +105,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         }
                     }
                 } else {
-                    if (!baseBean.getErrorMsg().isEmpty() && null != baseBean.getErrorMsg()) {
+                    if ( null != baseBean.getErrorMsg() && !baseBean.getErrorMsg().isEmpty() ) {
                         Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
