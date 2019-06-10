@@ -143,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
             loginModel.setEmailid(usernameText);
             loginModel.setPassword(UtilityMethods.sha1Hash(passwordText));
             if ( UtilityMethods.isConnected(mContext) ) {
+//                mRetrofitClient.createProgressBar(mContext);
                 mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
             }
         }

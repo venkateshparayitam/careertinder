@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.EditJobOpeningActivity"></activity>
+        <activity android:name=".activities.EditJobOpeningActivity" />
         <activity android:name=".activities.JobOpeningsListActivity" />
         <activity android:name=".activities.EditCandidateProfile" />
         <activity android:name=".activities.CompanyDashboardActivity" />
@@ -34,6 +34,7 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.CreateCandidateProfileActivity" />
         <activity android:name=".activities.JobDetailActivity" />
+        <activity android:name=".activities.CandidateDetailActivity" />
     </application>
 
 </manifest>

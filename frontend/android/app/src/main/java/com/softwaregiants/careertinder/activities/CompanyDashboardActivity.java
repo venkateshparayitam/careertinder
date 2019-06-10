@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindorks.placeholderview.SwipeDecor;
@@ -31,6 +32,7 @@ public class CompanyDashboardActivity extends BaseActivity {
 //  TODO
     List<CandidateProfileModel> candidateProfileModelList;
     private RetrofitClient mRetrofitClient;
+    TextView TVNoItems;
     int items = 0;
 
     @Override
@@ -44,6 +46,7 @@ public class CompanyDashboardActivity extends BaseActivity {
     private void init() {
         mContext = this;
         swipePlaceHolderView = findViewById(R.id.swipeView);
+        TVNoItems = findViewById(R.id.TVNoItems);
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
@@ -56,7 +59,9 @@ public class CompanyDashboardActivity extends BaseActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 candidateProfileModelList = ((CandidateListModel) baseBean).getApplicantProfiles();
-                addNextItems(10);
+                if ( null != candidateProfileModelList && !candidateProfileModelList.isEmpty()) {
+                    addNextItems(10);
+                }
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -81,6 +86,9 @@ public class CompanyDashboardActivity extends BaseActivity {
 //                if(count < 3){
 //                    addNextItems(5);
 //                }
+                if ( items == candidateProfileModelList.size() ) {
+//                    TVNoItems.setVisibility(View.VISIBLE);
+                }
             }
         });
         swipePlaceHolderView.getBuilder()
@@ -120,8 +128,7 @@ public class CompanyDashboardActivity extends BaseActivity {
         public void callback(ACTION_PERFORMED action, int pos, Object... args) {
             switch (action) {
                 case JOB_CLICK:
-                    CandidateProfileModel candidateProfileModel = candidateProfileModelList.get(pos);
-                    Intent jobDetail = new Intent(mContext,JobDetailActivity.class);
+                    Intent jobDetail = new Intent(mContext,CandidateDetailActivity.class);
                     jobDetail.putExtra("job", candidateProfileModelList.get(pos));
                     mContext.startActivity( jobDetail );
                     break;

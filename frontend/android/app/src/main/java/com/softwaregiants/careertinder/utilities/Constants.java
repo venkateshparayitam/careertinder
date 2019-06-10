@@ -1,7 +1,7 @@
 package com.softwaregiants.careertinder.utilities;
 
 public interface Constants {
-    String BASE_URL = "http://192.168.1.102:8080/" ;
+    String BASE_URL = "https://career-tinder.cfapps.io/" ;
 
     //API Methods
     String API_METHOD_LOGIN = "login";
