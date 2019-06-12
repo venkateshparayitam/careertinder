@@ -4,6 +4,7 @@
 	<class>core.entities.CTApplicantEntity</class>
 	<class>core.entities.CTUserEntity</class>
 	<class>core.entities.CTCompanyEntity</class>
+	<class>core.entities.CTMatchingEntity</class>
 		<properties>
 		<property name="eclipselink.logging.level" value="FINE"/>
 		<property name="eclipselink.logging.parameters" value="true"/>

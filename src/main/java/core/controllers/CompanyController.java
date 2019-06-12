@@ -47,21 +47,27 @@ public class CompanyController {
 				company.setUser_company(user);
 				company_repository.save(company);
 				
+				
 			}
 			else
 			{
-				response_fail.setStatus_code("Job not found");
+				response_fail.setStatus_code("Fail");
+				response_fail.setMessage("Job not found");
+				response_fail.setMethod("add_job_opening");
 				return response_fail;
 			}
 		}
 		catch(Exception ex)
 		{
-			response_fail.setStatus_code("job not found");
+			response_fail.setStatus_code("Fail");
+			response_fail.setMessage("Job not found");
 			response_fail.setMethod("add_job_opening");
 			return response_fail;
 		}
 		
-		response_success.setStatus_code("job_opening_created");
+		
+		response_success.setStatus_code("Success");
+		response_fail.setMessage("Job created");
 		response_success.setMethod("add_job_opening");
 		return response_success;
 	}
@@ -97,7 +103,8 @@ public class CompanyController {
 		}
 		catch(Exception ex)
 		{
-			response_joblist.setStatus_code("job not found");
+			response_joblist.setStatus_code("Fail");
+			response_joblist.setMessage("Job not found");
 			response_joblist.setMethod("get_job_list");
 			return response_joblist;
 		}
@@ -121,5 +128,86 @@ public class CompanyController {
 			}
 			return response_get_all_jobs;
 	}
+	
+	@PutMapping(path ="/updateJobsCompany/{authtoken}", produces = "application/json")
+	public ResponseCode updateJobsCompany(@PathVariable(value = "authtoken") String authtoken, @Valid @RequestBody CTCompanyEntity company) {
+		
+		ResponseCode response_updatejob = new ResponseCode();
+		
+		//debug purpose
+		ArrayList <CTCompanyEntity> companylist = new ArrayList<CTCompanyEntity>();
+		//end
+		
+		CTCompanyEntity updateCompany;
+	      
+		CTUserEntity user = new CTUserEntity();
+		
+		
+		try
+		{
+			user = user_repository.getByToken(authtoken);
+			
+			if (user != null)
+				
+			{	
+				
+				
+				updateCompany = company_repository.getJobById(company.getJobid());
+				
+				if (updateCompany!= null)
+				{
+					
+					
+					updateCompany.setCompanyname(company.getCompanyname());
+					updateCompany.setEducation(company.getEducation());
+					updateCompany.setJobdescription(company.getJobdescription());
+					updateCompany.setJobtitle(company.getJobtitle());
+					updateCompany.setJobdescription(company.getJobdescription());
+					updateCompany.setPreferedlanguage1(company.getPreferedlanguage1());
+					updateCompany.setPreferedlanguage2(company.getPreferedlanguage2());
+					updateCompany.setSkill1(company.getSkill1());
+					updateCompany.setSkill2(company.getSkill2());
+					updateCompany.setSkill3(company.getSkill3());
+					updateCompany.setWorkexperience(company.getWorkexperience());
+					
+					
+					company_repository.save(updateCompany);
+					
+					response_updatejob.setStatus_code("Success");
+					response_updatejob.setMethod("edit_job_opening");
+					response_updatejob.setMessage("Updated Successfully");
+					response_updatejob.setJoblist(companylist);
+					
+					
+					
+				}
+				else
+				{
+					response_updatejob.setStatus_code("Fail");
+					response_updatejob.setMethod("edit_job_opening");
+					response_updatejob.setMessage("Job Not Found");
+				}
+				
+				return response_updatejob; 
+			}
+			else
+			{
+				response_updatejob.setStatus_code("Fail");
+				response_updatejob.setMethod("edit_job_opening");
+				response_updatejob.setMessage("User is not available");
+				
+				return response_updatejob; 
+			}
+		}
+		catch(Exception ex)
+		{
+			response_updatejob.setStatus_code("Fail");
+			response_updatejob.setMethod("edit_job_opening");
+			response_updatejob.setMessage("Unexpected Error ... Please try again or later");
+			return response_updatejob;
+		}
+		
+	}
+
 }
 

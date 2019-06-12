@@ -2,10 +2,14 @@ package com.softwaregiants.careertinder.networking;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.CandidateListModel;
 import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
@@ -31,6 +35,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     private String TAG = RetrofitClient.class.getSimpleName();
     private Context mContext;
     private ProgressDialog progressDialog;
+    AlertDialog alertDialog;
 
     public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack, Context preferenceContext) {
         if ( retrofit == null ) {
@@ -59,56 +64,67 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         if (progressDialog != null)
             progressDialog.dismiss();
-        if (response.isSuccessful()) {
-            Log.d(TAG, response.toString());
-            try {
-                String rawResponse = response.body().string();
-                Log.i(TAG, "onResponse: JSON\n\n" + rawResponse + "\n\n"  );
-                BaseBean baseBean = new Gson().fromJson( rawResponse, BaseBean.class);
-                if ( baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE) ) {
-                    mApiResponseCallBack.onSuccess(baseBean);
-                    return;
+        if (alertDialog!=null)
+            alertDialog.dismiss();
+        if ( mApiResponseCallBack != null ) {
+            if (response.isSuccessful()) {
+                Log.d(TAG, response.toString());
+                try {
+                    String rawResponse = response.body().string();
+                    Log.i(TAG, "onResponse: JSON\n\n" + rawResponse + "\n\n");
+                    BaseBean baseBean = new Gson().fromJson(rawResponse, BaseBean.class);
+                    if (baseBean.getStatusCode().equalsIgnoreCase(Constants.SC_SUCCESS)) {
+                        if (baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE)) {
+                            mApiResponseCallBack.onSuccess(baseBean);
+                            return;
+                        } else if (baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES)) {
+                            CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
+                            mApiResponseCallBack.onSuccess(candidateListModel);
+                            return;
+                        }
+                        switch (baseBean.getApiMethod()) {
+                            case Constants.API_METHOD_LOGIN: {
+                                LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
+                                mApiResponseCallBack.onSuccess(loginSuccessModel);
+                                break;
+                            }
+                            case Constants.API_METHOD_SIGN_UP: {
+                                mApiResponseCallBack.onSuccess(baseBean);
+                                break;
+                            }
+                            case Constants.API_METHOD_ADD_NEW_JOB_OPENING: {
+                                mApiResponseCallBack.onSuccess(baseBean);
+                                break;
+                            }
+                            case Constants.API_METHOD_GET_JOB_OPENINGS:
+                                JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
+                                mApiResponseCallBack.onSuccess(jobOpeningsListModel);
+                                break;
+                            case Constants.API_METHOD_EDIT_JOB_OPENING:
+                                mApiResponseCallBack.onSuccess(baseBean);
+                                break;
+                            case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
+                                GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
+                                mApiResponseCallBack.onSuccess(candidateProfileModel);
+                                break;
+                            default: {
+                                mApiResponseCallBack.onSuccess(baseBean);
+                                break;
+                            }
+                        }
+                    } else {
+                        if (null != baseBean.getErrorMsg() && !baseBean.getErrorMsg().isEmpty()) {
+                            Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
                 }
-                else if ( baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES) ) {
-                    CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
-                    mApiResponseCallBack.onSuccess(candidateListModel);
-                    return;
-                }
-                switch (baseBean.getApiMethod()) {
-                    case Constants.API_METHOD_LOGIN: {
-                        LoginSuccessModel loginSuccessModel = new Gson().fromJson(rawResponse, LoginSuccessModel.class);
-                        mApiResponseCallBack.onSuccess(loginSuccessModel);
-                        break;
-                    }
-                    case Constants.API_METHOD_SIGN_UP: {
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    }
-                    case Constants.API_METHOD_ADD_NEW_JOB_OPENING: {
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    }
-                    case Constants.API_METHOD_GET_JOB_OPENINGS:
-                        JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
-                        mApiResponseCallBack.onSuccess(jobOpeningsListModel);
-                        break;
-                    case Constants.API_METHOD_EDIT_JOB_OPENING:
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
-                        GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
-                        mApiResponseCallBack.onSuccess(candidateProfileModel);
-                        break;
-                    default:{
-                        mApiResponseCallBack.onSuccess(baseBean);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
+            } else {
+                Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -119,15 +135,20 @@ public class RetrofitClient implements Callback<ResponseBody> {
         Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
         if (progressDialog != null)
             progressDialog.dismiss();
+        if (alertDialog!=null)
+            alertDialog.dismiss();
     }
 
     public void createProgressBar(Context context) {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setProgress(0);
-        progressDialog.show();
+        final View view = ((LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.alert_progress, null);
+        alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setCancelable(false);
+//                    alertDialog.setMessage("New URL");
+
+
+        alertDialog.setView(view);
+        alertDialog.show();
     }
 
 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mindorks.placeholderview.SwipeDecor;
@@ -30,6 +32,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     private SwipePlaceHolderView swipePlaceHolderView;
     List<JobOpeningModel> jobOpeningModelList;
     private RetrofitClient mRetrofitClient;
+    TextView TVNoItems;
     int items = 0;
 
     @Override
@@ -43,6 +46,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     private void init() {
         mContext = this;
         swipePlaceHolderView = findViewById(R.id.swipeView);
+        TVNoItems = findViewById(R.id.TVNoItems);
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
@@ -55,7 +59,10 @@ public class CandidateDashboardActivity extends BaseActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningModelList = ((JobOpeningsListModel) baseBean).getJobOpeningModelList();
-                addNextItems(10);
+                if ( null!=jobOpeningModelList && !jobOpeningModelList.isEmpty() ) {
+                    addNextItems(10);
+                    TVNoItems.setVisibility(View.GONE);
+                }
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -80,6 +87,9 @@ public class CandidateDashboardActivity extends BaseActivity {
 //                if(count < 3){
 //                    addNextItems(5);
 //                }
+                if ( items == jobOpeningModelList.size() ) {
+//                    TVNoItems.setVisibility(View.VISIBLE);
+                }
             }
         });
         swipePlaceHolderView.getBuilder()

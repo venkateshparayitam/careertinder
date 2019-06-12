@@ -87,10 +87,17 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_signup);
 
+        initToolbar();
         setupSpinners();
         setupDatePicker();
         setupController();
         requestMultiplePermissions();
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Create Profile");
     }
 
     private void setupController() {

@@ -9,6 +9,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
 
     private String university;
 
+    @SerializedName("name")
     private String Name;
 
     @SerializedName("qualification")

@@ -1,2 +1,5 @@
 /target/
 /src/main/java/resources/application.properties
+
+target/
+src/main/java/resources/application.properties
