@@ -1,6 +1,8 @@
 package core.controllers;
 
 
+import java.util.ArrayList;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,14 +65,16 @@ public class UserController {
 		catch(Exception ex)
 		{
 			ResponseCode response = new ResponseCode();
-			response.setStatus_code("email_exists");
+			response.setStatus_code("Fail");
             response.setMethod("sign_up");
+            response.setMessage("Email already exists");
 			return response;
 		}
 		
 		ResponseCode response_success = new ResponseCode();
-		response_success.setStatus_code("account_created");
+		response_success.setStatus_code("Success");
 		response_success.setMethod("sign_up");
+		response_success.setMessage("Account Created");
 		return response_success;	
 		
 	 }
@@ -101,13 +105,15 @@ public class UserController {
 			}
 			else
 			{
-				response.setStatus_code("Invalid emailid or password");
+				response.setStatus_code("Fail");
+				response.setMessage("Invalid emailid or password");
+				response.setMethod("login");
 				return response;
 			}
 		
 	}
 	
-
+	
 }
 
 

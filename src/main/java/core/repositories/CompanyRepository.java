@@ -21,4 +21,8 @@ public interface CompanyRepository extends JpaRepository<CTCompanyEntity, Long> 
 	 @Transactional
 	 @Query(value = "SELECT * from ctcompany where user_company_id = ?1", nativeQuery = true)  
 	 public ArrayList<CTCompanyEntity> getListOfJobs(Long user_id);
+	 
+	 @Transactional
+	 @Query(value = "SELECT * from ctcompany where job_id = ?1", nativeQuery = true)  
+	 public CTCompanyEntity getJobById(int job_id);
 }

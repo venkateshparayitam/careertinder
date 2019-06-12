@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  */
 
 @Entity
-@Table(name="ctuser", catalog="career_tinder", uniqueConstraints=@UniqueConstraint(columnNames="emailid"))
+@Table(name="ctuser",  uniqueConstraints=@UniqueConstraint(columnNames="emailid"))
 
 public class CTUserEntity implements Serializable {
 	
@@ -21,23 +21,23 @@ public class CTUserEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = true)
+	@Column(name = "id",  nullable = true)
 	private Long id;
 	
-	@Column(name = "name", updatable = false, nullable = true)
+	@Column(name = "name",  nullable = true)
 	private String name;
 	
 	
-	@Column(name = "emailid", updatable = false, nullable = true)
+	@Column(name = "emailid",  nullable = true)
 	private String emailid;
 	
-	@Column(name = "password", updatable = false, nullable = true)
+	@Column(name = "password",  nullable = true)
 	private String password;
 	
-	@Column(name = "userType", updatable = false, nullable = true)
+	@Column(name = "userType",  nullable = true)
 	private String userType;
 	
-	@Column(name = "authtoken", updatable = false, nullable = true)
+	@Column(name = "authtoken",  nullable = true)
 	private String authtoken;
 	
 	@Column(name = "profcreated", nullable = true)

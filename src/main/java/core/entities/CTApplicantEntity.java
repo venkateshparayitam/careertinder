@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name="ctapplicant", catalog="career_tinder")
+@Table(name="ctapplicant")
 public class CTApplicantEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

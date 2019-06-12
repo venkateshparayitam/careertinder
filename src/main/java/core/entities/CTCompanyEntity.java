@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 
 @Entity
-@Table(name="ctcompany", catalog="career_tinder")
+@Table(name="ctcompany")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CTCompanyEntity implements Serializable {
 	
@@ -26,44 +26,44 @@ public class CTCompanyEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "company_id", updatable = false, nullable = true)
+	@Column(name = "company_id",  nullable = true)
 	private Long id;
 	
-	@Column(name = "companyname", updatable = false, nullable = true)
+	@Column(name = "companyname",  nullable = true)
 	private String companyname;
 	
-	@Column(name = "location", updatable = false, nullable = true)
+	@Column(name = "location",  nullable = true)
 	private String location;
 	
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "job_id", updatable = false, nullable = true)
+	@Column(name = "job_id",  nullable = true)
 	private int jobid;
 	
-	@Column(name = "jobtitle", updatable = false, nullable = true)
+	@Column(name = "jobtitle",  nullable = true)
 	private String jobtitle;
 	
 	@Column(name="job_description", nullable = true)
 	private String jobdescription;
 	
-	@Column(name = "skill1", updatable = false, nullable = true)
+	@Column(name = "skill1",  nullable = true)
 	private String skill1;
 	
-	@Column(name = "skill2", updatable = false, nullable = true)
+	@Column(name = "skill2",  nullable = true)
 	private String skill2;
 	
-	@Column(name = "skill3", updatable = false, nullable = true)
+	@Column(name = "skill3",  nullable = true)
 	private String skill3;
 	
-	@Column(name="work_experience", updatable = false, nullable = true)
+	@Column(name="work_experience",  nullable = true)
 	private String workexperience;
 	
-	@Column(name="education", updatable = false, nullable = true)
+	@Column(name="education",  nullable = true)
 	private String education;
 	
-	@Column(name="preferredlanguage1", updatable = false, nullable = true)
+	@Column(name="preferredlanguage1",  nullable = true)
 	private String preferredlanguage1;
 	
-	@Column(name="preferredlanguage2", updatable = false, nullable = true)
+	@Column(name="preferredlanguage2",  nullable = true)
 	private String preferredlanguage2;
 	
 	@ManyToOne (cascade=CascadeType.ALL)
