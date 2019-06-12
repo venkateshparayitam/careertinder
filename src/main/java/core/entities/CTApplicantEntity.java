@@ -29,7 +29,7 @@ public class CTApplicantEntity implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "applicant_id", updatable = false, nullable = true)
+	@Column(name = "applicant_id", updatable = false)
 	private Long id;
 	
 	@Column(name="applicant_name", nullable = true)
