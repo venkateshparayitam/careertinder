@@ -85,5 +85,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>career-tinder</finalName>
 	</build>
 </project>
