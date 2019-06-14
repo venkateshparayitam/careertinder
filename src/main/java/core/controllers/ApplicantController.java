@@ -113,10 +113,7 @@ public class ApplicantController {
 	    		}
 	    		res.setStatus_code("Failure");
 	    		res.setMessage("Token does not correspond to any candidate");
-  			    return res;
-	    	
-	    	
-	    	    	
+  			    return res;    	    	
 	    }
 	    
 	    @SuppressWarnings("deprecation")

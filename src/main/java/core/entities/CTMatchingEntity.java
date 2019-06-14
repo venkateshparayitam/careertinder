@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * author: Bora Bejleri
+ * @author: Bora Bejleri
  */
 
 @Entity
@@ -37,7 +37,7 @@ public class CTMatchingEntity implements Serializable {
 	private int company_swipe = 0;
 	
 	@Column(name = "matching_percentage", nullable = true, updatable = true)
-	private int percentage;
+	private double percentage;
 
 	public Long getId() {
 		return id;
@@ -75,11 +75,11 @@ public class CTMatchingEntity implements Serializable {
 		this.company_swipe = company_swipe;
 	}
 
-	public int getPercentage() {
+	public double getPercentage() {
 		return percentage;
 	}
 
-	public void setPercentage(int percentage) {
+	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
 
