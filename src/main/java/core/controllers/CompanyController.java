@@ -169,6 +169,10 @@ public class CompanyController {
 					updateCompany.setSkill2(company.getSkill2());
 					updateCompany.setSkill3(company.getSkill3());
 					updateCompany.setWorkexperience(company.getWorkexperience());
+					updateCompany.setWerkstudent(company.isWerkstudent());
+					updateCompany.setInternship(company.isInternship());
+					updateCompany.setMandtinternship(company.isMandtinternship());
+					updateCompany.setHrcontact(company.getHrcontact());
 					
 					
 					company_repository.save(updateCompany);

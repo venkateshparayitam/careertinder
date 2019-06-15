@@ -66,6 +66,20 @@ public class CTCompanyEntity implements Serializable {
 	@Column(name="preferredlanguage2",  nullable = true)
 	private String preferredlanguage2;
 	
+	@Column(name="werkstudent",  nullable = true)
+	private boolean werkstudent = false;
+	
+	@Column(name="internship",  nullable = true)
+	private boolean internship = false;
+	
+	@Column(name="mandtinternship",  nullable = true)
+	private boolean mandtinternship = false;
+	
+	@Column(name="hrcontact",  nullable = true)
+	private String hrcontact;
+	
+	
+	
 	@ManyToOne (cascade=CascadeType.ALL)
 	  private CTUserEntity user_company;
 
@@ -79,6 +93,14 @@ public class CTCompanyEntity implements Serializable {
 
 	public String getCompanyname() {
 		return companyname;
+	}
+
+	public String getHrcontact() {
+		return hrcontact;
+	}
+
+	public void setHrcontact(String hrcontact) {
+		this.hrcontact = hrcontact;
 	}
 
 	public void setCompanyname(String companyname) {
@@ -183,6 +205,32 @@ public class CTCompanyEntity implements Serializable {
 	public void setUser_company(CTUserEntity user_company) {
 		this.user_company = user_company;
 	}
+
+	public boolean isWerkstudent() {
+		return werkstudent;
+	}
+
+	public void setWerkstudent(boolean werkstudent) {
+		this.werkstudent = werkstudent;
+	}
+
+	public boolean isInternship() {
+		return internship;
+	}
+
+	public void setInternship(boolean internship) {
+		this.internship = internship;
+	}
+
+	public boolean isMandtinternship() {
+		return mandtinternship;
+	}
+
+	public void setMandtinternship(boolean mandtinternship) {
+		this.mandtinternship = mandtinternship;
+	}
+	
+	
 	
 
 }

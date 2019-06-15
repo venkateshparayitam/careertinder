@@ -26,8 +26,7 @@ public class CTUserEntity implements Serializable {
 	
 	@Column(name = "name",  nullable = true)
 	private String name;
-	
-	
+
 	@Column(name = "emailid",  nullable = true)
 	private String emailid;
 	
