@@ -29,6 +29,10 @@
     <string name="jobOpenings">JOB OPENINGS</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
+    <string name="contactDetailsText">Contact Details</string>
+    <string name="contactPhoneText">Contact Phone Number</string>
+    <string name="contactEmailText">Contact Email</string>
+    <string name="updateJobOpeningText">Update Job Opening</string>
 
     <string name="nav_header_title">FirstName LastName</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -73,5 +77,11 @@
         <item>Polski</item>
         <item>官话</item>
         <item>None</item>
+    </string-array>
+
+    <string-array name="job_type">
+        <item>Internship</item>
+        <item>Mandatory Internhip</item>
+        <item>Werkstudent</item>
     </string-array>
 </resources>
