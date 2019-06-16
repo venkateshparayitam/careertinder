@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ctmatching", catalog="career_tinder")
+@Table(name="ctmatching")
 public class CTMatchingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
