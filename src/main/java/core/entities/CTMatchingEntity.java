@@ -14,7 +14,10 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="ctmatching", catalog="career_tinder")
+// deleted catalog to test if CREATE command was being run on remotesql.com database because of this or not.
+// access to remote database worked after removing catalog parameter, because it was trying to create table apparently.
+// @Table(name="ctmatching", catalog="career_tinder")
+@Table(name="ctmatching")
 public class CTMatchingEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
