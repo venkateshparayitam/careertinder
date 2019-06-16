@@ -66,20 +66,20 @@ public class CTCompanyEntity implements Serializable {
 	@Column(name="preferredlanguage2",  nullable = true)
 	private String preferredlanguage2;
 	
-	@Column(name="werkstudent",  nullable = true)
-	private boolean werkstudent = false;
+	@Column(name="jobType",  nullable = true)
+	private String jobType;
 	
-	@Column(name="internship",  nullable = true)
-	private boolean internship = false;
+	@Column(name="eMail",  nullable = true)
+	private String eMail;
 	
-	@Column(name="mandtinternship",  nullable = true)
-	private boolean mandtinternship = false;
+	@Column(name="mobileNo",  nullable = true)
+	private String mobileNo;
 	
-	@Column(name="hrcontact",  nullable = true)
-	private String hrcontact;
+	@Column(name="imageUrl",  nullable = true)
+	private String imageUrl;
 	
 	
-	
+
 	@ManyToOne (cascade=CascadeType.ALL)
 	  private CTUserEntity user_company;
 
@@ -95,13 +95,6 @@ public class CTCompanyEntity implements Serializable {
 		return companyname;
 	}
 
-	public String getHrcontact() {
-		return hrcontact;
-	}
-
-	public void setHrcontact(String hrcontact) {
-		this.hrcontact = hrcontact;
-	}
 
 	public void setCompanyname(String companyname) {
 		this.companyname = companyname;
@@ -206,30 +199,53 @@ public class CTCompanyEntity implements Serializable {
 		this.user_company = user_company;
 	}
 
-	public boolean isWerkstudent() {
-		return werkstudent;
+	public String getPreferredlanguage1() {
+		return preferredlanguage1;
 	}
 
-	public void setWerkstudent(boolean werkstudent) {
-		this.werkstudent = werkstudent;
+	public void setPreferredlanguage1(String preferredlanguage1) {
+		this.preferredlanguage1 = preferredlanguage1;
 	}
 
-	public boolean isInternship() {
-		return internship;
+	public String getPreferredlanguage2() {
+		return preferredlanguage2;
 	}
 
-	public void setInternship(boolean internship) {
-		this.internship = internship;
+	public void setPreferredlanguage2(String preferredlanguage2) {
+		this.preferredlanguage2 = preferredlanguage2;
 	}
 
-	public boolean isMandtinternship() {
-		return mandtinternship;
+	public String getJobType() {
+		return jobType;
 	}
 
-	public void setMandtinternship(boolean mandtinternship) {
-		this.mandtinternship = mandtinternship;
+	public void setJobType(String jobType) {
+		this.jobType = jobType;
 	}
-	
+
+	public String geteMail() {
+		return eMail;
+	}
+
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	public String getMobileNo() {
+		return mobileNo;
+	}
+
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	
 	
 

@@ -109,19 +109,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ETJobTitle" />
 
-        <Spinner
-            android:id="@+id/spinnerJobType"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/et_login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETJobDescription" />
-
         <TextView
             android:id="@+id/TVDesiredCandidateProfile"
             android:layout_width="wrap_content"
@@ -134,7 +121,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerJobType" />
+            app:layout_constraintTop_toBottomOf="@+id/ETJobDescription" />
 
         <EditText
             android:id="@+id/ETDesiredQualification"
@@ -304,6 +291,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="76dp"
             android:background="@drawable/et_login"
             android:drawableStart="@drawable/baseline_language_black_24"
             android:drawablePadding="10dp"
@@ -312,63 +300,10 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:textColorHint="#6F7070"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETLanguage1" />
-
-        <TextView
-            android:id="@+id/TVContactDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/contactDetailsText"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETLanguage2" />
-
-        <EditText
-            android:id="@+id/ETmobileNo"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/et_login"
-            android:drawableStart="@android:drawable/ic_menu_call"
-            android:drawablePadding="10dp"
-            android:hint="@string/contactPhoneText"
-            android:inputType="text|phone"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textColorHint="#6F7070"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVContactDetails" />
-
-        <EditText
-            android:id="@+id/ETemail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="76dp"
-            android:background="@drawable/et_login"
-            android:drawableStart="@android:drawable/ic_dialog_email"
-            android:drawablePadding="10dp"
-            android:hint="@string/contactEmailText"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:textColorHint="#6F7070"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/createJobOpeningBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETmobileNo" />
+            app:layout_constraintTop_toBottomOf="@+id/ETLanguage1" />
 
         <Button
             android:id="@+id/createJobOpeningBtn"

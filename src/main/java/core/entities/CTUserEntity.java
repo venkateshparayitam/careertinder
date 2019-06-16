@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  */
 
 @Entity
-@Table(name="ctuser",  uniqueConstraints=@UniqueConstraint(columnNames="emailid"))
+@Table(name="ctuser", uniqueConstraints=@UniqueConstraint(columnNames="emailid"))
 
 public class CTUserEntity implements Serializable {
 	

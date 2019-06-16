@@ -1,28 +1,88 @@
 package core.controllers;
 
+import core.entities.CTMatchingEntity;
+import core.entities.CTUserEntity;
+import core.repositories.MatchingRepository;
+import core.repositories.UserRepository;
+import core.supplementary.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import core.services.MatchingService;
+
+import javax.validation.Valid;
 
 /**
  * @author: Bora Bejleri
  */
 
 @RestController
+// @RequestMapping("/api")
 public class MatchingController {
-	
-	@Autowired 
+
+	@Autowired
+	MatchingRepository matchingRepository;
+	@Autowired
 	private MatchingService matchingService;
-	
-	
-	@RequestMapping(path="/getdistance", method = RequestMethod.GET, produces="application/json")
+	@Autowired
+	UserRepository userRepository;
+
+
+	@RequestMapping(path = "/getdistance", method = RequestMethod.GET, produces = "application/json")
 	public void getResponse() {
-		
-    matchingService.calculateMatchingPercentage();	
-	
+
+		matchingService.calculateMatchingPercentage();
+
 	}
 
+
+	@RequestMapping(
+			path = "/applicantSwipe/{authtoken}",
+			method = RequestMethod.PUT,
+			produces = "application/json",
+			consumes = "application/json"
+	)
+	public ResponseCode applicantSwipe(
+			@PathVariable(value = "authtoken") String authtoken,
+			@Valid @RequestBody CTMatchingEntity request) {
+
+//		System.out.println("inside applicantSwipe method");
+		ResponseCode responseCode = new ResponseCode();
+		CTUserEntity user = new CTUserEntity();
+
+		try {
+			user = userRepository.getByToken(authtoken);
+			if (user != null) {
+				Long companyId = request.getCompany_id();
+				Long applicantId = request.getApplicant_id();
+				CTMatchingEntity matchRow = matchingRepository.getMatchRow(companyId, applicantId);
+				if (matchRow != null) {
+					matchRow.setApplicant_swipe(request.getApplicant_swipe());
+					matchingRepository.save(matchRow);
+
+					responseCode.setStatus_code("Success");
+					responseCode.setMethod("update_applicant_swipe");
+					responseCode.setMessage("Applicant swipe data updated Successfully");
+				} else {
+					responseCode.setStatus_code("Failure");
+					responseCode.setMethod("update_applicant_swipe");
+					responseCode.setMessage("No record found in \"ctmatching\" table!");
+				}
+				return responseCode;
+			}
+			else {
+			 	responseCode.setStatus_code("Failure");
+			 	responseCode.setMethod("update_applicant_swipe");
+			 	responseCode.setMessage("authToken did not match!");
+			}
+			return responseCode;
+		} catch (Exception ex) {
+			responseCode.setStatus_code("Failure");
+			responseCode.setMethod("update_applicant_swipe");
+			responseCode.setMessage("And exception occurred");
+			return responseCode;
+		}
+
+
+	}
 }

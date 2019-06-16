@@ -29,9 +29,6 @@ public class JobOpeningModel implements Parcelable {
         skill3 = in.readString();
         preferredLanguage1 = in.readString();
         preferredLanguage2 = in.readString();
-        jobType = in.readString();
-        mobileNo = in.readString();
-        eMail = in.readString();
     }
 
     public static final Creator<JobOpeningModel> CREATOR = new Creator<JobOpeningModel>() {
@@ -83,37 +80,6 @@ public class JobOpeningModel implements Parcelable {
 
     @SerializedName("preferedlanguage2")
     private String preferredLanguage2;
-
-    @SerializedName("jobType")
-    private String jobType;
-
-    private String mobileNo;
-
-    private String eMail;
-
-    public String getJobType() {
-        return jobType;
-    }
-
-    public void setJobType(String jobType) {
-        this.jobType = jobType;
-    }
-
-    public String getMobileNo() {
-        return mobileNo;
-    }
-
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
-
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
 
     public String getJobId() {
         return jobId;

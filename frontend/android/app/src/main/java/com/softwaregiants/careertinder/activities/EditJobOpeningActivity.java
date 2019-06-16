@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
@@ -18,8 +16,6 @@ import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
-
-import org.apache.commons.validator.routines.EmailValidator;
 
 public class EditJobOpeningActivity extends ImagePickerActivity {
 
@@ -38,9 +34,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     EditText ETSkill3;
     EditText ETLanguage1;
     EditText ETLanguage2;
-    EditText ETMobileNo;
-    EditText ETEmail;
-    Spinner jobTypeSpinner;
 
     String CompanyName = "";
     String JobTitle = "";
@@ -53,9 +46,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     String Skill3 = "";
     String Language1 = "";
     String Language2 = "";
-    String MobileNo;
-    String Email;
-    String JobType = "";
 
     String authCode = "";
     //endregion
@@ -69,11 +59,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
 
         Intent intent = getIntent();
         jobOpeningModel = (JobOpeningModel) intent.getParcelableExtra("jobOpeningObject");
-        Spinner spinner = findViewById(R.id.spinnerJobType);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.job_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
         init();
     }
 
@@ -104,9 +89,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
         ETLanguage1 = (EditText)findViewById(R.id.ETLanguage1);
         ETLanguage2 = (EditText)findViewById(R.id.ETLanguage2);
-        ETMobileNo = (EditText)findViewById(R.id.ETmobileNo);
-        ETEmail = (EditText)findViewById(R.id.ETemail);
-        jobTypeSpinner = (Spinner)findViewById(R.id.spinnerJobType);
 
         ETCompanyName.setText(jobOpeningModel.getCompanyName());
         ETJobTitle.setText(jobOpeningModel.getJobTitle());
@@ -119,8 +101,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         ETSkill3.setText(jobOpeningModel.getSkill3());
         ETLanguage1.setText(jobOpeningModel.getPreferredLanguage1());
         ETLanguage2.setText(jobOpeningModel.getPreferredLanguage2());
-        ETMobileNo.setText(jobOpeningModel.getMobileNo());
-        ETEmail.setText(jobOpeningModel.geteMail());
 
         imageUser = findViewById(R.id.picture);
         updateImageButton = findViewById(R.id.updatePicture);
@@ -143,9 +123,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
             Skill3 = ETSkill3.getText().toString();
             Language1 = ETLanguage1.getText().toString();
             Language2 = ETLanguage2.getText().toString();
-            MobileNo = ETMobileNo.getText().toString();
-            Email = ETEmail.getText().toString();
-            JobType = jobTypeSpinner.getSelectedItem().toString();
             if (CompanyName.equals("")){
                 Toast.makeText(mContext,"Please enter your Company Name", Toast.LENGTH_SHORT).show();
                 return;
@@ -184,14 +161,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 Toast.makeText(mContext,"Please enter a language", Toast.LENGTH_SHORT).show();
                 return;
             }
-            else if (!validateEmail(Email)){
-                Toast.makeText(mContext,"Contact Email invalid", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if (!validatePhone(MobileNo)){
-                Toast.makeText(mContext,"Contact number invalid", Toast.LENGTH_SHORT).show();
-                return;
-            }
             else{
 
                 jobOpeningModel.setCompanyName(CompanyName);
@@ -205,9 +174,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.setSkill3(Skill3);
                 jobOpeningModel.setPreferredLanguage1(Language1);
                 jobOpeningModel.setPreferredLanguage2(Language2);
-                jobOpeningModel.setMobileNo(MobileNo);
-                jobOpeningModel.seteMail(Email);
-                jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
                     mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
                 }
@@ -253,20 +219,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-        }
-        return true;
-    }
-
-    public boolean validateEmail(String email) {
-        return EmailValidator.getInstance().isValid(email);
-    }
-
-    public boolean validatePhone(String phone) {
-        if (!isNumeric(phone)){
-            return false;
-        }
-        if(!(phone.length() > 6)){
-            return false;
         }
         return true;
     }
