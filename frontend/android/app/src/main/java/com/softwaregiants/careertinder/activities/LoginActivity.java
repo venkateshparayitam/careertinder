@@ -1,9 +1,9 @@
 package com.softwaregiants.careertinder.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     //region globals
     private Button btnHit;
@@ -141,10 +141,9 @@ public class LoginActivity extends AppCompatActivity {
         else {
             loginModel = new LoginModel();
             loginModel.setEmailid(usernameText);
-            loginModel.setPassword(UtilityMethods.sha1Hash(passwordText));
+            loginModel.setPassword(UtilityMethods.sha224Hash(passwordText));
             if ( UtilityMethods.isConnected(mContext) ) {
-//                mRetrofitClient.createProgressBar(mContext);
-                mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient);
+                mRetrofitClient.mApiInterface.login(loginModel).enqueue(mRetrofitClient.createProgress(mContext));
             }
         }
     }

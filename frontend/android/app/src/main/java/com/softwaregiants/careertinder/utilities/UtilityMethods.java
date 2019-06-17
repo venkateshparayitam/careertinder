@@ -49,7 +49,7 @@ public class UtilityMethods {
         return isConnected;
     }
 
-    public static String sha1Hash( String toHash )
+    public static String sha224Hash(String toHash )
     {
         String hash = null;
         try
@@ -68,7 +68,7 @@ public class UtilityMethods {
         }
         catch( UnsupportedEncodingException e )
         {
-            Log.e(TAG, "sha1Hash: ", e );
+            Log.e(TAG, "sha224Hash: ", e );
         }
         return hash;
     }

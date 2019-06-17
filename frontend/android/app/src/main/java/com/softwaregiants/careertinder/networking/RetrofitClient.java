@@ -1,6 +1,5 @@
 package com.softwaregiants.careertinder.networking;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -33,8 +32,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     private ApiResponseCallback mApiResponseCallBack;
     public ApiInterface mApiInterface;
     private String TAG = RetrofitClient.class.getSimpleName();
-    private Context mContext;
-    private ProgressDialog progressDialog;
+    private Context applicationContext;
     AlertDialog alertDialog;
 
     public static RetrofitClient getRetrofitClient(ApiResponseCallback mApiResponseCallBack, Context preferenceContext) {
@@ -55,17 +53,13 @@ public class RetrofitClient implements Callback<ResponseBody> {
         RetrofitClient mRetrofitClient = new RetrofitClient();
         mRetrofitClient.mApiInterface = retrofit.create(ApiInterface.class);
         mRetrofitClient.mApiResponseCallBack = mApiResponseCallBack;
-        mRetrofitClient.mContext = preferenceContext;
+        mRetrofitClient.applicationContext = preferenceContext;
         return mRetrofitClient;
     }
 
-
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-        if (progressDialog != null)
-            progressDialog.dismiss();
-        if (alertDialog!=null)
-            alertDialog.dismiss();
+        cancelProgress();
         if ( mApiResponseCallBack != null ) {
             if (response.isSuccessful()) {
                 Log.d(TAG, response.toString());
@@ -114,16 +108,16 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         }
                     } else {
                         if (null != baseBean.getErrorMsg() && !baseBean.getErrorMsg().isEmpty()) {
-                            Toast.makeText(mContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(applicationContext, baseBean.getErrorMsg(), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(applicationContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
             } else {
-                Toast.makeText(mContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
+                Toast.makeText(applicationContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -132,23 +126,25 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, t.toString());
         mApiResponseCallBack.onFailure(t);
-        Toast.makeText(mContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
-        if (progressDialog != null)
-            progressDialog.dismiss();
-        if (alertDialog!=null)
-            alertDialog.dismiss();
+        Toast.makeText(applicationContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
+        cancelProgress();
     }
 
-    public void createProgressBar(Context context) {
-        final View view = ((LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+    public RetrofitClient createProgress(Context activityContext) {
+        final View view = ((LayoutInflater) applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.alert_progress, null);
-        alertDialog = new AlertDialog.Builder(mContext).create();
+
+        alertDialog = new AlertDialog.Builder(activityContext).create();
         alertDialog.setCancelable(false);
-//                    alertDialog.setMessage("New URL");
-
-
         alertDialog.setView(view);
+        alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         alertDialog.show();
+        return this;
+    }
+
+    public void cancelProgress() {
+        if (alertDialog!=null)
+            alertDialog.dismiss();
     }
 
 }

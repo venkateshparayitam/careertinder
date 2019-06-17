@@ -85,7 +85,7 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_signup);
+        setContentView(R.layout.activity_create_candidate_profile);
 
         initToolbar();
         setupSpinners();
@@ -202,7 +202,7 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
             }
             else{
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient);
+                    mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient.createProgress(mContext));
                 }
             }
         }

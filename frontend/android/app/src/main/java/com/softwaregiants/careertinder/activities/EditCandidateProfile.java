@@ -78,14 +78,14 @@ public class EditCandidateProfile extends ImagePickerActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_signup);
+        setContentView(R.layout.activity_create_candidate_profile);
         setupSpinners();
         setupDatePicker();
         setupController();
         addDrawer("Edit Profile", R.id.nav_edit_profile);
         requestMultiplePermissions();
         if (UtilityMethods.isConnected(mContext)) {
-            mRetrofitClient.mApiInterface.getCandidateProfile(authToken).enqueue(mRetrofitClient);
+            mRetrofitClient.mApiInterface.getCandidateProfile(authToken).enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 
@@ -191,7 +191,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
             }
             else{
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient);
+                    mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient.createProgress(mContext));
                 }
             }
         }

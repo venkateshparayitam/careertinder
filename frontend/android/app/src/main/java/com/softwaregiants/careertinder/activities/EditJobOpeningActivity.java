@@ -209,7 +209,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.seteMail(Email);
                 jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
                 }
             }
         }

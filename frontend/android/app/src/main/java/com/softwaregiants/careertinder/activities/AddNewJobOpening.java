@@ -182,7 +182,7 @@ public class AddNewJobOpening extends ImagePickerActivity {
                 jobOpeningModel.seteMail(Email);
                 jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
+                    mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
                 }
             }
         }
@@ -192,15 +192,9 @@ public class AddNewJobOpening extends ImagePickerActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals(Constants.SC_JOB_CREATED_SUCCESS)){
-                Toast.makeText(mContext,"Job Opening Created", Toast.LENGTH_SHORT).show();
-                Intent returnIntent = new Intent();
-                setResult(RESULT_OK,returnIntent);
-                finish();
-            }
-            else {
-                Toast.makeText(mContext, baseBean.getStatusCode(), Toast.LENGTH_SHORT).show();
-            }
+            Intent returnIntent = new Intent();
+            setResult(RESULT_OK,returnIntent);
+            finish();
         }
 
         @Override

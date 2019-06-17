@@ -65,7 +65,7 @@ public class JobOpeningsListActivity extends BaseActivity {
         TVNoItems = findViewById(R.id.TVNoItems);
 
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+            mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient.createProgress(mContext));
         }
         addDrawer("Your Vacancies",0);
     }
@@ -134,7 +134,7 @@ public class JobOpeningsListActivity extends BaseActivity {
                 case Constants.NEED_RESULT_EDIT_COMPANY:
                 case Constants.NEED_RESULT_JOB_OPENING_CREATION:
                     if (UtilityMethods.isConnected(mContext)) {
-                        mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient);
+                        mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient.createProgress(mContext));
                     }
                     break;
             }

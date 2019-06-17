@@ -50,7 +50,7 @@ public class CompanyDashboardActivity extends BaseActivity {
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchedCandidates().enqueue(mRetrofitClient);
+            mRetrofitClient.mApiInterface.getMatchedCandidates().enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 

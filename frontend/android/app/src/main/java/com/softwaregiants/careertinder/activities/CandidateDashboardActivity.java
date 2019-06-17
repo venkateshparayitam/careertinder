@@ -50,7 +50,7 @@ public class CandidateDashboardActivity extends BaseActivity {
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient);
+            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 

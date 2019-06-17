@@ -113,10 +113,10 @@ public class SignUpActivity extends AppCompatActivity {
                 signUpModel = new SignUpModel();
                 signUpModel.setName(name);
                 signUpModel.setEmail(email);
-                signUpModel.setPassword(UtilityMethods.sha1Hash(pass));
+                signUpModel.setPassword(UtilityMethods.sha224Hash(pass));
                 signUpModel.setUserType(userTypeString);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient);
+                    mRetrofitClient.mApiInterface.signUp(signUpModel).enqueue(mRetrofitClient.createProgress(mContext));
                 }
             }
         }
