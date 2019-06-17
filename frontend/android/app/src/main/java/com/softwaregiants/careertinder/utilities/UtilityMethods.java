@@ -1,5 +1,6 @@
 package com.softwaregiants.careertinder.utilities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
@@ -7,7 +8,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -84,5 +87,10 @@ public class UtilityMethods {
             hexChars[ j * 2 + 1 ] = hexArray[ v & 0x0F ];
         }
         return new String( hexChars );
+    }
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

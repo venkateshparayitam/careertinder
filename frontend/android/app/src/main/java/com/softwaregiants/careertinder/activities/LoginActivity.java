@@ -63,6 +63,7 @@ public class LoginActivity extends Activity {
             switch( v.getId() ) {
                 case R.id.btnHit: {
                     login();
+                    UtilityMethods.hideKeyboardFrom(mContext,v);
                     break;
                 }
             }

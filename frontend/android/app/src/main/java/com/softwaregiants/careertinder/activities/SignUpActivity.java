@@ -143,11 +143,13 @@ public class SignUpActivity extends AppCompatActivity {
     View.OnClickListener js_radio_listener = new View.OnClickListener(){
         public void onClick(View view) {
             userTypeString = Constants.USER_TYPE_JOB_SEEKER;
+            UtilityMethods.hideKeyboardFrom(mContext,view);
         }
     };
     View.OnClickListener e_radio_listener = new View.OnClickListener(){
         public void onClick(View view) {
             userTypeString = Constants.USER_TYPE_EMPLOYER;
+            UtilityMethods.hideKeyboardFrom(mContext,view);
         }
     };
 
