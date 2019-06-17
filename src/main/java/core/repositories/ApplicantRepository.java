@@ -21,7 +21,5 @@ public interface ApplicantRepository extends JpaRepository<CTApplicantEntity, Lo
 	    @Transactional
 	    @Query(value = "SELECT * FROM ctapplicant WHERE emailid = ?1", nativeQuery = true)
 	    public CTApplicantEntity findByEmail(String email);
-	    
-	    Page<CTApplicantEntity> findAll(@SortDefault("firstlanguage") Pageable pagable);
-
+	   
 }

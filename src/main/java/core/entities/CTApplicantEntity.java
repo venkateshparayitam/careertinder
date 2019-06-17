@@ -15,10 +15,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-/**
- * Entity implementation class for Entity: ApplicantEntity
- * @author: Pravin Garad
- */
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -53,7 +49,7 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="address", nullable = true)
 	private String address;
 	
-	@Column(name="bio")
+	@Column(name="bio", nullable=true)
 	private String bio;
 	
 	@Column(name="first_skill", nullable = true)
@@ -65,7 +61,7 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="third_skill", nullable = true)
 	private String thirdskill;
 	
-	@Column(name="additional_skill")
+	@Column(name="additional_skill", nullable=true)
 	private String additionalskill;
 	
 	@Column(name="mother_tounge", nullable = true)
@@ -80,15 +76,51 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="birthday", nullable = true)
 	private String birthday;
 	
-	@Column(name="nationality")
+	@Column(name="nationality", nullable=true)
 	private String nationality;
 	
+	@Column(name="jobType", nullable=true)
+	private String jobType;
 	
+	@Column(name="phone", nullable=true)
+	private String phone;
+	
+	@Column(name="imageUrl", nullable=true)
+	private String imageUrl;
+	
+
 	@OneToOne(mappedBy = "applicant", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY, optional = false)
 	@JsonManagedReference
             private CTUserEntity user;
 	
+	public String getJobType() {
+		return jobType;
+	}
+
+	public void setJobType(String jobType) {
+		this.jobType = jobType;
+	}
+
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	
 	public Long getId() {
 		return id;
