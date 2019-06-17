@@ -85,4 +85,50 @@ public class MatchingController {
 
 
 	}
-}
+
+
+
+	@RequestMapping(path = "/companySwipe/{authtoken}",method = RequestMethod.PUT,produces = "application/json",consumes = "application/json")
+	public ResponseCode companySwipe(@PathVariable(value = "authtoken") String authtoken, @Valid @RequestBody CTMatchingEntity request) 
+	{
+	ResponseCode responseCode = new ResponseCode();
+	CTUserEntity user = new CTUserEntity();
+
+	try {
+		user = userRepository.getByToken(authtoken);
+		if (user != null) {
+			Long companyId = request.getCompany_id();
+			Long applicantId = request.getApplicant_id();
+			CTMatchingEntity matchRow = matchingRepository.getMatchRow(companyId, applicantId);
+			if (matchRow != null) {
+				matchRow.setCompany_swipe(request.getCompany_swipe());
+				matchingRepository.save(matchRow);
+
+				responseCode.setStatus_code("Success");
+				responseCode.setMethod("update_company_swipe");
+				responseCode.setMessage("Company swipe data updated Successfully");
+			} 
+			else 
+			{
+				responseCode.setStatus_code("Failure");
+				responseCode.setMethod("update_company_swipe");
+				responseCode.setMessage("No record found in \"ctmatching\" table!");
+			}
+			return responseCode;
+		}
+		else 
+		{
+		 	responseCode.setStatus_code("Failure");
+		 	responseCode.setMethod("update_company_swipe");
+		 	responseCode.setMessage("authToken did not match!");
+		}
+		return responseCode;
+	} 
+	catch (Exception ex) {
+		responseCode.setStatus_code("Failure");
+		responseCode.setMethod("update_company_swipe");
+		responseCode.setMessage("And exception occurred");
+		return responseCode;
+	}
+	}
+ }

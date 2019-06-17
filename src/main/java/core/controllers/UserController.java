@@ -1,8 +1,6 @@
 package core.controllers;
 
 
-import java.util.ArrayList;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
