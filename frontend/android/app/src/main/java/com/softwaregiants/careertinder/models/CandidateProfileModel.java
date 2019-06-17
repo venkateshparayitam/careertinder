@@ -50,7 +50,9 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
     @SerializedName("secondlanguage")
     private String second_language;
 
-    public  CandidateProfileModel () {}
+    private String imageUrl;
+    private String jobType;
+    private String phone;
 
     protected CandidateProfileModel(Parcel in) {
         university = in.readString();
@@ -69,6 +71,36 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         additional_skill = in.readString();
         first_language = in.readString();
         second_language = in.readString();
+        imageUrl = in.readString();
+        jobType = in.readString();
+        phone = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(university);
+        dest.writeString(Name);
+        dest.writeString(highest_education);
+        dest.writeString(work_experience);
+        dest.writeString(skill_one);
+        dest.writeString(skill_two);
+        dest.writeString(skill_three);
+        dest.writeString(address);
+        dest.writeString(aboutme);
+        dest.writeString(dateBirth);
+        dest.writeString(place);
+        dest.writeByte((byte) (eu_citizen == null ? 0 : eu_citizen ? 1 : 2));
+        dest.writeString(additional_skill);
+        dest.writeString(first_language);
+        dest.writeString(second_language);
+        dest.writeString(imageUrl);
+        dest.writeString(jobType);
+        dest.writeString(phone);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CandidateProfileModel> CREATOR = new Creator<CandidateProfileModel>() {
@@ -82,6 +114,18 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
             return new CandidateProfileModel[size];
         }
     };
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public  CandidateProfileModel () {}
+
+
 
     public String getUniversity() { return university; }
     public void setUniversity(String university) { this.university = university; }
@@ -150,27 +194,19 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         Name = name;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(university);
-        dest.writeString(Name);
-        dest.writeString(highest_education);
-        dest.writeString(work_experience);
-        dest.writeString(skill_one);
-        dest.writeString(skill_two);
-        dest.writeString(skill_three);
-        dest.writeString(address);
-        dest.writeString(aboutme);
-        dest.writeString(dateBirth);
-        dest.writeString(place);
-        dest.writeByte((byte) (eu_citizen == null ? 0 : eu_citizen ? 1 : 2));
-        dest.writeString(additional_skill);
-        dest.writeString(first_language);
-        dest.writeString(second_language);
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

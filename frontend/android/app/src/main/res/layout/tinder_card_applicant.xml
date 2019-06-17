@@ -107,23 +107,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@android:color/black"/>
-
-
-                <TextView
-                    android:textColor="@android:color/black"
-                    android:textSize="18dp"
-                    android:id="@+id/TVJobDesc"
-                    android:text="JobDesc"
-                    android:maxLines="6"
-                    android:ellipsize="end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

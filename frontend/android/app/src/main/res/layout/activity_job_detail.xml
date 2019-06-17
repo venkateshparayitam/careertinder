@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".activities.AddNewJobOpening"
-            android:background="@color/colorAccent">
+            android:background="@color/colorAppBackground">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@drawable/image_placeholder" />
 
                 <TextView
                     android:id="@+id/TVPreCompanyName"
@@ -62,7 +62,7 @@
                     android:layout_marginEnd="16dp"
                     android:text="Company Name:"
                     android:paddingLeft="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:gravity="center_vertical"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
                     android:text="@string/nameOfCompanyText"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
@@ -93,7 +93,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="Job Title: "
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold|italic"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
                     android:text="@string/jobTitleText"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
@@ -127,7 +127,7 @@
                     android:textStyle="bold|italic"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVJobTitle" />
@@ -145,7 +145,7 @@
                     android:text="@string/jobDescriptionText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVPreJobDescription" />
@@ -159,7 +159,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
                     android:layout_height="3dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@android:color/black" />
 
                 <TextView
                     android:id="@+id/TVDesiredCandidateProfile"
@@ -168,7 +168,7 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/desiredCandidateText"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@android:color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -187,7 +187,7 @@
                     android:gravity="center_vertical"
                     android:text="Qualification:"
                     android:paddingLeft="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVDesiredCandidateProfile" />
 
@@ -201,7 +201,7 @@
                     android:gravity="center_vertical"
                     android:paddingRight="15dp"
                     android:text="@string/desiredQualificationText"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
@@ -219,7 +219,7 @@
                     android:gravity="center_vertical"
                     android:text="Work Experience: "
                     android:paddingLeft="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVDesiredQualification" />
 
@@ -235,7 +235,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
                     android:text=""
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
@@ -253,7 +253,7 @@
                     android:gravity="center_vertical"
                     android:text="Location: "
                     android:paddingLeft="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVDesiredWorkExperience" />
 
@@ -269,7 +269,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="15dp"
                     android:text="@string/placeOfWorkText"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
@@ -284,7 +284,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
                     android:layout_height="3dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@android:color/black" />
 
 
                 <TextView
@@ -294,7 +294,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/desiredSkillsText"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@android:color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -314,7 +314,7 @@
                     android:text="@string/skillText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVDesiredSkills" />
@@ -332,7 +332,7 @@
                     android:text="@string/skillText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVSkill1" />
@@ -350,7 +350,7 @@
                     android:text="@string/skillText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVSkill2" />
@@ -364,7 +364,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
                     android:layout_height="3dp"
-                    android:background="@color/colorPrimaryDark" />
+                    android:background="@android:color/black" />
 
                 <TextView
                     android:id="@+id/TVDesiredLanguages"
@@ -373,7 +373,7 @@
                     android:layout_marginTop="16dp"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/desiredLanguagesText"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@android:color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -393,7 +393,7 @@
                     android:text="@string/languageText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVDesiredLanguages" />
@@ -412,7 +412,7 @@
                     android:text="@string/languageText"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/black"
                     app:layout_constraintBottom_toTopOf="@+id/LLButtons"
                     app:layout_constraintEnd_toEndOf="@id/LLButtons"
                     app:layout_constraintStart_toStartOf="parent"
@@ -432,9 +432,9 @@
                         android:id="@+id/BtnAccept"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorButtonBackground"
                         android:text="@string/accept"
-                        android:textColor="#F2F2F2"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -447,9 +447,9 @@
                         android:id="@+id/BtnReject"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorButtonBackground"
                         android:text="@string/reject"
-                        android:textColor="#F2F2F2"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -59,14 +59,14 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/placeholder" />
+                    app:srcCompat="@drawable/image_placeholder" />
 
                 <Button
                     android:id="@+id/updatePicture"
                     android:layout_width="100dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorButtonBackground"
                     android:text="Update"
                     android:textColor="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -380,7 +380,7 @@
                     android:id="@+id/createJobOpeningBtn"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorButtonBackground"
                     android:text="@string/updateJobOpeningText"
                     android:textColor="#F2F2F2"
                     android:textSize="18sp"

@@ -1,5 +1,6 @@
 package com.softwaregiants.careertinder.adapters;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,17 +10,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.JobOpeningsViewHolder> {
 
-    private List<JobOpeningModel> jobOpenings = new ArrayList<JobOpeningModel>();
+    private List<JobOpeningModel> jobOpenings;
     private OnItemClickListener onItemClickListener;
-    public JobOpeningModel jobOpening;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public JobOpeningsAdapter(List<JobOpeningModel> jobOpeningModelList){
         this.jobOpenings = jobOpeningModelList;
@@ -35,12 +40,25 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JobOpeningsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final JobOpeningsViewHolder holder, int position) {
         JobOpeningModel jobOpeningModel = jobOpenings.get(position);
-        holder.jobOpening.setImageResource(R.drawable.baseline_assignment_ind_black_24);
+//        holder.jobOpening.setImageResource(R.drawable.baseline_assignment_ind_black_24);
         holder.jobTitle.setText(jobOpeningModel.getJobTitle());
         holder.placeOfWork.setText(jobOpeningModel.getPlaceOfWork());
         holder.preferredSkill.setText(jobOpeningModel.getSkill1());
+        if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+            StorageReference storageRef = storage.getReference(jobOpeningModel.getImageUrl());
+            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit()
+                            .placeholder(R.drawable.image_placeholder)
+                            .error(R.drawable.image_placeholder).into(holder.jobOpening);
+                }
+            });
+        } else {
+            holder.jobOpening.setImageResource(R.drawable.image_placeholder);
+        }
     }
 
     @Override

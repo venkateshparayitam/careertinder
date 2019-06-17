@@ -1,10 +1,14 @@
 package com.softwaregiants.careertinder.customViews;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.LongClick;
@@ -22,6 +26,7 @@ import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.callback.BaseListener;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by janisharali on 19/08/16.
@@ -29,6 +34,8 @@ import com.softwaregiants.careertinder.models.JobOpeningModel;
 @NonReusable
 @Layout(R.layout.tinder_card_view)
 public class TinderJobCard {
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @View(R.id.profileImageView)
     ImageView profileImageView;
@@ -57,6 +64,9 @@ public class TinderJobCard {
     @View(R.id.TVWorkEx)
     TextView TVWorkEx;
 
+    @View(R.id.TVJobDesc)
+    TextView TVJobDesc;
+
     @SwipeView
     android.view.View view;
 
@@ -82,6 +92,22 @@ public class TinderJobCard {
         TVSkill2.setText("Skill 2: " + jobOpeningModel.getSkill2());
         TVSkill3.setText("Skill 3: " + jobOpeningModel.getSkill3());
         TVWorkEx.setText("Required Work Exp: " + jobOpeningModel.getDesiredWorkExperience() + " months");
+        TVJobDesc.setText("Job description:\n"+jobOpeningModel.getJobDescription());
+        if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+            StorageReference storageRef = storage.getReference(jobOpeningModel.getImageUrl());
+            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit()
+                            .placeholder(R.drawable.image_placeholder)
+                            .error(R.drawable.image_placeholder).into(profileImageView);
+                }
+            });
+        } else {
+            profileImageView.setImageResource(R.drawable.image_placeholder);
+        }
+
+
     }
 
     @SwipeOut

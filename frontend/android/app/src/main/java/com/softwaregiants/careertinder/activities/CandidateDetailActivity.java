@@ -1,14 +1,21 @@
 package com.softwaregiants.careertinder.activities;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.CandidateProfileModel;
+import com.squareup.picasso.Picasso;
 
 public class CandidateDetailActivity extends BaseActivity {
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     CandidateProfileModel candidateProfileModel;
 
@@ -73,6 +80,20 @@ public class CandidateDetailActivity extends BaseActivity {
 
         TVLanguage1.setText(candidateProfileModel.getFirst_language());
         TVLanguage2.setText(candidateProfileModel.getSecond_language());
+
+        if ( null != candidateProfileModel.getImageUrl() && !candidateProfileModel.getImageUrl().isEmpty()) {
+            StorageReference storageRef = storage.getReference(candidateProfileModel.getImageUrl());
+            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri).fit()
+                            .placeholder(R.drawable.image_placeholder)
+                            .error(R.drawable.image_placeholder).into(picture);
+                }
+            });
+        } else {
+            picture.setImageResource(R.drawable.image_placeholder);
+        }
 
     }
 }

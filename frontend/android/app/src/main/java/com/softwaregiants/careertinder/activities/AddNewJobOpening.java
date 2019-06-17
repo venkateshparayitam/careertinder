@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -9,6 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
@@ -19,6 +23,8 @@ import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
+
+import static com.softwaregiants.careertinder.utilities.UtilityMethods.isNumeric;
 
 public class AddNewJobOpening extends ImagePickerActivity {
 
@@ -57,6 +63,7 @@ public class AddNewJobOpening extends ImagePickerActivity {
     String JobType = "";
 
     String authCode = "";
+    JobOpeningModel jobOpeningModel;
     //endregion
 
     @Override
@@ -165,12 +172,12 @@ public class AddNewJobOpening extends ImagePickerActivity {
                 Toast.makeText(mContext,"Contact Email invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
-            else if (!validatePhone(MobileNo)){
+            else if (!UtilityMethods.validatePhone(MobileNo)){
                 Toast.makeText(mContext,"Contact number invalid", Toast.LENGTH_SHORT).show();
                 return;
             }
             else{
-                JobOpeningModel jobOpeningModel = new JobOpeningModel();
+                jobOpeningModel = new JobOpeningModel();
                 jobOpeningModel.setCompanyName(CompanyName);
                 jobOpeningModel.setJobTitle(JobTitle);
                 jobOpeningModel.setJobDescription(JobDescription);
@@ -186,12 +193,37 @@ public class AddNewJobOpening extends ImagePickerActivity {
                 jobOpeningModel.seteMail(Email);
                 jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+                    submit();
                 }
             }
         }
     };
+
+    private void submit() {
+        mRetrofitClient.createProgress(mContext);
+        if ( imageSelected ) {
+            uploadImageFile(bitmap,osl,ofl);
+        } else {
+            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    }
     //endregion
+
+    OnSuccessListener osl = new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
+            jobOpeningModel.setImageUrl(fileName);
+            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    };
+
+    OnFailureListener ofl = new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Toast.makeText(mContext, "Failed to upload image, please try again!", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
@@ -206,27 +238,8 @@ public class AddNewJobOpening extends ImagePickerActivity {
         }
     };
 
-    public boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
-        }
-    }
-
     public boolean validateEmail(String email) {
         return EmailValidator.getInstance().isValid(email);
-    }
-
-    public boolean validatePhone(String phone) {
-        if (!isNumeric(phone)){
-            return false;
-        }
-        if(!(phone.length() > 6)){
-            return false;
-        }
-        return true;
     }
 
     public void setupSpinners(){

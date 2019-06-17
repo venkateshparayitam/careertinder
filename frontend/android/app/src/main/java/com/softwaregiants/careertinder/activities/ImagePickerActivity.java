@@ -5,16 +5,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Environment;
+import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -22,12 +28,14 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.softwaregiants.careertinder.R;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
+import com.softwaregiants.careertinder.utilities.Constants;
+import com.softwaregiants.careertinder.utilities.UtilityMethods;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.List;
 
 public class ImagePickerActivity extends BaseActivity {
@@ -38,25 +46,41 @@ public class ImagePickerActivity extends BaseActivity {
     final String EMPTY_STRING = "";
     ImageView imageUser;
     Button updateImageButton;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    String fileName;
+    String userType;
+    Boolean imageSelected = false;
+    Bitmap bitmap;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userType = PreferenceManager.getInstance(getApplicationContext())
+                .getString(Constants.PK_USER_TYPE,"");
+        fileName = PreferenceManager.getInstance(getApplicationContext())
+                .getString(Constants.PK_AUTH_CODE,"");
+        if (userType.equals(Constants.USER_TYPE_EMPLOYER)) {
+            fileName += UtilityMethods.getEpochTime();
+        }
+    }
 
     protected void  requestMultiplePermissions(){
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
-                        }
 
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            //openSettingsDialog();
+                        if (report.getDeniedPermissionResponses() != null && !report.getDeniedPermissionResponses().isEmpty()) {
+                            // check for permanent denial of any permission
+                            if (report.isAnyPermissionPermanentlyDenied()) {
+                                // show alert dialog navigating to Settings
+                                openSettingsDialog();
+                            } else {
+                                openReRequestDialog();
+                            }
                         }
                     }
 
@@ -75,33 +99,43 @@ public class ImagePickerActivity extends BaseActivity {
                 .check();
     }
 
-    public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
+    private void openReRequestDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setTitle("Permission denied :(");
+        alertDialog.setMessage("Sorry, but you must allow the use of these permissions to create your profile.");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                requestMultiplePermissions();
+            }
+        });
 
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::---&gt;" + f.getAbsolutePath());
 
-            return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return EMPTY_STRING;
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertDialog.show();
+    }
+
+    private void openSettingsDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+        alertDialog.setTitle("Permission permanently denied :(");
+        alertDialog.setMessage("Unfortunately, you have permanently denied one of the permissions without which we cannot proceed any further. You must go into Application settings and grant these permissions to continue.");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alertDialog.show();
     }
 
     public void choosePhotoFromGallery() {
@@ -149,5 +183,82 @@ public class ImagePickerActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == this.RESULT_CANCELED) {
+            return;
+        } else {
+            imageSelected = true;
+            if (requestCode == GALLERY) {
+                if (data != null && data.getData() != null) {
+                    Uri contentURI = data.getData();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                        imageUser.setImageBitmap(bitmap);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        imageUser.setImageDrawable( UtilityMethods.getDrawable(mContext,R.drawable.placeholder) );
+                        imageSelected = false;
+                        Toast.makeText(mContext, "Failed to select image!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    imageUser.setImageDrawable( UtilityMethods.getDrawable(mContext,R.drawable.placeholder) );
+                    imageSelected = false;
+                    Toast.makeText(mContext, "Failed to select image!", Toast.LENGTH_SHORT).show();
+                }
+
+            } else if (requestCode == CAMERA) {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                imageUser.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    private void deleteExistingFile() {
+        StorageReference storageRef = storage.getReference(fileName);
+        storageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(mContext, "Deleted existing image.", Toast.LENGTH_SHORT).show();
+//                uploadImageFile();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(mContext, "Deleted existing image failed.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    protected void uploadImageFile(Bitmap bitmap, OnSuccessListener osl, OnFailureListener ofl) {
+        StorageReference storageRef = storage.getReference(fileName);
+
+        // Get the data from an ImageView as bytes
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        Toast.makeText(mContext, "Uploading image.", Toast.LENGTH_SHORT).show();
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+        uploadTask.addOnFailureListener(ofl).addOnSuccessListener(osl);
+    }
+
+    protected void downloadImageFile(String fileName) {
+        StorageReference storageRef = storage.getReference(fileName);
+
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).fit()
+                        .placeholder(R.drawable.image_placeholder)
+                        .error(R.drawable.image_placeholder).into(imageUser);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 }

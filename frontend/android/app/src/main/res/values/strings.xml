@@ -56,8 +56,21 @@
         <item>Wurzburg</item>
     </string-array>
 
+    <string-array name="city_array_candidate">
+        <item>[SELECT YOUR CITY]</item>
+        <item>Nuremberg</item>
+        <item>Furth</item>
+        <item>Erlangen</item>
+        <item>Forcheim</item>
+        <item>Bamberg</item>
+        <item>Bayreuth</item>
+        <item>Hirschaid</item>
+        <item>Wurzburg</item>
+    </string-array>
+
 
     <string-array name="language_array_1">
+        <item>[SELECT LANGUAGE]</item>
         <item>Deutsch</item>
         <item>Francais</item>
         <item>English</item>
@@ -69,6 +82,7 @@
     </string-array>
 
     <string-array name="language_array_2">
+        <item>[SELECT LANGUAGE]</item>
         <item>Deutsch</item>
         <item>Francais</item>
         <item>English</item>

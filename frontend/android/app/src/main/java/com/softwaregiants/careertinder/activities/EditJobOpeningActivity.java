@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
@@ -118,6 +122,11 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         imageUser = findViewById(R.id.picture);
         updateImageButton = findViewById(R.id.updatePicture);
         updateImageButton.setOnClickListener(updateImageListener);
+
+        if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+            downloadImageFile(jobOpeningModel.getImageUrl());
+        }
+
         requestMultiplePermissions();
     }
 
@@ -206,12 +215,37 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.seteMail(Email);
                 jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+                    submit();
                 }
             }
         }
     };
+
+    private void submit() {
+        mRetrofitClient.createProgress(mContext);
+        if ( imageSelected ) {
+            jobOpeningModel.setImageUrl(fileName);
+            uploadImageFile(bitmap,osl,ofl);
+        } else {
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    }
     //endregion
+
+    OnSuccessListener osl = new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    };
+
+    OnFailureListener ofl = new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Toast.makeText(mContext, "Failed to upload image, please try again!", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override

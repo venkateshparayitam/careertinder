@@ -3,9 +3,11 @@ package com.softwaregiants.careertinder.utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -92,5 +94,23 @@ public class UtilityMethods {
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static String getEpochTime() {
+        return "_" + System.currentTimeMillis();
+    }
+
+    public static Drawable getDrawable(Context mContext, int drawableId) {
+        return ResourcesCompat.getDrawable(mContext.getResources(), drawableId, null);
+    }
+
+    public static Boolean isNumeric( String str ) {
+        String regex ="^[0-9]+$";
+        return str.matches(regex);
+    }
+
+    public static boolean validatePhone(String phone) {
+        String regex ="^\\+?[0-9]{8,20}$";
+        return phone.matches(regex);
     }
 }
