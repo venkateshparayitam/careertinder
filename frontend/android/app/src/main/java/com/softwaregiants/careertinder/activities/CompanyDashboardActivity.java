@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class CompanyDashboardActivity extends BaseActivity {
     private RetrofitClient mRetrofitClient;
     TextView TVNoItems;
     int items = 0;
+    int swipedItems = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class CompanyDashboardActivity extends BaseActivity {
                 candidateProfileModelList = ((CandidateListModel) baseBean).getApplicantProfiles();
                 if ( null != candidateProfileModelList && !candidateProfileModelList.isEmpty()) {
                     addNextItems(10);
+                    TVNoItems.setVisibility(View.GONE);
                 }
             }
             else {
@@ -86,8 +89,9 @@ public class CompanyDashboardActivity extends BaseActivity {
 //                if(count < 3){
 //                    addNextItems(5);
 //                }
-                if ( items == candidateProfileModelList.size() ) {
-//                    TVNoItems.setVisibility(View.VISIBLE);
+                swipedItems++;
+                if ( swipedItems == candidateProfileModelList.size() ) {
+                    TVNoItems.setVisibility(View.VISIBLE);
                 }
             }
         });

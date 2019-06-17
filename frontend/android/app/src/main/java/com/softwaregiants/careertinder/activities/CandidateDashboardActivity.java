@@ -34,6 +34,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     private RetrofitClient mRetrofitClient;
     TextView TVNoItems;
     int items = 0;
+    int swipedItems = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +88,9 @@ public class CandidateDashboardActivity extends BaseActivity {
 //                if(count < 3){
 //                    addNextItems(5);
 //                }
-                if ( items == jobOpeningModelList.size() ) {
-//                    TVNoItems.setVisibility(View.VISIBLE);
+                swipedItems++;
+                if ( swipedItems == jobOpeningModelList.size() ) {
+                    TVNoItems.setVisibility(View.VISIBLE);
                 }
             }
         });

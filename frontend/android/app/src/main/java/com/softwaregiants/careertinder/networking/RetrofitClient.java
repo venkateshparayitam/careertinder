@@ -17,6 +17,8 @@ import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 
+import java.net.UnknownHostException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -126,7 +128,12 @@ public class RetrofitClient implements Callback<ResponseBody> {
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, t.toString());
         mApiResponseCallBack.onFailure(t);
-        Toast.makeText(applicationContext,Constants.MSG_TECHNICAL_ERROR,Toast.LENGTH_SHORT).show();
+        if ( t instanceof UnknownHostException) {
+            Toast.makeText(applicationContext, Constants.MSG_CONNECTION_ERROR, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(applicationContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
+        }
         cancelProgress();
     }
 

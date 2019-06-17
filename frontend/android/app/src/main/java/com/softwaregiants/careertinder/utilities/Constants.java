@@ -20,7 +20,7 @@ public interface Constants {
     String SC_SUCCESS = "Success";
 
     //Messages
-    String MSG_CONNECTION_ERROR = "There seems to an error connecting to the internet.";
+    String MSG_CONNECTION_ERROR = "Error connecting to the server. Please check your connection.";
     String MSG_TECHNICAL_ERROR = "There is a technical error. Please try again.";
     String MSG_ERROR = "Error";
     String MSG_LOGIN_ERROR = "Please login again.";

@@ -3,7 +3,9 @@ package com.softwaregiants.careertinder.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +56,8 @@ public class LoginActivity extends Activity {
 
         username = (EditText)findViewById(R.id.ETUsername);
         password = (EditText)findViewById(R.id.ETPass);
+        password.setTypeface(Typeface.DEFAULT);
+        password.setTransformationMethod(new PasswordTransformationMethod());
     }
 
     //region onclick listener
