@@ -39,6 +39,13 @@ public class ApplicantController {
 	    
 	    @Autowired ApplicantService applicantService;
 	    
+	    /**
+	     * Updates a user into an applicant 
+	     * @param token 
+	     * @return CandidateResponse - authtoken, responsecode, message, apimethod 
+	     * @throws User/Applicant 404 not found
+	     */
+	    
 	    @RequestMapping(path = "/candidate/create/{token}", method = RequestMethod.POST, produces = "application/json")
 	    public CandidateResponse setCandidateDetails(@PathVariable(value = "token") String token, @Valid @RequestBody CTApplicantEntity candidate){
 	    	CandidateResponse response = new CandidateResponse();
@@ -63,6 +70,9 @@ public class ApplicantController {
 	    		    	databaseApplicant.setUniversity(candidate.getUniversity());
 	    		    	databaseApplicant.setMothertounge(candidate.getMothertounge());
 	    		    	databaseApplicant.setQualification(candidate.getQualification());
+	    		    	databaseApplicant.setJobType(candidate.getJobType());
+	    		    	databaseApplicant.setPhone(candidate.getPhone());
+	    		    	databaseApplicant.setImageUrl(candidate.getImageUrl());
 	    		    	applicant_repository.save(databaseApplicant);
 	    		    	
 	    		    	user_with_token.setProfcreated("Yes");
@@ -88,6 +98,12 @@ public class ApplicantController {
 	    	return response;	    	
 	    }
 	    
+	    /**
+	     * Returns an applicant profile
+	     * @param token 
+	     * @return ResponseCode - authtoken, responsecode, message, apimethod 
+	     */
+	    
 	    @RequestMapping(path = "/candidate/display/{token}", method = RequestMethod.GET, produces = "application/json")
 	    public ResponseCode getCandidateDetails(@PathVariable(value = "token") String token) {
 			ResponseCode res = new ResponseCode();
@@ -108,19 +124,18 @@ public class ApplicantController {
 					  res.setStatus_code("Failure");
 					  res.setMessage("Candidate does not exist");
 	    			  return res;
-					}
-	    			
+					}   			
 	    		}
 	    		res.setStatus_code("Failure");
 	    		res.setMessage("Token does not correspond to any candidate");
   			    return res;    	    	
-	    }
-	    
-	    @SuppressWarnings("deprecation")
-		@RequestMapping(path="/candidate/page", method = RequestMethod.GET, produces="application/json")
-	    public Page<CTApplicantEntity> getPagination(){
-	    	return this.applicant_repository.findAll(new PageRequest(0, 2));
 	    }	    
+	    
+	    /**
+	     * Returns all applicant profiles for display 
+	     * No matching logic added 
+	     * @return ApplicantWrapper
+	     */
 	    
 	    @RequestMapping(path = "/candidate/all", method = RequestMethod.GET, produces = "application/json")
 	    public ApplicantWrapper getAll(){
@@ -153,11 +168,14 @@ public class ApplicantController {
 		    	databaseApplicant.setUniversity(student.getUniversity());
 		    	databaseApplicant.setMothertounge(student.getMothertounge());
 		    	databaseApplicant.setQualification(student.getQualification());
+		    	databaseApplicant.setJobType(student.getJobType());
+		    	databaseApplicant.setImageUrl(student.getImageUrl());
+		    	databaseApplicant.setPhone(student.getPhone());
 		    	
 		    	student_info.add(databaseApplicant);
 		    	applicant_response.setApplicant_profiles(student_info);
 		    	
-	    	       }catch (Exception e) {
+	    	       } catch (Exception e) {
 	    	    	   applicant_response.setApi_method("/candidate/all");
 	    		       applicant_response.setResponse_code("Failed");
 	    		       applicant_response.setResponse_message("Something went wrong." + e);
@@ -172,13 +190,6 @@ public class ApplicantController {
 	    	applicant_response.setApi_method("/candidate/all");
 	    	applicant_response.setResponse_code("Failed");
 	    	applicant_response.setResponse_message("No jobseeker profiles at the moment!");
-			return applicant_response;
-	    	
-	    }
-	    
+			return applicant_response;	    	
+	    }	    
 	}
-
-		
-
- 
-   
