@@ -31,12 +31,12 @@ public class AddNewJobOpening extends ImagePickerActivity {
     EditText ETJobDescription;
     EditText ETDesiredQualification;
     EditText ETDesiredWorkExperience;
-    EditText ETPlaceOfWork;
+    Spinner spinnerPlaceOfWork;
     EditText ETSkill1;
     EditText ETSkill2;
     EditText ETSkill3;
-    EditText ETLanguage1;
-    EditText ETLanguage2;
+    Spinner spinnerLanguage1;
+    Spinner spinnerLanguage2;
     EditText ETMobileNo;
     EditText ETEmail;
     Spinner jobTypeSpinner;
@@ -64,11 +64,7 @@ public class AddNewJobOpening extends ImagePickerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_job_opening);
 
-        Spinner spinner = findViewById(R.id.spinnerJobType);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.job_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        setupSpinners();
         init();
     }
 
@@ -85,15 +81,19 @@ public class AddNewJobOpening extends ImagePickerActivity {
         ETJobDescription = (EditText)findViewById(R.id.ETJobDescription);
         ETDesiredQualification = (EditText)findViewById(R.id.ETDesiredQualification);
         ETDesiredWorkExperience = (EditText)findViewById(R.id.ETDesiredWorkExperience);
-        ETPlaceOfWork = (EditText)findViewById(R.id.ETPlaceOfWork);
+        spinnerPlaceOfWork = (Spinner)findViewById(R.id.spinnerPlaceOfWork);
         ETSkill1 = (EditText)findViewById(R.id.ETSkill1);
         ETSkill2 = (EditText)findViewById(R.id.ETSkill2);
         ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
-        ETLanguage1 = (EditText)findViewById(R.id.ETLanguage1);
-        ETLanguage2 = (EditText)findViewById(R.id.ETLanguage2);
+        spinnerLanguage1 = (Spinner)findViewById(R.id.spinnerLanguage1);
+        spinnerLanguage2 = (Spinner)findViewById(R.id.spinnerLanguage2);
         ETMobileNo = (EditText)findViewById(R.id.ETmobileNo);
         ETEmail = (EditText)findViewById(R.id.ETemail);
         jobTypeSpinner = (Spinner)findViewById(R.id.spinnerJobType);
+
+        ETJobDescription.setText("What We Expect:" + "\n"
+                                    + "Duration:" + "\n"
+                                    + "Start Date:");
 
         imageUser = findViewById(R.id.picture);
         updateImageButton = findViewById(R.id.updatePicture);
@@ -110,12 +110,12 @@ public class AddNewJobOpening extends ImagePickerActivity {
             JobDescription = ETJobDescription.getText().toString();
             DesiredQualification = ETDesiredQualification.getText().toString();
             DesiredWorkExperience = ETDesiredWorkExperience.getText().toString();
-            PlaceOfWOrk = ETPlaceOfWork.getText().toString();
+            PlaceOfWOrk = spinnerPlaceOfWork.getSelectedItem().toString();
             Skill1 = ETSkill1.getText().toString();
             Skill2 = ETSkill2.getText().toString();
             Skill3 = ETSkill3.getText().toString();
-            Language1 = ETLanguage1.getText().toString();
-            Language2 = ETLanguage2.getText().toString();
+            Language1 = spinnerLanguage1.getSelectedItem().toString();
+            Language2 = spinnerLanguage2.getSelectedItem().toString();
             MobileNo = ETMobileNo.getText().toString();
             Email = ETEmail.getText().toString();
             JobType = jobTypeSpinner.getSelectedItem().toString();
@@ -129,6 +129,10 @@ public class AddNewJobOpening extends ImagePickerActivity {
             }
             else if (JobDescription.equals("")){
                 Toast.makeText(mContext,"Please enter job description", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else if (JobType.equals("[SELECT JOB TYPE]")){
+                Toast.makeText(mContext,"Please select job type", Toast.LENGTH_SHORT).show();
                 return;
             }
             else if (DesiredQualification.equals("")){
@@ -145,8 +149,8 @@ public class AddNewJobOpening extends ImagePickerActivity {
                     return;
                 }
             }
-            else if (PlaceOfWOrk.equals("")){
-                Toast.makeText(mContext,"Please enter a Place of Work", Toast.LENGTH_SHORT).show();
+            else if (PlaceOfWOrk.equals("[SELECT PLACE OF WORK]")){
+                Toast.makeText(mContext,"Please select a Place of Work", Toast.LENGTH_SHORT).show();
                 return;
             }
             else if (Skill1.equals("")){
@@ -223,5 +227,31 @@ public class AddNewJobOpening extends ImagePickerActivity {
             return false;
         }
         return true;
+    }
+
+    public void setupSpinners(){
+        Spinner jobType = findViewById(R.id.spinnerJobType);
+        ArrayAdapter<CharSequence> jobTypeAdapter = ArrayAdapter.createFromResource(this,
+                R.array.job_type, android.R.layout.simple_spinner_item);
+        jobTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jobType.setAdapter(jobTypeAdapter);
+
+        Spinner place = findViewById(R.id.spinnerPlaceOfWork);
+        ArrayAdapter<CharSequence> placeOfWorkAdapter = ArrayAdapter.createFromResource(this,
+                R.array.city_array, android.R.layout.simple_spinner_item);
+        placeOfWorkAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        place.setAdapter(placeOfWorkAdapter);
+
+        Spinner language1 = findViewById(R.id.spinnerLanguage1);
+        ArrayAdapter<CharSequence> language1Adapter = ArrayAdapter.createFromResource(this,
+                R.array.language_array_1, android.R.layout.simple_spinner_item);
+        language1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        language1.setAdapter(language1Adapter);
+
+        Spinner language2 = findViewById(R.id.spinnerLanguage2);
+        ArrayAdapter<CharSequence> language2Adapter = ArrayAdapter.createFromResource(this,
+                R.array.language_array_2, android.R.layout.simple_spinner_item);
+        language2Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        language2.setAdapter(language2Adapter);
     }
 }

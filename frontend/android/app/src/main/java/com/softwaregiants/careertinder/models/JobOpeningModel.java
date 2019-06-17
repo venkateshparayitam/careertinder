@@ -239,5 +239,8 @@ public class JobOpeningModel implements Parcelable {
         parcel.writeString(skill3);
         parcel.writeString(preferredLanguage1);
         parcel.writeString(preferredLanguage2);
+        parcel.writeString(jobType);
+        parcel.writeString(mobileNo);
+        parcel.writeString(eMail);
     }
 }

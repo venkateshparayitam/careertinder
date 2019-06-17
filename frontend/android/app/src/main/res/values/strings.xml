@@ -45,6 +45,7 @@
     <string name="navigation_drawer_close">CLOSE</string>
 
     <string-array name="city_array">
+        <item>[SELECT PLACE OF WORK]</item>
         <item>Nuremberg</item>
         <item>Furth</item>
         <item>Erlangen</item>
@@ -80,6 +81,7 @@
     </string-array>
 
     <string-array name="job_type">
+        <item>[SELECT JOB TYPE]</item>
         <item>Internship</item>
         <item>Mandatory Internhip</item>
         <item>Werkstudent</item>
