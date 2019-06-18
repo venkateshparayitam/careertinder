@@ -224,6 +224,9 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     private void submit() {
         mRetrofitClient.createProgress(mContext);
         if ( imageSelected ) {
+            if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+                fileName = jobOpeningModel.getImageUrl();
+            }
             jobOpeningModel.setImageUrl(fileName);
             uploadImageFile(bitmap,osl,ofl);
         } else {
