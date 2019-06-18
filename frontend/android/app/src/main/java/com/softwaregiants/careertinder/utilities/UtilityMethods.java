@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -25,16 +24,14 @@ public class UtilityMethods {
 
     public static Point getDisplaySize(Context mContext){
         try {
-            if(Build.VERSION.SDK_INT > 16) {
-                WindowManager wm = ((WindowManager) (mContext.getSystemService(Context.WINDOW_SERVICE)));
-                Point size = new Point();
+            WindowManager wm = ((WindowManager) (mContext.getSystemService(Context.WINDOW_SERVICE)));
+            Point size = new Point();
+            if (wm != null) {
                 wm.getDefaultDisplay().getRealSize(size);
-                return size;
-            }else{
-                return new Point(0, 0);
             }
+            return size;
         }catch (Exception e){
-            e.printStackTrace();
+            Log.e(TAG, "getDisplaySize: ", e);
             return new Point(0, 0);
         }
     }
@@ -46,7 +43,10 @@ public class UtilityMethods {
     public static boolean isConnected(Context mContext)
     {
         ConnectivityManager manager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = manager.getActiveNetworkInfo();
+        NetworkInfo info = null;
+        if (manager != null) {
+            info = manager.getActiveNetworkInfo();
+        }
         boolean isConnected = (info != null && info.isConnected());
         if ( !isConnected ) {
             Toast.makeText(mContext,Constants.MSG_CONNECTION_ERROR,Toast.LENGTH_SHORT).show();
@@ -60,7 +60,7 @@ public class UtilityMethods {
         try
         {
             MessageDigest digest = MessageDigest.getInstance( "SHA-224" );
-            byte[] bytes = toHash.getBytes("UTF-8");
+            byte[] bytes = toHash.getBytes(StandardCharsets.UTF_8);
             digest.update(bytes, 0, bytes.length);
             bytes = digest.digest();
 
@@ -69,17 +69,13 @@ public class UtilityMethods {
         }
         catch( NoSuchAlgorithmException e )
         {
-            e.printStackTrace();
-        }
-        catch( UnsupportedEncodingException e )
-        {
-            Log.e(TAG, "sha224Hash: ", e );
+            Log.e(TAG, "sha224Hash: ", e);
         }
         return hash;
     }
 
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex( byte[] bytes )
+    final private static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static String bytesToHex( byte[] bytes )
     {
         char[] hexChars = new char[ bytes.length * 2 ];
         for( int j = 0; j < bytes.length; j++ )
@@ -93,7 +89,9 @@ public class UtilityMethods {
 
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     public static String getEpochTime() {

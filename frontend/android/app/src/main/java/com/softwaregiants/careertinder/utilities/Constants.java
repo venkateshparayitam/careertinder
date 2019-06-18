@@ -16,7 +16,6 @@ public interface Constants {
     String API_GET_CANDIDATE_MATCHES = "candidate/all";
 
     //Success Codes
-    String SC_JOB_CREATED_SUCCESS = "job_opening_created";
     String SC_SUCCESS = "Success";
 
     //Messages
