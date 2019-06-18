@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import core.entities.CTApplicantEntity;
+import core.entities.CTCompanyEntity;
 
 /*
  * @author: Bora Bejleri
@@ -21,5 +22,9 @@ public interface ApplicantRepository extends JpaRepository<CTApplicantEntity, Lo
 	    @Transactional
 	    @Query(value = "SELECT * FROM ctapplicant WHERE emailid = ?1", nativeQuery = true)
 	    public CTApplicantEntity findByEmail(String email);
+	    
+	    @Transactional
+		@Query(value = "SELECT * from ctapplicant where applicant_id = ?1", nativeQuery = true)  
+		public CTApplicantEntity getApplicantById(Long applicant_id);
 	   
 }

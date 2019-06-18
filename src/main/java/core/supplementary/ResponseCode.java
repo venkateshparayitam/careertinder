@@ -20,6 +20,7 @@ public class ResponseCode{
     CTApplicantEntity applicant = new CTApplicantEntity();
     
     ArrayList<CTCompanyEntity> joblist = new ArrayList<CTCompanyEntity>();
+    ArrayList<CTApplicantEntity> applicantProfiles = new ArrayList<CTApplicantEntity>();
 
     @JsonProperty("response_code")
 	public String getStatus_code() {
@@ -99,6 +100,14 @@ public class ResponseCode{
 		this.applicant = applicant;
 
 		
+	}
+
+	public List<CTApplicantEntity> getApplicantProfiles() {
+		return applicantProfiles;
+	}
+
+	public void setApplicantProfiles(ArrayList<CTApplicantEntity> applicantProfiles) {
+		this.applicantProfiles = applicantProfiles;
 	}
 
 	

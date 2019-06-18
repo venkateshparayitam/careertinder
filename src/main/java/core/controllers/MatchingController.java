@@ -1,7 +1,11 @@
 package core.controllers;
 
+import core.entities.CTApplicantEntity;
+import core.entities.CTCompanyEntity;
 import core.entities.CTMatchingEntity;
 import core.entities.CTUserEntity;
+import core.repositories.ApplicantRepository;
+import core.repositories.CompanyRepository;
 import core.repositories.MatchingRepository;
 import core.repositories.UserRepository;
 import core.supplementary.ResponseCode;
@@ -9,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import core.services.MatchingService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,10 +29,18 @@ public class MatchingController {
 
 	@Autowired
 	MatchingRepository matchingRepository;
+	
 	@Autowired
 	private MatchingService matchingService;
+	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	CompanyRepository companyRepository;
+	
+	@Autowired 
+    ApplicantRepository applicantRepository;
 
 
 	@RequestMapping(path = "/getdistance", method = RequestMethod.GET, produces = "application/json")
@@ -130,5 +145,131 @@ public class MatchingController {
 		responseCode.setMessage("And exception occurred");
 		return responseCode;
 	}
+   }
+	
+	@GetMapping(path ="/applicant/listOfJobs/{authcode}", produces = "application/json")
+	public ResponseCode applicantListOfJobs(@PathVariable(value = "authcode") String authcode) {
+		
+		ResponseCode response = new ResponseCode();
+		CTApplicantEntity applicant = new CTApplicantEntity();
+		List<CTMatchingEntity> matchingList = new ArrayList<CTMatchingEntity>();
+		ArrayList<CTCompanyEntity> companyList = new ArrayList<CTCompanyEntity>();
+		CTUserEntity user = new CTUserEntity();
+		user = userRepository.getByToken(authcode);
+		boolean noMatchProfile = true; 
+		
+		try {
+			
+		
+		if(user != null)
+		{
+			applicant = applicantRepository.findByEmail(user.getEmailid());
+			matchingList = matchingRepository.getRecordsForApplicant(applicant.getId());
+			
+			for(CTMatchingEntity matching : matchingList)
+			{
+				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				{
+					noMatchProfile = false;
+					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
+					
+				}
+				else if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				{
+					noMatchProfile = false;
+					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
+				}
+				
+			}
+			
+			if(noMatchProfile)
+			{
+				response.setStatus_code("Success");
+				response.setMethod("getPerspectiveJobMatches");
+				response.setMessage("No Matching Profiles Found");
+			}
+			else
+			{
+				response.setStatus_code("Success");
+				response.setJoblist(companyList);
+				response.setMethod("getPerspectiveJobMatches");
+				response.setMessage("List of company profiles");
+			}
+		}
+		else
+		{
+			response.setStatus_code("Fail");
+			response.setMethod("getPerspectiveJobMatches");
+			response.setMessage("User Not Found");
+		}
+	}catch(Exception ex)
+	{
+		response.setMessage("Technical Error. If this continues please report this issue ");
+	}
+		return response;
+	}
+	
+	
+	@GetMapping(path ="/company/listOfApplicants/{jobid}", produces = "application/json")
+	public ResponseCode companyListOfApplicants(@PathVariable(value = "jobid") String jobid) {
+		
+		ResponseCode response = new ResponseCode();
+		CTCompanyEntity company = new CTCompanyEntity();
+		List<CTMatchingEntity> matchingList = new ArrayList<CTMatchingEntity>();
+		ArrayList<CTApplicantEntity> applicantlist = new ArrayList<CTApplicantEntity>();
+		
+		company = companyRepository.getJobById(Integer.parseInt(jobid));
+		boolean noMatchProfile = true; 
+		
+		try
+		{
+		
+		if(company != null)
+		{
+			matchingList = matchingRepository.getRecordsForCompany(company.getId());
+			
+			for(CTMatchingEntity matching : matchingList)
+			{
+
+				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				{
+					noMatchProfile = false;
+					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
+					
+				}
+				else if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 1 && matching.getPercentage() <= 90)
+				{
+					noMatchProfile = false;
+					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
+				}
+			}
+			
+			if(noMatchProfile)
+			{
+				response.setStatus_code("Success");
+				response.setMethod("getPerspectiveMatches");
+				response.setMessage("No Matching Profiles Found");
+			}
+			else
+			{
+				response.setStatus_code("Success");
+				response.setApplicantProfiles(applicantlist);
+				response.setMethod("getPerspectiveMatches");
+				response.setMessage("List of company profiles");
+			}
+		}
+		else
+		{
+		
+			response.setStatus_code("Fail");
+			response.setMethod("getPerspectiveMatches");
+			response.setMessage("Job Not Found");
+		}
+	}catch(Exception ex)
+	{
+		response.setMessage("Technical Error. If this continues please report this issue "+ex.getStackTrace()[0].getLineNumber());
+	}
+		
+		return response;
 	}
  }
