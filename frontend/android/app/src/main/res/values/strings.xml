@@ -45,6 +45,7 @@
     <string name="menu_logout">Log Out</string>
     <string name="navigation_drawer_open">OPEN</string>
     <string name="navigation_drawer_close">CLOSE</string>
+    <string name="jobTypeText">Job Type</string>
 
     <string-array name="city_array">
         <item>[SELECT PLACE OF WORK]</item>

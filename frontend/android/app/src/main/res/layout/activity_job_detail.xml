@@ -114,6 +114,37 @@
                     app:layout_constraintTop_toBottomOf="@+id/TVCompanyName" />
 
                 <TextView
+                    android:id="@+id/TVPreJobType"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:text="Job Type: "
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVJobTitle" />
+
+                <TextView
+                    android:id="@+id/TVJobType"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/jobTypeText"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
+                    app:layout_constraintTop_toBottomOf="@+id/TVJobTitle" />
+
+                <TextView
                     android:id="@+id/TVPreJobDescription"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -128,7 +159,7 @@
                     android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TVJobTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/TVJobType" />
 
                 <TextView
                     android:id="@+id/TVJobDescription"

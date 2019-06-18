@@ -28,6 +28,7 @@ public class JobDetailActivity extends BaseActivity {
     ImageView picture;
     TextView TVCompanyName;
     TextView TVJobTitle;
+    TextView TVJobType;
     TextView TVJobDescription;
 
     TextView TVDesiredQualification;
@@ -68,6 +69,7 @@ public class JobDetailActivity extends BaseActivity {
         picture = findViewById(R.id.picture);
         TVCompanyName = findViewById(R.id.TVCompanyName);
         TVJobTitle = findViewById(R.id.TVJobTitle);
+        TVJobType = findViewById(R.id.TVJobType);
         TVJobDescription = findViewById(R.id.TVJobDescription);
 
         TVDesiredQualification = findViewById(R.id.TVDesiredQualification);
@@ -83,6 +85,7 @@ public class JobDetailActivity extends BaseActivity {
 
         TVCompanyName.setText(jobOpeningModel.getCompanyName());
         TVJobTitle.setText(jobOpeningModel.getJobTitle());
+        TVJobType.setText(jobOpeningModel.getJobType());
         TVJobDescription.setText(jobOpeningModel.getJobDescription());
 
         TVDesiredQualification.setText(jobOpeningModel.getDesiredQualification());
