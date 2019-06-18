@@ -9,7 +9,11 @@ import core.repositories.CompanyRepository;
 import core.repositories.MatchingRepository;
 import core.repositories.UserRepository;
 import core.supplementary.ResponseCode;
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import core.services.MatchingService;
@@ -43,6 +47,8 @@ public class MatchingController {
     ApplicantRepository applicantRepository;
 
 
+
+	@Scheduled(fixedRate = 2000)
 	@RequestMapping(path = "/getdistance", method = RequestMethod.GET, produces = "application/json")
 	public void getResponse() {
 
@@ -239,7 +245,7 @@ public class MatchingController {
 					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
 					
 				}
-				else if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 1 && matching.getPercentage() <= 90)
+				else if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
 				{
 					noMatchProfile = false;
 					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
@@ -269,7 +275,7 @@ public class MatchingController {
 		}
 	}catch(Exception ex)
 	{
-		response.setMessage("Technical Error. If this continues please report this issue "+ex.getStackTrace()[0].getLineNumber());
+		response.setMessage("Technical Error. If this continues please report this issue ");
 	}
 		
 		return response;

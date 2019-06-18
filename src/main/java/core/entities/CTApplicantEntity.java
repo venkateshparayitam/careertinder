@@ -49,7 +49,7 @@ public class CTApplicantEntity implements Serializable {
 	@Column(name="address", nullable = true)
 	private String address;
 	
-	@Column(name="bio", nullable=true)
+	@Column(name="bio", nullable=true, length=2000)
 	private String bio;
 	
 	@Column(name="first_skill", nullable = true)

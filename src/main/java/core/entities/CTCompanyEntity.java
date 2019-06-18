@@ -42,7 +42,7 @@ public class CTCompanyEntity implements Serializable {
 	@Column(name = "jobtitle",  nullable = true)
 	private String jobtitle;
 	
-	@Column(name="job_description", nullable = true)
+	@Column(name="job_description", nullable = true, length = 2000)
 	private String jobdescription;
 	
 	@Column(name = "skill1",  nullable = true)
