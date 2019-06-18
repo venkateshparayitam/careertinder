@@ -3,7 +3,10 @@ package com.softwaregiants.careertinder.activities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,11 +38,14 @@ public class JobDetailActivity extends BaseActivity {
     TextView TVLanguage1;
     TextView TVLanguage2;
 
+    boolean matched;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
         jobOpeningModel = getIntent().getParcelableExtra("job");
+        matched = getIntent().getBooleanExtra("matched", false);
         init();
     }
 
@@ -99,5 +105,18 @@ public class JobDetailActivity extends BaseActivity {
             picture.setImageResource(R.drawable.image_placeholder);
         }
 
+        if (matched){
+            switchView();
+        }
+    }
+
+    public void switchView(){
+        ConstraintLayout constraintLayout = findViewById(R.id.contactDetailsConstraintLayout);
+        LinearLayout linearLayout = findViewById(R.id.LLButtons);
+        TextView contactDetails = findViewById(R.id.TVEmailAddress);
+
+        contactDetails.setText(jobOpeningModel.geteMail());
+        constraintLayout.setVisibility(View.VISIBLE);
+        linearLayout.setVisibility(View.GONE);
     }
 }
