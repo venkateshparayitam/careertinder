@@ -119,6 +119,14 @@ public class JobOpeningsListActivity extends BaseActivity {
         }
     };
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if ( mRetrofitClient != null ) {
+            mRetrofitClient.cancelProgress();
+        }
+    }
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {

@@ -141,8 +141,10 @@ public class JobDetailActivity extends BaseActivity {
             switch ( v.getId() ) {
                 case R.id.BtnAccept:
                     output.putExtra("action", ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
+                    break;
                 case R.id.BtnReject:
                     output.putExtra("action", ACTION_PERFORMED.SWIPE_LEFT_REJECT);
+                    break;
             }
             setResult(RESULT_OK, output);
             finish();

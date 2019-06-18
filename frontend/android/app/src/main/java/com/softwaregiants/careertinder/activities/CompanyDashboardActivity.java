@@ -56,6 +56,7 @@ public class CompanyDashboardActivity extends BaseActivity {
 
     private void init() {
         mContext = this;
+        needUndo = false;
         jobOpeningModel = getIntent().getParcelableExtra("job");
         swipePlaceHolderView = findViewById(R.id.swipeView);
         TVNoItems = findViewById(R.id.TVNoItems);
