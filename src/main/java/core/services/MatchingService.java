@@ -43,51 +43,52 @@ public class MatchingService {
 	private double response;
 	private double result;
 	private double percentage;
+	
+	NormalizedLevenshtein ld = new NormalizedLevenshtein();	
+	DecimalFormat df = new DecimalFormat("####0.00");
+	
 
 	public void calculateMatchingPercentage() {
-		
-		NormalizedLevenshtein ld = new NormalizedLevenshtein();	
-		DecimalFormat df = new DecimalFormat("####0.00");
 		
 		List<CTApplicantEntity> applicants = applicantRepository.findAll();
 		List<CTCompanyEntity> companies = companyRepository.findAll();
 		
-		if((!applicants.isEmpty()) && (!companies.isEmpty())) {
-			
-			for (CTApplicantEntity applicant : applicants) {
-				
-				for (CTCompanyEntity company : companies) {
+		if((!applicants.isEmpty()) && (!companies.isEmpty())) {			
 					
-					try {
-					
-					CTMatchingEntity databaseMatching = new CTMatchingEntity();
-					
-				    distance1 = ld.distance(applicant.getFirstskill(), company.getSkill1());
-				    distance2 = ld.distance(applicant.getSecondskill(), company.getSkill2());
-				    distance3 = ld.distance(applicant.getThirdskill(), company.getSkill3());
-				    
-				    result = Stats.meanOf(distance1, distance2, distance3);
-				    response = Double.valueOf(df.format(result));	
-				    percentage = response * 100;
-				    
-				    databaseMatching.setApplicant_id(applicant.getId());
-				    databaseMatching.setCompany_id(company.getId());
-				    databaseMatching.setPercentage(percentage);
-				    matchingRepository.save(databaseMatching);	
-				    
-				    //System.out.println(applicant.getName() + " - " + company.getCompanyname());
-				    //System.out.println(percentage);
-				    
-					   } catch(Exception e) {
-						   e.printStackTrace();
-					}
-				   			    		    
+						for (CTApplicantEntity applicant : applicants) {
+							
+							for (CTCompanyEntity company : companies) {
+						
+						        if (matchingRepository.exists(applicant.getId(), company.getId()) == 0) {		        	
+					            this.getDistance(applicant, company);
 				}
-								
-			} 
-			
-		}	
-					
-	}
+			 }
+		  } 
+	  }
+  }	
 	
-}
+	public void getDistance(CTApplicantEntity applicant, CTCompanyEntity company) {		
+												
+							try {
+								
+								CTMatchingEntity databaseMatching = new CTMatchingEntity();
+								
+							    distance1 = ld.distance(applicant.getFirstskill(), company.getSkill1());
+							    distance2 = ld.distance(applicant.getSecondskill(), company.getSkill2());
+							    distance3 = ld.distance(applicant.getThirdskill(), company.getSkill3());
+							    
+							    result = Stats.meanOf(distance1, distance2, distance3);
+							    response = Double.valueOf(df.format(result));	
+							    percentage = response * 100;
+							    
+							    databaseMatching.setApplicant_id(applicant.getId());
+							    databaseMatching.setCompany_id(company.getId());
+							    databaseMatching.setPercentage(percentage);
+							    matchingRepository.save(databaseMatching);	
+
+								   } catch(Exception e) {
+									   e.printStackTrace();
+						   }
+						}
+					 }								   			    		    	
+			      
