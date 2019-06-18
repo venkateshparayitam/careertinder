@@ -50,7 +50,7 @@ public interface ApiInterface {
     @GET("candidate/display/{authToken}")
     Call<ResponseBody> getCandidateProfile(@Path("authToken") String auth_code);
 
-    @GET("{authToken}")
+    @GET("applicant/getMatches/{authToken}")
     Call<ResponseBody> getMatchesForCandidate(@Path("authToken") String auth_code);
 
     @PUT("companySwipe/{authToken}")

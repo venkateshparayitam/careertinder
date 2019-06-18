@@ -11,7 +11,7 @@ public interface Constants {
     String API_METHOD_GET_JOB_MATCHES = "getPerspectiveJobMatches";
     String API_METHOD_EDIT_JOB_OPENING = "edit_job_opening";
     String API_METHOD_GET_CANDIDATE_PROFILE = "GET_CANDIDATE_PROFILE";
-    String API_METHOD_GET_MATCHES_FOR_CANDIDATE = "get_matches_for_candidate";
+    String API_METHOD_GET_MATCHES_FOR_CANDIDATE = "get_matches_for_candidates";
     String API_GET_CANDIDATE_MATCHES = "getPerspectiveMatches";
     String API_APPLICANT_SWIPE = "update_applicant_swipe";
     String API_COMPANY_SWIPE = "update_company_swipe";
