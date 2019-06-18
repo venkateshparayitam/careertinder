@@ -1,10 +1,12 @@
 package com.softwaregiants.careertinder.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.softwaregiants.careertinder.R;
+import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +42,9 @@ public class JobDetailActivity extends BaseActivity {
     TextView TVLanguage2;
 
     boolean matched;
+
+    Button btnAccept;
+    Button btnReject;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +96,11 @@ public class JobDetailActivity extends BaseActivity {
         TVLanguage1.setText(jobOpeningModel.getPreferredlanguage1());
         TVLanguage2.setText(jobOpeningModel.getPreferredlanguage2());
 
+        btnAccept = findViewById(R.id.BtnAccept);
+        btnReject = findViewById(R.id.BtnReject);
+        btnAccept.setOnClickListener(onClickListener);
+        btnReject.setOnClickListener(onClickListener);
+
 
         if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
             StorageReference storageRef = storage.getReference(jobOpeningModel.getImageUrl());
@@ -119,4 +130,19 @@ public class JobDetailActivity extends BaseActivity {
         constraintLayout.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.GONE);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent output = new Intent();
+            switch ( v.getId() ) {
+                case R.id.BtnAccept:
+                    output.putExtra("action", ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
+                case R.id.BtnReject:
+                    output.putExtra("action", ACTION_PERFORMED.SWIPE_LEFT_REJECT);
+            }
+            setResult(RESULT_OK, output);
+            finish();
+        }
+    };
 }

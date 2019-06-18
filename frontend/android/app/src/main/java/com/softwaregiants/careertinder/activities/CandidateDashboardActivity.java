@@ -3,6 +3,7 @@ package com.softwaregiants.careertinder.activities;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     int items = 0;
     int swipedItems = 0;
     static final int PAGE_SIZE = 10;
+    JobOpeningModel lastSwipedCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +143,9 @@ public class CandidateDashboardActivity extends BaseActivity {
                 case JOB_CLICK:
                     Intent jobDetail = new Intent(mContext,JobDetailActivity.class);
                     jobDetail.putExtra("job",jobOpeningModelList.get(pos));
-                    mContext.startActivity( jobDetail );
+                    startActivityForResult(jobDetail,Constants.NEED_RESULT_COMPANY_DETAIL);
                     break;
-                case SWIPE_LEFT://REJECT
+                case SWIPE_LEFT_REJECT://REJECT
                     if ( UtilityMethods.isConnected(mContext) ) {
                         String authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE,"");
                         ApplicantSwipeModel applicantSwipeModel = new ApplicantSwipeModel();
@@ -153,9 +155,10 @@ public class CandidateDashboardActivity extends BaseActivity {
                         mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
                     } else {
                         //TODO Undo
+//                        swipePlaceHolderView.undoLastSwipe();
                     }
                     break;
-                case SWIPE_RIGHT://ACCEPT
+                case SWIPE_RIGHT_ACCEPT://ACCEPT
                     if ( UtilityMethods.isConnected(mContext) ) {
                         String authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE,"");
                         ApplicantSwipeModel applicantSwipeModel = new ApplicantSwipeModel();
@@ -165,10 +168,25 @@ public class CandidateDashboardActivity extends BaseActivity {
                         mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
                     } else {
                         //TODO Undo
+//                        swipePlaceHolderView.undoLastSwipe();
                     }
                     break;
             }
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.NEED_RESULT_COMPANY_DETAIL:
+                    if ( data != null ) {
+                        ACTION_PERFORMED action_performed = (ACTION_PERFORMED) data.getSerializableExtra("action");
+                        swipePlaceHolderView.doSwipe(action_performed == ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
+                    }
+                    break;
+            }
+        }
+    }
 }

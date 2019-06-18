@@ -114,7 +114,7 @@ public class TinderJobCard {
     public void onSwipedOut() {
         //Swipe Left | REJECT
         Log.d("DEBUG", "onSwipedOut");
-        mBaseListener.callback(ACTION_PERFORMED.SWIPE_LEFT, pos);
+        mBaseListener.callback(ACTION_PERFORMED.SWIPE_LEFT_REJECT, pos);
     }
 
     @SwipeCancelState
@@ -126,7 +126,7 @@ public class TinderJobCard {
     public void onSwipeIn() {
         //Swipe Right | ACCEPT
         Log.d("DEBUG", "onSwipedIn");
-        mBaseListener.callback(ACTION_PERFORMED.SWIPE_RIGHT, pos);
+        mBaseListener.callback(ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT, pos);
     }
 
     @SwipeInState

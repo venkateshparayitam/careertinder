@@ -1,8 +1,11 @@
 package com.softwaregiants.careertinder.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +13,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.softwaregiants.careertinder.R;
+import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.models.CandidateProfileModel;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +37,9 @@ public class CandidateDetailActivity extends BaseActivity {
 
     TextView TVLanguage1;
     TextView TVLanguage2;
+
+    Button btnAccept;
+    Button btnReject;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +88,11 @@ public class CandidateDetailActivity extends BaseActivity {
         TVLanguage1.setText(candidateProfileModel.getFirst_language());
         TVLanguage2.setText(candidateProfileModel.getSecond_language());
 
+        btnAccept = findViewById(R.id.BtnAccept);
+        btnReject = findViewById(R.id.BtnReject);
+        btnAccept.setOnClickListener(onClickListener);
+        btnReject.setOnClickListener(onClickListener);
+
         if ( null != candidateProfileModel.getImageUrl() && !candidateProfileModel.getImageUrl().isEmpty()) {
             StorageReference storageRef = storage.getReference(candidateProfileModel.getImageUrl());
             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -96,4 +108,19 @@ public class CandidateDetailActivity extends BaseActivity {
         }
 
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent output = new Intent();
+            switch ( v.getId() ) {
+                case R.id.BtnAccept:
+                    output.putExtra("action", ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
+                case R.id.BtnReject:
+                    output.putExtra("action", ACTION_PERFORMED.SWIPE_LEFT_REJECT);
+            }
+            setResult(RESULT_OK, output);
+            finish();
+        }
+    };
 }
