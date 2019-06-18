@@ -154,6 +154,7 @@ public class MatchingController {
 		CTApplicantEntity applicant = new CTApplicantEntity();
 		List<CTMatchingEntity> matchingList = new ArrayList<CTMatchingEntity>();
 		ArrayList<CTCompanyEntity> companyList = new ArrayList<CTCompanyEntity>();
+		
 		CTUserEntity user = new CTUserEntity();
 		user = userRepository.getByToken(authcode);
 		boolean noMatchProfile = true; 
@@ -174,7 +175,7 @@ public class MatchingController {
 					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
 					
 				}
-				else if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				else if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 1 && matching.getPercentage() <= 90)
 				{
 					noMatchProfile = false;
 					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
@@ -192,6 +193,7 @@ public class MatchingController {
 			{
 				response.setStatus_code("Success");
 				response.setJoblist(companyList);
+				response.setApplicant(applicant);
 				response.setMethod("getPerspectiveJobMatches");
 				response.setMessage("List of company profiles");
 			}
@@ -199,7 +201,7 @@ public class MatchingController {
 		else
 		{
 			response.setStatus_code("Fail");
-			response.setMethod("getPerspectiveJobMatches");
+			response.setMethod("getPerspectiveMatches");
 			response.setMessage("User Not Found");
 		}
 	}catch(Exception ex)
