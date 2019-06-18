@@ -75,6 +75,7 @@ class BaseActivity extends AppCompatActivity
                 break;
             case R.id.nav_view_matches:
                 startActivity(new Intent(mContext,CandidateMatchviewerActivity.class));
+                finish();
                 break;
             case R.id.nav_logout:
                 logOut();

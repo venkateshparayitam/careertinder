@@ -37,6 +37,7 @@ public class CandidateMatchviewerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_matchviewer);
+        addDrawer("Your Matches", R.id.nav_view_matches);
 
         Button btn = findViewById(R.id.addJobOpeningBtn);
         btn.setVisibility(View.GONE);
