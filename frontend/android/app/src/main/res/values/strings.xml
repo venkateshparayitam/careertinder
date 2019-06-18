@@ -33,6 +33,7 @@
     <string name="contactPhoneText">Contact Phone Number</string>
     <string name="contactEmailText">Contact Email</string>
     <string name="updateJobOpeningText">Update Job Opening</string>
+    <string name="viewMatchesText">View Matches</string>
 
     <string name="nav_header_title">FirstName LastName</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>

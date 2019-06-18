@@ -73,6 +73,9 @@ class BaseActivity extends AppCompatActivity
                 startActivity(new Intent( mContext,EditCandidateProfile.class ));
                 finish();
                 break;
+            case R.id.nav_view_matches:
+                startActivity(new Intent(mContext,CandidateMatchviewerActivity.class));
+                break;
             case R.id.nav_logout:
                 logOut();
                 break;
