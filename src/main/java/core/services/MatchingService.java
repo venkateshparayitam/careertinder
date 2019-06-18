@@ -46,7 +46,6 @@ public class MatchingService {
 	
 	NormalizedLevenshtein ld = new NormalizedLevenshtein();	
 	DecimalFormat df = new DecimalFormat("####0.00");
-	
 
 	public void calculateMatchingPercentage() {
 		
@@ -55,12 +54,12 @@ public class MatchingService {
 		
 		if((!applicants.isEmpty()) && (!companies.isEmpty())) {			
 					
-						for (CTApplicantEntity applicant : applicants) {
+			for (CTApplicantEntity applicant : applicants) {
 							
-							for (CTCompanyEntity company : companies) {
+				for (CTCompanyEntity company : companies) {
 						
-						        if (matchingRepository.exists(applicant.getId(), company.getId()) == 0) {		        	
-					            this.getDistance(applicant, company);
+				   if (matchingRepository.exists(applicant.getId(), company.getId()) == 0) {		        	
+					  this.getDistance(applicant, company);
 				}
 			 }
 		  } 
@@ -69,25 +68,25 @@ public class MatchingService {
 	
 	public void getDistance(CTApplicantEntity applicant, CTCompanyEntity company) {		
 												
-							try {
+			try {
 								
-								CTMatchingEntity databaseMatching = new CTMatchingEntity();
+			  CTMatchingEntity databaseMatching = new CTMatchingEntity();
 								
-							    distance1 = ld.distance(applicant.getFirstskill(), company.getSkill1());
-							    distance2 = ld.distance(applicant.getSecondskill(), company.getSkill2());
-							    distance3 = ld.distance(applicant.getThirdskill(), company.getSkill3());
+			  distance1 = ld.distance(applicant.getFirstskill(), company.getSkill1());
+			  distance2 = ld.distance(applicant.getSecondskill(), company.getSkill2());
+			  distance3 = ld.distance(applicant.getThirdskill(), company.getSkill3());
 							    
-							    result = Stats.meanOf(distance1, distance2, distance3);
-							    response = Double.valueOf(df.format(result));	
-							    percentage = response * 100;
+			  result = Stats.meanOf(distance1, distance2, distance3);
+			  response = Double.valueOf(df.format(result));	
+			  percentage = response * 100;
 							    
-							    databaseMatching.setApplicant_id(applicant.getId());
-							    databaseMatching.setCompany_id(company.getId());
-							    databaseMatching.setPercentage(percentage);
-							    matchingRepository.save(databaseMatching);	
+			  databaseMatching.setApplicant_id(applicant.getId());
+			  databaseMatching.setCompany_id(company.getId());
+			  databaseMatching.setPercentage(percentage);
+			  matchingRepository.save(databaseMatching);	
 
-								   } catch(Exception e) {
-									   e.printStackTrace();
+			  } catch(Exception e) {
+				e.printStackTrace();
 						   }
 						}
 					 }								   			    		    	
