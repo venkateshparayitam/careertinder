@@ -10,13 +10,13 @@ public interface Constants {
     String API_METHOD_GET_JOB_OPENINGS = "get_job_list";
     String API_METHOD_EDIT_JOB_OPENING = "edit_job_opening";
     String API_METHOD_GET_CANDIDATE_PROFILE = "GET_CANDIDATE_PROFILE";
+    String API_METHOD_GET_MATCHES_FOR_CANDIDATE = "get_matches_for_candidate";
 
     //API methods for non conforming APIs
     String API_CREATE_CANDIDATE = "candidate/create/";
     String API_GET_CANDIDATE_MATCHES = "candidate/all";
 
     //Success Codes
-    String SC_JOB_CREATED_SUCCESS = "job_opening_created";
     String SC_SUCCESS = "Success";
 
     //Messages

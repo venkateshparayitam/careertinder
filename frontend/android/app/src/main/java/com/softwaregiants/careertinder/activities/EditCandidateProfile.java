@@ -3,6 +3,7 @@ package com.softwaregiants.careertinder.activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.CandidateProfileModel;
@@ -43,6 +47,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
     EditText skill_three;
     EditText address;
     EditText about_me;
+    EditText mobile;
     TextView dateBirth;
     EditText skill_addnl;
 
@@ -50,6 +55,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
     Spinner place_spinner;
     Spinner lang1_spinner;
     Spinner lang2_spinner;
+    Spinner job_type;
     DatePickerDialog picker;
 
     String university_value = EMPTY_STRING;
@@ -60,6 +66,8 @@ public class EditCandidateProfile extends ImagePickerActivity {
     String skill_three_value = EMPTY_STRING;
     String skill_addnl_value = EMPTY_STRING;
     String authToken;
+    String mobile_value = EMPTY_STRING;
+    String job_type_value = EMPTY_STRING;
 
     String address_value = EMPTY_STRING;
     String about_me_value = EMPTY_STRING;
@@ -104,6 +112,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
         university = findViewById(R.id.ETUniversity);
         highest_education = findViewById(R.id.ETEducation);
         work_experience = findViewById(R.id.ETWorkExperience);
+        mobile = findViewById(R.id.ETmobileNo);
         skill_one = findViewById(R.id.ETSkillOne);
         skill_two = findViewById(R.id.ETSkillTwo);
         skill_three = findViewById(R.id.ETSkillThree);
@@ -115,6 +124,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
         place_spinner = findViewById(R.id.spinnerPlace);
         lang1_spinner = findViewById(R.id.spinnerLanguage1);
         lang2_spinner = findViewById(R.id.spinnerLanguage2);
+        job_type = findViewById(R.id.spinnerJobType);
         authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, EMPTY_STRING);
     }
 
@@ -136,6 +146,8 @@ public class EditCandidateProfile extends ImagePickerActivity {
             place_value = place_spinner.getSelectedItem().toString();
             first_language = lang1_spinner.getSelectedItem().toString();
             second_language = lang2_spinner.getSelectedItem().toString();
+            mobile_value = mobile.getText().toString();
+            job_type_value = job_type.getSelectedItem().toString();
 
             CandidateProfileModel candidateProfileModel = new CandidateProfileModel();
             candidateProfileModel.setUniversity(university_value);
@@ -152,51 +164,78 @@ public class EditCandidateProfile extends ImagePickerActivity {
             candidateProfileModel.setPlace(place_value);
             candidateProfileModel.setFirst_language(first_language);
             candidateProfileModel.setSecond_language(second_language);
+            candidateProfileModel.setJobType(job_type_value);
+            candidateProfileModel.setPhone(mobile_value);
 
             if(university_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please enter university name", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (highest_education_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please enter your highest education", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (work_experience_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please enter your work experience", Toast.LENGTH_SHORT).show();
-                return;
             }
-            else if (skill_one_value.equals(EMPTY_STRING)){
-                Toast.makeText(mContext,"Please enter your Skill One", Toast.LENGTH_SHORT).show();
-                return;
+            else if (job_type_value.equals("[SELECT JOB TYPE]")){
+                Toast.makeText(mContext,"Please select job type", Toast.LENGTH_SHORT).show();
             }
-            else if (skill_two_value.equals(EMPTY_STRING)){
-                Toast.makeText(mContext,"Please enter your Skill Two", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if (skill_three_value.equals(EMPTY_STRING)){
-                Toast.makeText(mContext,"Please enter your Skill Three", Toast.LENGTH_SHORT).show();
-                return;
+            else if ( (skill_one_value.isEmpty() && skill_two_value.isEmpty() && skill_three_value.isEmpty()) ) {
+                Toast.makeText(mContext,"Please enter at least one skill", Toast.LENGTH_SHORT).show();
             }
             else if (address_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please enter your Address", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (about_me_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please tell something about yourself", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (dateBirth_value.equals(EMPTY_STRING)){
                 Toast.makeText(mContext,"Please enter your date of birth", Toast.LENGTH_SHORT).show();
-                return;
+            }
+            else if (place_value.equals("[SELECT YOUR CITY]")){
+                Toast.makeText(mContext,"Please select an option for your city", Toast.LENGTH_SHORT).show();
+            }
+            else if (first_language.equals("[SELECT LANGUAGE]")){
+                Toast.makeText(mContext,"Please select an option for primary language", Toast.LENGTH_SHORT).show();
+            }
+            else if (second_language.equals("[SELECT LANGUAGE]")){
+                Toast.makeText(mContext,"Please select an option for secondary language", Toast.LENGTH_SHORT).show();
+            }
+            else if (!UtilityMethods.validatePhone(mobile_value)){
+                Toast.makeText(mContext,"Contact number invalid", Toast.LENGTH_SHORT).show();
             }
             else{
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient.createProgress(mContext));
+                    submit();
                 }
             }
         }
     };
+
+    private void submit() {
+        mRetrofitClient.createProgress(mContext);
+        if ( imageSelected ) {
+            candidateProfileModel.setImageUrl(fileName);
+            uploadImageFile(bitmap,osl,ofl);
+        } else {
+            mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient);
+        }
+    }
     //endregion
+
+    OnSuccessListener osl = new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
+            mRetrofitClient.mApiInterface.postSignUp(candidateProfileModel, authToken).enqueue(mRetrofitClient);
+        }
+    };
+
+    OnFailureListener ofl = new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Toast.makeText(mContext, "Failed to upload image, please try again!", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
@@ -207,6 +246,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
                     university.setText(candidateProfileModel.getUniversity());
                     highest_education.setText(candidateProfileModel.getHighest_education());
                     work_experience.setText(candidateProfileModel.getWork_experience());
+                    mobile.setText(candidateProfileModel.getPhone());
                     skill_one.setText(candidateProfileModel.getSkill_one());
                     skill_two.setText(candidateProfileModel.getSkill_two());
                     skill_three.setText(candidateProfileModel.getSkill_three());
@@ -224,6 +264,17 @@ public class EditCandidateProfile extends ImagePickerActivity {
                     myOptions = Arrays.asList((getResources().getStringArray(R.array.language_array_2)));
                     value = myOptions.indexOf(candidateProfileModel.getSecond_language());
                     lang2_spinner.setSelection(value);
+                    myOptions = Arrays.asList((getResources().getStringArray(R.array.job_type)));
+                    if (candidateProfileModel.getJobType()!=null && !candidateProfileModel.getJobType().isEmpty()) {
+                        value = myOptions.indexOf(candidateProfileModel.getJobType());
+                    } else {
+                        value = 0;
+                    }
+                    job_type.setSelection(value);
+
+                    if ( null != candidateProfileModel.getImageUrl() && !candidateProfileModel.getImageUrl().isEmpty()) {
+                        downloadImageFile(candidateProfileModel.getImageUrl());
+                    }
                     break;
                 default:
                     PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
@@ -243,7 +294,7 @@ public class EditCandidateProfile extends ImagePickerActivity {
     private void setupSpinners() {
         Spinner spinner = findViewById(R.id.spinnerPlace);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.city_array, android.R.layout.simple_spinner_item);
+                R.array.city_array_candidate, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -258,6 +309,12 @@ public class EditCandidateProfile extends ImagePickerActivity {
                 R.array.language_array_2, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter3);
+
+        spinner = findViewById(R.id.spinnerJobType);
+        ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this,
+                R.array.job_type, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter4);
     }
 
     private void setupDatePicker() {

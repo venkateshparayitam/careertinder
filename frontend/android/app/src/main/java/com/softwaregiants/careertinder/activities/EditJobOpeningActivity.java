@@ -2,6 +2,7 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.UploadTask;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
@@ -21,10 +25,13 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import static com.softwaregiants.careertinder.utilities.UtilityMethods.isNumeric;
+import static com.softwaregiants.careertinder.utilities.UtilityMethods.validatePhone;
+
 public class EditJobOpeningActivity extends ImagePickerActivity {
 
     //region class variables
-    private Button btn;
+    Button btn;
     RetrofitClient mRetrofitClient;
 
     EditText ETCompanyName;
@@ -68,7 +75,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         setContentView(R.layout.activity_edit_job_opening);
 
         Intent intent = getIntent();
-        jobOpeningModel = (JobOpeningModel) intent.getParcelableExtra("jobOpeningObject");
+        jobOpeningModel = intent.getParcelableExtra("jobOpeningObject");
         setupSpinners();
         init();
     }
@@ -89,20 +96,20 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
-        ETCompanyName = (EditText)findViewById(R.id.ETCompanyName);
-        ETJobTitle = (EditText)findViewById(R.id.ETJobTitle);
-        ETJobDescription = (EditText)findViewById(R.id.ETJobDescription);
-        ETDesiredQualification = (EditText)findViewById(R.id.ETDesiredQualification);
-        ETDesiredWorkExperience = (EditText)findViewById(R.id.ETDesiredWorkExperience);
-        spinnerPlaceOfWork = (Spinner)findViewById(R.id.spinnerPlaceOfWork);
-        ETSkill1 = (EditText)findViewById(R.id.ETSkill1);
-        ETSkill2 = (EditText)findViewById(R.id.ETSkill2);
-        ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
-        spinnerLanguage1 = (Spinner)findViewById(R.id.spinnerLanguage1);
-        spinnerLanguage2 = (Spinner)findViewById(R.id.spinnerLanguage2);
-        ETMobileNo = (EditText)findViewById(R.id.ETmobileNo);
-        ETEmail = (EditText)findViewById(R.id.ETemail);
-        jobTypeSpinner = (Spinner)findViewById(R.id.spinnerJobType);
+        ETCompanyName = findViewById(R.id.ETCompanyName);
+        ETJobTitle = findViewById(R.id.ETJobTitle);
+        ETJobDescription = findViewById(R.id.ETJobDescription);
+        ETDesiredQualification = findViewById(R.id.ETDesiredQualification);
+        ETDesiredWorkExperience = findViewById(R.id.ETDesiredWorkExperience);
+        spinnerPlaceOfWork = findViewById(R.id.spinnerPlaceOfWork);
+        ETSkill1 = findViewById(R.id.ETSkill1);
+        ETSkill2 = findViewById(R.id.ETSkill2);
+        ETSkill3 = findViewById(R.id.ETSkill3);
+        spinnerLanguage1 = findViewById(R.id.spinnerLanguage1);
+        spinnerLanguage2 = findViewById(R.id.spinnerLanguage2);
+        ETMobileNo = findViewById(R.id.ETmobileNo);
+        ETEmail = findViewById(R.id.ETemail);
+        jobTypeSpinner = findViewById(R.id.spinnerJobType);
 
         ETCompanyName.setText(jobOpeningModel.getCompanyName());
         ETJobTitle.setText(jobOpeningModel.getJobTitle());
@@ -118,6 +125,11 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         imageUser = findViewById(R.id.picture);
         updateImageButton = findViewById(R.id.updatePicture);
         updateImageButton.setOnClickListener(updateImageListener);
+
+        if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+            downloadImageFile(jobOpeningModel.getImageUrl());
+        }
+
         requestMultiplePermissions();
     }
 
@@ -141,53 +153,41 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
             JobType = jobTypeSpinner.getSelectedItem().toString();
             if (CompanyName.equals("")){
                 Toast.makeText(mContext,"Please enter your Company Name", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobTitle.equals("")){
                 Toast.makeText(mContext,"Please enter Job Title", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobDescription.equals("")){
                 Toast.makeText(mContext,"Please enter job description", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobType.equals("[SELECT JOB TYPE]")){
                 Toast.makeText(mContext,"Please select job type", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (DesiredQualification.equals("")){
                 Toast.makeText(mContext,"Please enter desired qualification", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (DesiredWorkExperience.equals("") || !isNumeric(DesiredWorkExperience)){
                 if (DesiredWorkExperience.equals("")) {
                     Toast.makeText(mContext, "Please enter desired Work Experience", Toast.LENGTH_SHORT).show();
-                    return;
                 }
                 if (!isNumeric(DesiredWorkExperience)){
                     Toast.makeText(mContext, "Please enter desired Work Experience (in Months)", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
             else if (PlaceOfWOrk.equals("[SELECT PLACE OF WORK]")){
                 Toast.makeText(mContext,"Please select a Place of Work", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (Skill1.equals("")){
                 Toast.makeText(mContext,"Please enter a skill", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (Language1.equals("")){
                 Toast.makeText(mContext,"Please enter a language", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (!validateEmail(Email)){
                 Toast.makeText(mContext,"Contact Email invalid", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (!validatePhone(MobileNo)){
                 Toast.makeText(mContext,"Contact number invalid", Toast.LENGTH_SHORT).show();
-                return;
             }
             else{
 
@@ -206,12 +206,40 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
                 jobOpeningModel.seteMail(Email);
                 jobOpeningModel.setJobType(JobType);
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+                    submit();
                 }
             }
         }
     };
+
+    private void submit() {
+        mRetrofitClient.createProgress(mContext);
+        if ( imageSelected ) {
+            if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
+                fileName = jobOpeningModel.getImageUrl();
+            }
+            jobOpeningModel.setImageUrl(fileName);
+            uploadImageFile(bitmap,osl,ofl);
+        } else {
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    }
     //endregion
+
+    OnSuccessListener osl = new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+        }
+    };
+
+    OnFailureListener ofl = new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            Toast.makeText(mContext, "Failed to upload image, please try again!", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
@@ -226,15 +254,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         public void onFailure(Throwable t) {
         }
     };
-
-    public boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch(NumberFormatException e){
-            return false;
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -256,16 +275,6 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
 
     public boolean validateEmail(String email) {
         return EmailValidator.getInstance().isValid(email);
-    }
-
-    public boolean validatePhone(String phone) {
-        if (!isNumeric(phone)){
-            return false;
-        }
-        if(!(phone.length() > 6)){
-            return false;
-        }
-        return true;
     }
 
     public void setupSpinners(){

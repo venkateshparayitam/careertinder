@@ -42,4 +42,6 @@ public interface ApiInterface {
     @GET("candidate/display/{authToken}")
     Call<ResponseBody> getCandidateProfile(@Path("authToken") String auth_code);
 
+    @GET("{authToken}")
+    Call<ResponseBody> getMatchesForCandidate(@Path("authToken") String auth_code);
 }

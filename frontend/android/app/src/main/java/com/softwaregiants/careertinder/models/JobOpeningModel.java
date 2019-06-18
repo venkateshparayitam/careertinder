@@ -32,6 +32,7 @@ public class JobOpeningModel implements Parcelable {
         jobType = in.readString();
         mobileNo = in.readString();
         eMail = in.readString();
+        imageUrl = in.readString();
     }
 
     public static final Creator<JobOpeningModel> CREATOR = new Creator<JobOpeningModel>() {
@@ -90,6 +91,8 @@ public class JobOpeningModel implements Parcelable {
     private String mobileNo;
 
     private String eMail;
+
+    private String imageUrl;
 
     public String getJobType() {
         return jobType;
@@ -225,22 +228,31 @@ public class JobOpeningModel implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(jobId);
-        parcel.writeString(userId);
-        parcel.writeString(companyName);
-        parcel.writeString(jobTitle);
-        parcel.writeString(jobDescription);
-        parcel.writeString(desiredQualification);
-        parcel.writeString(desiredWorkExperience);
-        parcel.writeString(placeOfWork);
-        parcel.writeString(skill1);
-        parcel.writeString(skill2);
-        parcel.writeString(skill3);
-        parcel.writeString(preferredLanguage1);
-        parcel.writeString(preferredLanguage2);
-        parcel.writeString(jobType);
-        parcel.writeString(mobileNo);
-        parcel.writeString(eMail);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(jobId);
+        dest.writeString(userId);
+        dest.writeString(companyName);
+        dest.writeString(jobTitle);
+        dest.writeString(jobDescription);
+        dest.writeString(desiredQualification);
+        dest.writeString(desiredWorkExperience);
+        dest.writeString(placeOfWork);
+        dest.writeString(skill1);
+        dest.writeString(skill2);
+        dest.writeString(skill3);
+        dest.writeString(preferredLanguage1);
+        dest.writeString(preferredLanguage2);
+        dest.writeString(jobType);
+        dest.writeString(mobileNo);
+        dest.writeString(eMail);
+        dest.writeString(imageUrl);
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
