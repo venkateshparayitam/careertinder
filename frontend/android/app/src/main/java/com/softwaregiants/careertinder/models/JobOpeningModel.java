@@ -11,13 +11,13 @@ public class JobOpeningModel implements Parcelable {
     private String jobId;
 
     @SerializedName("id")
-    private String userId;
+    private long userId;
 
     public JobOpeningModel() {}
 
     protected JobOpeningModel(Parcel in) {
         jobId = in.readString();
-        userId = in.readString();
+        userId = in.readLong();
         companyName = in.readString();
         jobTitle = in.readString();
         jobDescription = in.readString();
@@ -47,11 +47,11 @@ public class JobOpeningModel implements Parcelable {
         }
     };
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -230,7 +230,7 @@ public class JobOpeningModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(jobId);
-        dest.writeString(userId);
+        dest.writeLong(userId);
         dest.writeString(companyName);
         dest.writeString(jobTitle);
         dest.writeString(jobDescription);

@@ -15,9 +15,10 @@ import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.callback.ACTION_PERFORMED;
 import com.softwaregiants.careertinder.callback.BaseListener;
 import com.softwaregiants.careertinder.customViews.TinderJobCard;
+import com.softwaregiants.careertinder.models.ApplicantSwipeModel;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.JobMatchesListModel;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
-import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
@@ -31,6 +32,7 @@ public class CandidateDashboardActivity extends BaseActivity {
     private static final String TAG = "CandidateDashboard";
 
     private SwipePlaceHolderView swipePlaceHolderView;
+    JobMatchesListModel jobMatchesListModel;
     List<JobOpeningModel> jobOpeningModelList;
     RetrofitClient mRetrofitClient;
     TextView TVNoItems;
@@ -62,10 +64,13 @@ public class CandidateDashboardActivity extends BaseActivity {
         @Override
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
-                jobOpeningModelList = ((JobOpeningsListModel) baseBean).getJobOpeningModelList();
-                if ( null!=jobOpeningModelList && !jobOpeningModelList.isEmpty() ) {
-                    addNextItems();
-                    TVNoItems.setVisibility(View.GONE);
+                if ( baseBean.getApiMethod().equals(Constants.API_METHOD_GET_JOB_MATCHES) ) {
+                    jobMatchesListModel = (JobMatchesListModel) baseBean;
+                    jobOpeningModelList = jobMatchesListModel.getJobOpeningModelList();
+                    if (null != jobOpeningModelList && !jobOpeningModelList.isEmpty()) {
+                        addNextItems();
+                        TVNoItems.setVisibility(View.GONE);
+                    }
                 }
             }
             else {
@@ -137,6 +142,30 @@ public class CandidateDashboardActivity extends BaseActivity {
                     Intent jobDetail = new Intent(mContext,JobDetailActivity.class);
                     jobDetail.putExtra("job",jobOpeningModelList.get(pos));
                     mContext.startActivity( jobDetail );
+                    break;
+                case SWIPE_LEFT://REJECT
+                    if ( UtilityMethods.isConnected(mContext) ) {
+                        String authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE,"");
+                        ApplicantSwipeModel applicantSwipeModel = new ApplicantSwipeModel();
+                        applicantSwipeModel.setApplicantSwipe(Constants.SWIPE_LEFT_KEY);
+                        applicantSwipeModel.setCompanyId( Long.toString(jobOpeningModelList.get(pos).getUserId()) );
+                        applicantSwipeModel.setApplicantId( Long.toString( jobMatchesListModel.getApplicant().getId() ) );
+                        mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
+                    } else {
+                        //TODO Undo
+                    }
+                    break;
+                case SWIPE_RIGHT://ACCEPT
+                    if ( UtilityMethods.isConnected(mContext) ) {
+                        String authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE,"");
+                        ApplicantSwipeModel applicantSwipeModel = new ApplicantSwipeModel();
+                        applicantSwipeModel.setApplicantSwipe(Constants.SWIPE_RIGHT_KEY);
+                        applicantSwipeModel.setCompanyId( Long.toString(jobOpeningModelList.get(pos).getUserId()) );
+                        applicantSwipeModel.setApplicantId( Long.toString( jobMatchesListModel.getApplicant().getId() ) );
+                        mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
+                    } else {
+                        //TODO Undo
+                    }
                     break;
             }
         }

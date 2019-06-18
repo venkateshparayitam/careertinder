@@ -1,6 +1,8 @@
 package com.softwaregiants.careertinder.networking;
 
+import com.softwaregiants.careertinder.models.ApplicantSwipeModel;
 import com.softwaregiants.careertinder.models.CandidateProfileModel;
+import com.softwaregiants.careertinder.models.CompanySwipeModel;
 import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.models.LoginModel;
 import com.softwaregiants.careertinder.models.SignUpModel;
@@ -50,4 +52,10 @@ public interface ApiInterface {
 
     @GET("{authToken}")
     Call<ResponseBody> getMatchesForCandidate(@Path("authToken") String auth_code);
+
+    @PUT("companySwipe/{authToken}")
+    Call<ResponseBody> swipeForCompany(@Path("authToken") String auth_code,@Body CompanySwipeModel companySwipeModel);
+
+    @PUT("applicantSwipe/{authToken}")
+    Call<ResponseBody> swipeForApplicant(@Path("authToken") String auth_code,@Body ApplicantSwipeModel applicantSwipeModel);
 }

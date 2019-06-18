@@ -53,6 +53,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
     private String imageUrl;
     private String jobType;
     private String phone;
+    private long id;
 
     protected CandidateProfileModel(Parcel in) {
         university = in.readString();
@@ -74,6 +75,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         imageUrl = in.readString();
         jobType = in.readString();
         phone = in.readString();
+        id = in.readLong();
     }
 
     @Override
@@ -96,6 +98,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeString(jobType);
         dest.writeString(phone);
+        dest.writeLong(id);
     }
 
     @Override
@@ -208,5 +211,13 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
 
     public String getPhone() {
         return phone;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

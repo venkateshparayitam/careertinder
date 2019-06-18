@@ -12,6 +12,7 @@ import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.CandidateListModel;
 import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
+import com.softwaregiants.careertinder.models.JobMatchesListModel;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.models.LoginSuccessModel;
 import com.softwaregiants.careertinder.preferences.PreferenceManager;
@@ -89,9 +90,12 @@ public class RetrofitClient implements Callback<ResponseBody> {
                                 break;
                             }
                             case Constants.API_METHOD_GET_JOB_OPENINGS:
-                            case Constants.API_METHOD_GET_JOB_MATCHES:
                                 JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                                 mApiResponseCallBack.onSuccess(jobOpeningsListModel);
+                                break;
+                            case Constants.API_METHOD_GET_JOB_MATCHES:
+                                JobMatchesListModel jobMatchesListModel = new Gson().fromJson(rawResponse, JobMatchesListModel.class);
+                                mApiResponseCallBack.onSuccess(jobMatchesListModel);
                                 break;
                             case Constants.API_METHOD_EDIT_JOB_OPENING:
                                 mApiResponseCallBack.onSuccess(baseBean);

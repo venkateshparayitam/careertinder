@@ -71,7 +71,7 @@ public class JobOpeningsListActivity extends BaseActivity {
     }
 
     public void buildRV(){
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -81,7 +81,7 @@ public class JobOpeningsListActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new JobOpeningsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivityForResult(companyDashboardIntent.putExtra("jobId", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()),
+                startActivityForResult(companyDashboardIntent.putExtra("job", jobOpeningsListModel.getJobOpeningModelList().get(position)),
                         Constants.NEED_RESULT_COMPANY_DASHBOARD);
             }
 

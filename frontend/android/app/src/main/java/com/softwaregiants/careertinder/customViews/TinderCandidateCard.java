@@ -106,7 +106,9 @@ public class TinderCandidateCard {
 
     @SwipeOut
     public void onSwipedOut() {
+        //Swipe Left | REJECT
         Log.d("DEBUG", "onSwipedOut");
+        mBaseListener.callback(ACTION_PERFORMED.SWIPE_LEFT, pos);
     }
 
     @SwipeCancelState
@@ -116,7 +118,9 @@ public class TinderCandidateCard {
 
     @SwipeIn
     public void onSwipeIn() {
+        //Swipe Right | ACCEPT
         Log.d("DEBUG", "onSwipedIn");
+        mBaseListener.callback(ACTION_PERFORMED.SWIPE_RIGHT, pos);
     }
 
     @SwipeInState

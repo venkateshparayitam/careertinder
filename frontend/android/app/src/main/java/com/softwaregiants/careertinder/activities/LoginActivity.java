@@ -82,6 +82,7 @@ public class LoginActivity extends Activity {
             LoginSuccessModel loginSuccessModel = (LoginSuccessModel) baseBean;
             if (loginSuccessModel.getStatusCode().equals(Constants.SC_SUCCESS)) {
                 PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_AUTH_CODE, loginSuccessModel.getAuth_code());
+                PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_ID, loginSuccessModel.getAuth_code());
                 PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_EMAIL, usernameText);
                 PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_USER_TYPE, loginSuccessModel.getUser_type());
                 PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_LOGIN_STATE, true);

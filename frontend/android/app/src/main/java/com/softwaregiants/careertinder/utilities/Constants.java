@@ -13,6 +13,8 @@ public interface Constants {
     String API_METHOD_GET_CANDIDATE_PROFILE = "GET_CANDIDATE_PROFILE";
     String API_METHOD_GET_MATCHES_FOR_CANDIDATE = "get_matches_for_candidate";
     String API_GET_CANDIDATE_MATCHES = "getPerspectiveMatches";
+    String API_APPLICANT_SWIPE = "update_applicant_swipe";
+    String API_COMPANY_SWIPE = "update_company_swipe";
 
     //API methods for non conforming APIs
     String API_CREATE_CANDIDATE = "candidate/create/";
@@ -28,6 +30,7 @@ public interface Constants {
 
     //Preference Keys
     String PK_AUTH_CODE = "PK_AUTH_CODE";
+    String PK_ID = "PK_ID";
     String PK_LOGIN_STATE = "PK_LOGIN_STATE";
     String PK_USER_TYPE = "PK_USER_TYPE";
     String PK_EMAIL = "PK_EMAIL";
@@ -45,4 +48,6 @@ public interface Constants {
     int NEED_RESULT_JOB_OPENING_CREATION = 12345;
     int NEED_RESULT_EDIT_COMPANY = 12346;
     int NEED_RESULT_COMPANY_DASHBOARD = 12347;
+    int SWIPE_LEFT_KEY = 2;
+    int SWIPE_RIGHT_KEY = 1;
 }
