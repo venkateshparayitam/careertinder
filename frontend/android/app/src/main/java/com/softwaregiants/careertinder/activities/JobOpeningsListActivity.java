@@ -81,7 +81,7 @@ public class JobOpeningsListActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new JobOpeningsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivityForResult(companyDashboardIntent.putExtra("jobTitle", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()),
+                startActivityForResult(companyDashboardIntent.putExtra("jobId", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId()),
                         Constants.NEED_RESULT_COMPANY_DASHBOARD);
             }
 

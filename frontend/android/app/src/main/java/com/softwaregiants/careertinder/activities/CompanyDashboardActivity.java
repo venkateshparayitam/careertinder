@@ -30,12 +30,13 @@ public class CompanyDashboardActivity extends BaseActivity {
     private static final String TAG = "CompanyDashboard";
 
     private SwipePlaceHolderView swipePlaceHolderView;
-//  TODO
     List<CandidateProfileModel> candidateProfileModelList;
-    private RetrofitClient mRetrofitClient;
+    RetrofitClient mRetrofitClient;
     TextView TVNoItems;
     int items = 0;
     int swipedItems = 0;
+    static final int PAGE_SIZE = 10;
+    String jobId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,13 @@ public class CompanyDashboardActivity extends BaseActivity {
 
     private void init() {
         mContext = this;
+        jobId = getIntent().getStringExtra("jobId");
         swipePlaceHolderView = findViewById(R.id.swipeView);
         TVNoItems = findViewById(R.id.TVNoItems);
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchedCandidates().enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.getMatchedCandidates(jobId).enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 
@@ -62,7 +64,7 @@ public class CompanyDashboardActivity extends BaseActivity {
             if (baseBean.getStatusCode().equals("Success")) {
                 candidateProfileModelList = ((CandidateListModel) baseBean).getApplicantProfiles();
                 if ( null != candidateProfileModelList && !candidateProfileModelList.isEmpty()) {
-                    addNextItems(10);
+                    addNextItems();
                     TVNoItems.setVisibility(View.GONE);
                 }
             }
@@ -114,10 +116,10 @@ public class CompanyDashboardActivity extends BaseActivity {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
     }
 
-    private void addNextItems(int count) {
+    private void addNextItems() {
         int iterator = 1;
         CandidateProfileModel candidateProfileModel;
-        while ( iterator <= count && items < candidateProfileModelList.size() ) {
+        while ( iterator <= PAGE_SIZE && items < candidateProfileModelList.size() ) {
             candidateProfileModel = candidateProfileModelList.get(items);
             swipePlaceHolderView.addView(new TinderCandidateCard(candidateProfileModel,
                     mBaseListener, items));

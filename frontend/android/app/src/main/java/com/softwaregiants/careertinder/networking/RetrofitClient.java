@@ -73,10 +73,6 @@ public class RetrofitClient implements Callback<ResponseBody> {
                         if (baseBean.getApiMethod().contains(Constants.API_CREATE_CANDIDATE)) {
                             mApiResponseCallBack.onSuccess(baseBean);
                             return;
-                        } else if (baseBean.getApiMethod().contains(Constants.API_GET_CANDIDATE_MATCHES)) {
-                            CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
-                            mApiResponseCallBack.onSuccess(candidateListModel);
-                            return;
                         }
                         switch (baseBean.getApiMethod()) {
                             case Constants.API_METHOD_LOGIN: {
@@ -93,6 +89,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
                                 break;
                             }
                             case Constants.API_METHOD_GET_JOB_OPENINGS:
+                            case Constants.API_METHOD_GET_JOB_MATCHES:
                                 JobOpeningsListModel jobOpeningsListModel = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                                 mApiResponseCallBack.onSuccess(jobOpeningsListModel);
                                 break;
@@ -102,6 +99,9 @@ public class RetrofitClient implements Callback<ResponseBody> {
                             case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
                                 GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
                                 mApiResponseCallBack.onSuccess(candidateProfileModel);
+                                break;
+                            case Constants.API_GET_CANDIDATE_MATCHES: CandidateListModel candidateListModel = new Gson().fromJson(rawResponse, CandidateListModel.class);
+                                mApiResponseCallBack.onSuccess(candidateListModel);
                                 break;
                             case Constants.API_METHOD_GET_MATCHES_FOR_CANDIDATE:
                                 JobOpeningsListModel jobOpeningsList = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);

@@ -33,8 +33,14 @@ public interface ApiInterface {
     @GET("api/allJobsCompany")
     Call<ResponseBody> getMatchedJobOpenings();
 
+    @GET("applicant/listOfJobs/{authToken}")
+    Call<ResponseBody> getMatchedJobOpenings(@Path("authToken") String auth_code);
+
     @GET("candidate/all")
     Call<ResponseBody> getMatchedCandidates();
+
+    @GET("company/listOfApplicants/{jobId}")
+    Call<ResponseBody> getMatchedCandidates(@Path("jobId") String jobId);
 
     @PUT("api/updateJobsCompany/{authToken}")
     Call<ResponseBody> updateJobOpening(@Body JobOpeningModel jobOpeningModel, @Path("authToken") String auth_code);

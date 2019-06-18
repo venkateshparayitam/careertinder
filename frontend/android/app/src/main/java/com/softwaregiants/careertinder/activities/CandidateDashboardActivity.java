@@ -20,6 +20,7 @@ import com.softwaregiants.careertinder.models.JobOpeningModel;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
+import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
@@ -31,10 +32,11 @@ public class CandidateDashboardActivity extends BaseActivity {
 
     private SwipePlaceHolderView swipePlaceHolderView;
     List<JobOpeningModel> jobOpeningModelList;
-    private RetrofitClient mRetrofitClient;
+    RetrofitClient mRetrofitClient;
     TextView TVNoItems;
     int items = 0;
     int swipedItems = 0;
+    static final int PAGE_SIZE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,8 @@ public class CandidateDashboardActivity extends BaseActivity {
         initSwipeView();
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchedJobOpenings().enqueue(mRetrofitClient.createProgress(mContext));
+            String authToken = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE,"");
+            mRetrofitClient.mApiInterface.getMatchedJobOpenings(authToken).enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 
@@ -61,7 +64,7 @@ public class CandidateDashboardActivity extends BaseActivity {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningModelList = ((JobOpeningsListModel) baseBean).getJobOpeningModelList();
                 if ( null!=jobOpeningModelList && !jobOpeningModelList.isEmpty() ) {
-                    addNextItems(10);
+                    addNextItems();
                     TVNoItems.setVisibility(View.GONE);
                 }
             }
@@ -113,10 +116,10 @@ public class CandidateDashboardActivity extends BaseActivity {
                         .setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
     }
 
-    private void addNextItems(int count) {
+    private void addNextItems() {
         int iterator = 1;
         JobOpeningModel jobOpeningModel;
-        while ( iterator <= count && items < jobOpeningModelList.size() ) {
+        while ( iterator <= PAGE_SIZE && items < jobOpeningModelList.size() ) {
             jobOpeningModel = jobOpeningModelList.get(items);
             swipePlaceHolderView.addView(new TinderJobCard(jobOpeningModel,
                                                             mBaseListener, items));
@@ -131,7 +134,6 @@ public class CandidateDashboardActivity extends BaseActivity {
         public void callback(ACTION_PERFORMED action, int pos, Object... args) {
             switch (action) {
                 case JOB_CLICK:
-                    JobOpeningModel jobOpeningModel = jobOpeningModelList.get(pos);
                     Intent jobDetail = new Intent(mContext,JobDetailActivity.class);
                     jobDetail.putExtra("job",jobOpeningModelList.get(pos));
                     mContext.startActivity( jobDetail );
