@@ -53,6 +53,9 @@ public interface ApiInterface {
     @GET("applicant/getMatches/{authToken}")
     Call<ResponseBody> getMatchesForCandidate(@Path("authToken") String auth_code);
 
+    @GET("api/company/getMatches/{authToken}")
+    Call<ResponseBody> getMatchesForCompany(@Path("authToken") String auth_code);
+
     @PUT("companySwipe/{authToken}")
     Call<ResponseBody> swipeForCompany(@Path("authToken") String auth_code,@Body CompanySwipeModel companySwipeModel);
 

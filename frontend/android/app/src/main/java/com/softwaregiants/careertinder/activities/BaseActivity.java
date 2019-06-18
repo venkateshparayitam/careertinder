@@ -74,7 +74,11 @@ class BaseActivity extends AppCompatActivity
                 finish();
                 break;
             case R.id.nav_view_matches:
-                startActivity(new Intent(mContext,CandidateMatchviewerActivity.class));
+                if (PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE,"").equals(Constants.USER_TYPE_JOB_SEEKER)) {
+                    startActivity(new Intent(mContext, CandidateMatchViewerActivity.class));
+                } else {
+                    startActivity(new Intent(mContext, CompanyMatchViewerActivity.class));
+                }
                 finish();
                 break;
             case R.id.nav_logout:

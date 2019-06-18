@@ -67,6 +67,6 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:background="@color/colorPrimaryDark"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/company_drawer" />
+        app:menu="@menu/company_dash_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

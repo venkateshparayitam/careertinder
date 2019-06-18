@@ -111,6 +111,10 @@ public class RetrofitClient implements Callback<ResponseBody> {
                                 JobOpeningsListModel jobOpeningsList = new Gson().fromJson(rawResponse, JobOpeningsListModel.class);
                                 mApiResponseCallBack.onSuccess(jobOpeningsList);
                                 break;
+                            case Constants.API_METHOD_GET_MATCHES_FOR_COMPANY:
+                                CandidateListModel candidateListModel1 = new Gson().fromJson(rawResponse, CandidateListModel.class);
+                                mApiResponseCallBack.onSuccess(candidateListModel1);
+                                break;
                             default: {
                                 mApiResponseCallBack.onSuccess(baseBean);
                                 break;

@@ -19,7 +19,7 @@ import com.softwaregiants.careertinder.preferences.PreferenceManager;
 import com.softwaregiants.careertinder.utilities.Constants;
 import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
-public class CandidateMatchviewerActivity extends BaseActivity {
+public class CandidateMatchViewerActivity extends BaseActivity {
 
     String authCode;
     RetrofitClient mRetrofitClient;

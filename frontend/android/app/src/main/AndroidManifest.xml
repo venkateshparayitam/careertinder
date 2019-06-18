@@ -16,7 +16,8 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.CandidateMatchviewerActivity"></activity>
+        <activity android:name=".activities.CandidateMatchViewerActivity"/>
+        <activity android:name=".activities.CompanyMatchViewerActivity"/>
         <activity android:name=".activities.EditJobOpeningActivity" />
         <activity android:name=".activities.JobOpeningsListActivity" />
         <activity android:name=".activities.EditCandidateProfile" />
