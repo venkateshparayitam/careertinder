@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import core.entities.CTApplicantEntity;
+import core.entities.CTCompanyEntity;
+import core.entities.CTMatchingEntity;
 import core.entities.CTUserEntity;
 import core.repositories.ApplicantRepository;
+import core.repositories.MatchingRepository;
+import core.repositories.CompanyRepository;
 import core.repositories.UserRepository;
 import core.services.ApplicantService;
+import core.services.MatchingService;
 import core.supplementary.ApplicantWrapper;
 import core.supplementary.CandidateResponse;
 import core.supplementary.ResponseCode;
@@ -38,6 +44,12 @@ public class ApplicantController {
 	    protected UserRepository user_repository;
 	    
 	    @Autowired ApplicantService applicantService;
+	    
+	    @Autowired
+	    MatchingRepository matchingRepository;
+	    
+		@Autowired
+		CompanyRepository companyRepository;
 	    
 	    /**
 	     * Updates a user into an applicant 
@@ -191,5 +203,59 @@ public class ApplicantController {
 	    	applicant_response.setResponse_code("Failed");
 	    	applicant_response.setResponse_message("No jobseeker profiles at the moment!");
 			return applicant_response;	    	
-	    }	    
+	    }	
+	    
+	    
+	    @GetMapping(path ="/applicant/getMatches/{authcode}", produces = "application/json")
+		public ResponseCode applicantGetMatches(@PathVariable(value = "authcode") String authcode) {
+			
+			ResponseCode response = new ResponseCode();
+			
+			CTUserEntity user = new CTUserEntity();
+			CTApplicantEntity applicant = new CTApplicantEntity();
+			List<CTMatchingEntity> matchingList = new ArrayList<CTMatchingEntity>();
+			ArrayList<CTCompanyEntity> companyMatchList = new ArrayList<CTCompanyEntity>();
+			boolean nomatches = true;
+			try
+			{
+				user = user_repository.getByToken(authcode);
+				applicant = applicant_repository.findByEmail(user.getEmailid());
+				matchingList = matchingRepository.getRecordsForApplicant(applicant.getId());
+				
+				if(matchingList!=null)
+				{
+					for(CTMatchingEntity matching : matchingList)
+					{
+						
+						
+						if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 1)
+						{
+							nomatches = false;
+							companyMatchList.add(companyRepository.getCompanyById(matching.getCompany_id()));
+						}
+					}
+					
+					response.setStatus_code("Success");
+					response.setMethod("get_matches_for_candidates");
+					response.setMessage("List of Matched Derived");
+					response.setJoblist(companyMatchList);
+				}
+				
+				if(nomatches)
+				{
+					response.setStatus_code("Success");
+					response.setMethod("get_matches_for_candidates");
+					response.setMessage("No Matches found");
+				}
+				
+			}catch(Exception ex)
+			{
+				response.setStatus_code("Fail");
+				response.setMethod("get_matches_for_candidates");
+				response.setMessage("Technical Error. If this continues please report this issue");
+			}
+
+			return response;
+		}
+		
 	}

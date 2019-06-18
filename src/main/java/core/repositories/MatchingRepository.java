@@ -31,4 +31,7 @@ public interface MatchingRepository extends JpaRepository<CTMatchingEntity, Long
     @Query(value = "SELECT * from ctmatching where company_id = ?1", nativeQuery = true)
     public List<CTMatchingEntity> getRecordsForCompany(Long companyId);
     
+   
+    
+    
 }
