@@ -29,7 +29,7 @@ import static com.softwaregiants.careertinder.utilities.UtilityMethods.isNumeric
 public class AddNewJobOpening extends ImagePickerActivity {
 
     //region class variables
-    private Button btn;
+    Button btn;
     RetrofitClient mRetrofitClient;
 
     EditText ETCompanyName;
@@ -83,24 +83,22 @@ public class AddNewJobOpening extends ImagePickerActivity {
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
-        ETCompanyName = (EditText)findViewById(R.id.ETCompanyName);
-        ETJobTitle = (EditText)findViewById(R.id.ETJobTitle);
-        ETJobDescription = (EditText)findViewById(R.id.ETJobDescription);
-        ETDesiredQualification = (EditText)findViewById(R.id.ETDesiredQualification);
-        ETDesiredWorkExperience = (EditText)findViewById(R.id.ETDesiredWorkExperience);
-        spinnerPlaceOfWork = (Spinner)findViewById(R.id.spinnerPlaceOfWork);
-        ETSkill1 = (EditText)findViewById(R.id.ETSkill1);
-        ETSkill2 = (EditText)findViewById(R.id.ETSkill2);
-        ETSkill3 = (EditText)findViewById(R.id.ETSkill3);
-        spinnerLanguage1 = (Spinner)findViewById(R.id.spinnerLanguage1);
-        spinnerLanguage2 = (Spinner)findViewById(R.id.spinnerLanguage2);
-        ETMobileNo = (EditText)findViewById(R.id.ETmobileNo);
-        ETEmail = (EditText)findViewById(R.id.ETemail);
-        jobTypeSpinner = (Spinner)findViewById(R.id.spinnerJobType);
+        ETCompanyName = findViewById(R.id.ETCompanyName);
+        ETJobTitle = findViewById(R.id.ETJobTitle);
+        ETJobDescription = findViewById(R.id.ETJobDescription);
+        ETDesiredQualification = findViewById(R.id.ETDesiredQualification);
+        ETDesiredWorkExperience = findViewById(R.id.ETDesiredWorkExperience);
+        spinnerPlaceOfWork = findViewById(R.id.spinnerPlaceOfWork);
+        ETSkill1 = findViewById(R.id.ETSkill1);
+        ETSkill2 = findViewById(R.id.ETSkill2);
+        ETSkill3 = findViewById(R.id.ETSkill3);
+        spinnerLanguage1 = findViewById(R.id.spinnerLanguage1);
+        spinnerLanguage2 = findViewById(R.id.spinnerLanguage2);
+        ETMobileNo = findViewById(R.id.ETmobileNo);
+        ETEmail = findViewById(R.id.ETemail);
+        jobTypeSpinner = findViewById(R.id.spinnerJobType);
 
-        ETJobDescription.setText("What We Expect:" + "\n"
-                                    + "Duration:" + "\n"
-                                    + "Start Date:");
+        ETJobDescription.setText("What We Expect:\nDuration:\nStart Date:");
 
         imageUser = findViewById(R.id.picture);
         updateImageButton = findViewById(R.id.updatePicture);
@@ -128,53 +126,41 @@ public class AddNewJobOpening extends ImagePickerActivity {
             JobType = jobTypeSpinner.getSelectedItem().toString();
             if (CompanyName.equals("")){
                 Toast.makeText(mContext,"Please enter your Company Name", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobTitle.equals("")){
                 Toast.makeText(mContext,"Please enter Job Title", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobDescription.equals("")){
                 Toast.makeText(mContext,"Please enter job description", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (JobType.equals("[SELECT JOB TYPE]")){
                 Toast.makeText(mContext,"Please select job type", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (DesiredQualification.equals("")){
                 Toast.makeText(mContext,"Please enter desired qualification", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (DesiredWorkExperience.equals("") || !isNumeric(DesiredWorkExperience)){
                 if (DesiredWorkExperience.equals("")) {
                     Toast.makeText(mContext, "Please enter desired Work Experience", Toast.LENGTH_SHORT).show();
-                    return;
                 }
                 if (!isNumeric(DesiredWorkExperience)){
                     Toast.makeText(mContext, "Please enter desired Work Experience (in Months)", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
             else if (PlaceOfWOrk.equals("[SELECT PLACE OF WORK]")){
                 Toast.makeText(mContext,"Please select a Place of Work", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (Skill1.equals("")){
                 Toast.makeText(mContext,"Please enter a skill", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (Language1.equals("")){
                 Toast.makeText(mContext,"Please enter a language", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (!validateEmail(Email)){
                 Toast.makeText(mContext,"Contact Email invalid", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (!UtilityMethods.validatePhone(MobileNo)){
                 Toast.makeText(mContext,"Contact number invalid", Toast.LENGTH_SHORT).show();
-                return;
             }
             else{
                 jobOpeningModel = new JobOpeningModel();
