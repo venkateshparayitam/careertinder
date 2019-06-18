@@ -221,7 +221,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
             jobOpeningModel.setImageUrl(fileName);
             uploadImageFile(bitmap,osl,ofl);
         } else {
-            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
         }
     }
     //endregion
@@ -230,7 +230,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
         @Override
         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
             Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
-            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.updateJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
         }
     };
 

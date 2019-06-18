@@ -135,6 +135,7 @@ public class RetrofitClient implements Callback<ResponseBody> {
     @Override
     public void onFailure(Call<ResponseBody> call, Throwable t) {
         Log.e(TAG, t.toString());
+        cancelProgress();
         mApiResponseCallBack.onFailure(t);
         if ( t instanceof UnknownHostException) {
             Toast.makeText(applicationContext, Constants.MSG_CONNECTION_ERROR, Toast.LENGTH_SHORT).show();
@@ -142,7 +143,6 @@ public class RetrofitClient implements Callback<ResponseBody> {
         else {
             Toast.makeText(applicationContext, Constants.MSG_TECHNICAL_ERROR, Toast.LENGTH_SHORT).show();
         }
-        cancelProgress();
     }
 
     public RetrofitClient createProgress(Context activityContext) {
@@ -158,8 +158,10 @@ public class RetrofitClient implements Callback<ResponseBody> {
     }
 
     public void cancelProgress() {
-        if (alertDialog!=null)
+        if (alertDialog!=null) {
             alertDialog.dismiss();
+            alertDialog = null;
+        }
     }
 
 }

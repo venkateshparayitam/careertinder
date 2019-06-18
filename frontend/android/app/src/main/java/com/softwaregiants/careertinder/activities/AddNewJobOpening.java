@@ -190,7 +190,7 @@ public class AddNewJobOpening extends ImagePickerActivity {
         if ( imageSelected ) {
             uploadImageFile(bitmap,osl,ofl);
         } else {
-            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
         }
     }
     //endregion
@@ -200,7 +200,7 @@ public class AddNewJobOpening extends ImagePickerActivity {
         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
             Toast.makeText(mContext, "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show();
             jobOpeningModel.setImageUrl(fileName);
-            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.addNewJobOpening(jobOpeningModel, authCode).enqueue(mRetrofitClient);
         }
     };
 
