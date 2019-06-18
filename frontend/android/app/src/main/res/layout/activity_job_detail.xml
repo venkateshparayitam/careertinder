@@ -24,9 +24,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <ScrollView
             android:layout_below="@+id/AppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -413,10 +411,65 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@android:color/black"
-                    app:layout_constraintBottom_toTopOf="@+id/LLButtons"
-                    app:layout_constraintEnd_toEndOf="@id/LLButtons"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TVLanguage1" />
+                    app:layout_constraintTop_toBottomOf="@+id/TVLanguage1"/>
+
+                <View
+                    android:id="@+id/break4"
+                    app:layout_constraintTop_toBottomOf="@+id/TVLanguage2"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/contactDetailsConstraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/break4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/TVContactDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="@string/contactDetailsText"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/TVEmailAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:text="@string/emailExampleText"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/TVContactDetails" />
+
+                </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
                     android:id="@+id/LLButtons"
@@ -424,7 +477,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:layout_margin="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/break4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 

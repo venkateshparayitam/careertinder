@@ -91,6 +91,7 @@ public class CandidateMatchviewerActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new CandidateMatchviewerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                nextActivity.putExtra("matched", true);
                 startActivity(nextActivity.putExtra("job", jobOpeningsListModel.getJobOpeningModelList().get(position)));
             }
         });
