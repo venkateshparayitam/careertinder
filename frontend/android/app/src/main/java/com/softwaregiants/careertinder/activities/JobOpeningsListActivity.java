@@ -25,16 +25,16 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 public class JobOpeningsListActivity extends BaseActivity {
 
 
-    private Button btn;
+    Button btn;
     Intent nextActivity;
     Context mContext;
     RetrofitClient mRetrofitClient;
 
-    public String authCode;
+    String authCode;
 
-    private RecyclerView recyclerView;
-    private JobOpeningsAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView;
+    JobOpeningsAdapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
 
     private JobOpeningsListModel jobOpeningsListModel;
     TextView TVNoItems;
@@ -102,7 +102,7 @@ public class JobOpeningsListActivity extends BaseActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
+                if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
                         !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
                     TVNoItems.setVisibility(View.INVISIBLE);
                     buildRV();

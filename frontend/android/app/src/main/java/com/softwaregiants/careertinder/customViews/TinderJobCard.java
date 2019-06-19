@@ -12,7 +12,6 @@ import com.google.firebase.storage.StorageReference;
 import com.mindorks.placeholderview.annotations.Click;
 import com.mindorks.placeholderview.annotations.Layout;
 import com.mindorks.placeholderview.annotations.LongClick;
-import com.mindorks.placeholderview.annotations.NonReusable;
 import com.mindorks.placeholderview.annotations.Resolve;
 import com.mindorks.placeholderview.annotations.View;
 import com.mindorks.placeholderview.annotations.swipe.SwipeCancelState;
@@ -31,7 +30,6 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by janisharali on 19/08/16.
  */
-@NonReusable
 @Layout(R.layout.tinder_card_view)
 public class TinderJobCard {
 

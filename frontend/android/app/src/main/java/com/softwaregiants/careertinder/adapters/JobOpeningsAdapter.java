@@ -24,7 +24,7 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
     private List<JobOpeningModel> jobOpenings;
     private OnItemClickListener onItemClickListener;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     public JobOpeningsAdapter(List<JobOpeningModel> jobOpeningModelList){
         this.jobOpenings = jobOpeningModelList;
@@ -35,8 +35,7 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
     public JobOpeningsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.job_openings_list_item, parent, false);
-        JobOpeningsViewHolder jobOpeningsViewHolder = new JobOpeningsViewHolder(itemView, onItemClickListener);
-        return jobOpeningsViewHolder;
+        return new JobOpeningsViewHolder(itemView, onItemClickListener);
     }
 
     @Override
@@ -66,24 +65,24 @@ public class JobOpeningsAdapter extends RecyclerView.Adapter<JobOpeningsAdapter.
         return jobOpenings.size();
     }
 
-    public static class JobOpeningsViewHolder extends RecyclerView.ViewHolder {
+    static class JobOpeningsViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
 
-        public ImageView jobOpening;
-        public TextView jobTitle;
-        public TextView placeOfWork;
-        public TextView preferredSkill;
-        public ImageButton editJobOpening;
-        public ImageButton deleteJobOpening;
+        ImageView jobOpening;
+        TextView jobTitle;
+        TextView placeOfWork;
+        TextView preferredSkill;
+        ImageButton editJobOpening;
+        ImageButton deleteJobOpening;
 
-        public JobOpeningsViewHolder(View v, final OnItemClickListener listener) {
+        JobOpeningsViewHolder(View v, final OnItemClickListener listener) {
             super(v);
-            jobOpening = (ImageView) v.findViewById(R.id.IVJobOpening);
-            jobTitle = (TextView) v.findViewById(R.id.TVJobTitle);
-            placeOfWork = (TextView) v.findViewById(R.id.TVPlaceOfWork);
-            preferredSkill = (TextView) v.findViewById(R.id.TVPreferredSkill);
-            editJobOpening = (ImageButton) v.findViewById(R.id.imageButtonEdit);
-            deleteJobOpening = (ImageButton) v.findViewById(R.id.imageButtonDelete);
+            jobOpening = v.findViewById(R.id.IVJobOpening);
+            jobTitle = v.findViewById(R.id.TVJobTitle);
+            placeOfWork = v.findViewById(R.id.TVPlaceOfWork);
+            preferredSkill = v.findViewById(R.id.TVPreferredSkill);
+            editJobOpening = v.findViewById(R.id.imageButtonEdit);
+            deleteJobOpening = v.findViewById(R.id.imageButtonDelete);
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

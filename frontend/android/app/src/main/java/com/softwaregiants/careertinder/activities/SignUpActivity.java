@@ -22,7 +22,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Button createMyAccount;
+    Button createMyAccount;
     Context mContext;
     RetrofitClient mRetrofitClient;
 
@@ -53,14 +53,14 @@ public class SignUpActivity extends AppCompatActivity {
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
-        fullName = (EditText)findViewById(R.id.fullName);
-        emailAddress = (EditText)findViewById(R.id.emailAddress);
-        password = (EditText)findViewById(R.id.password);
-        confirmPassword = (EditText)findViewById(R.id.confirmPassword);
+        fullName = findViewById(R.id.fullName);
+        emailAddress = findViewById(R.id.emailAddress);
+        password = findViewById(R.id.password);
+        confirmPassword = findViewById(R.id.confirmPassword);
 
-        jobseeker = (RadioButton)findViewById(R.id.jobSeekerRadioButton);
+        jobseeker = findViewById(R.id.jobSeekerRadioButton);
         jobseeker.setOnClickListener(js_radio_listener);
-        employer = (RadioButton)findViewById(R.id.employerRadioButton);
+        employer = findViewById(R.id.employerRadioButton);
         employer.setOnClickListener(e_radio_listener);
     }
 
@@ -73,7 +73,6 @@ public class SignUpActivity extends AppCompatActivity {
             confirmPass = confirmPassword.getText().toString();
             if(name.equals("")){
                 Toast.makeText(mContext,"Please enter your Full Name", Toast.LENGTH_SHORT).show();
-                return;
             }
             else if (email.equals("") || (!validateEmail(email))) {
                 if(email.equals("")){
@@ -82,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 if (!validateEmail(email)) {
                     Toast.makeText(mContext, "Your Email address is not valid", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
             else if (!checkPasswordLength(pass) || pass.equals("")){
@@ -92,7 +90,6 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                     if (!checkPasswordLength(pass)){
                         Toast.makeText(mContext,"Password should be at least 8 characters", Toast.LENGTH_SHORT).show();
-                        return;
                     }
             }
             else if (!matchPasswords(pass, confirmPass) || confirmPass.equals("")){
@@ -102,12 +99,10 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 if (!matchPasswords(pass, confirmPass)){
                     Toast.makeText(mContext,"Password don't match", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
             else if(userTypeString.equals("not set")){
                     Toast.makeText(mContext,"SELECT ONE : Job Seeker or Employer?", Toast.LENGTH_SHORT).show();
-                    return;
             }
             else{
                 signUpModel = new SignUpModel();
@@ -154,21 +149,11 @@ public class SignUpActivity extends AppCompatActivity {
     };
 
     public boolean matchPasswords(String p, String c){
-        if(p.equals(c)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return p.equals(c);
     }
 
     public boolean checkPasswordLength(String pas){
-        if(pas.length() < 8){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return pas.length() >= 8;
     }
 
     public boolean validateEmail(String email){

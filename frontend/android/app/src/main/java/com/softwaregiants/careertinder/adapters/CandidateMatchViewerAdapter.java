@@ -18,14 +18,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CandidateMatchviewerAdapter extends RecyclerView.Adapter<CandidateMatchviewerAdapter.CandidateMatchviewerViewHolder> {
+public class CandidateMatchViewerAdapter extends RecyclerView.Adapter<CandidateMatchViewerAdapter.CandidateMatchviewerViewHolder> {
 
     private List<JobOpeningModel> jobOpeningModels;
     private OnItemClickListener onItemClickListener;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    public CandidateMatchviewerAdapter(List<JobOpeningModel> jobOpeningModelList){
+    public CandidateMatchViewerAdapter(List<JobOpeningModel> jobOpeningModelList){
         this.jobOpeningModels = jobOpeningModelList;
     }
 
@@ -34,8 +34,7 @@ public class CandidateMatchviewerAdapter extends RecyclerView.Adapter<CandidateM
     public CandidateMatchviewerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.candidate_matchviewer_item, parent, false);
-        CandidateMatchviewerViewHolder candidateMatchviewerViewHolder = new CandidateMatchviewerViewHolder(itemView, onItemClickListener);
-        return candidateMatchviewerViewHolder;
+        return new CandidateMatchviewerViewHolder(itemView, onItemClickListener);
     }
 
     @Override
@@ -65,14 +64,14 @@ public class CandidateMatchviewerAdapter extends RecyclerView.Adapter<CandidateM
     }
 
 
-    public static class CandidateMatchviewerViewHolder extends RecyclerView.ViewHolder{
+    static class CandidateMatchviewerViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView jobOpening;
-        public TextView jobTitle;
-        public TextView placeOfWork;
-        public TextView preferredSkill;
+        ImageView jobOpening;
+        TextView jobTitle;
+        TextView placeOfWork;
+        TextView preferredSkill;
 
-        public CandidateMatchviewerViewHolder(View itemView, final OnItemClickListener listener) {
+        CandidateMatchviewerViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             jobOpening = itemView.findViewById(R.id.IVJobOpening);
             jobTitle = itemView.findViewById(R.id.TVJobTitle);

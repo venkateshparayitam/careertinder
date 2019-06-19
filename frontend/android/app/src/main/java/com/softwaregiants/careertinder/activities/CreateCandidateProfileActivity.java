@@ -69,8 +69,8 @@ public class CreateCandidateProfileActivity extends ImagePickerActivity {
     String mobile_value = EMPTY_STRING;
     String job_type_value = EMPTY_STRING;
 
-    private String first_language = EMPTY_STRING;
-    private String second_language = EMPTY_STRING;
+    String first_language = EMPTY_STRING;
+    String second_language = EMPTY_STRING;
 
     Boolean eu_citizen_value = false;
     CandidateProfileModel candidateProfileModel;

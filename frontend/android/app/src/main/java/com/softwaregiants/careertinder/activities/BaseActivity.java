@@ -23,7 +23,7 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-class BaseActivity extends AppCompatActivity
+abstract class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Context mContext;

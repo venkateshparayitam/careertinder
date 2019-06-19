@@ -74,8 +74,8 @@ public class EditCandidateProfile extends ImagePickerActivity {
     String dateBirth_value = EMPTY_STRING;
     String place_value = EMPTY_STRING;
 
-    private String first_language = EMPTY_STRING;
-    private String second_language = EMPTY_STRING;
+    String first_language = EMPTY_STRING;
+    String second_language = EMPTY_STRING;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
 

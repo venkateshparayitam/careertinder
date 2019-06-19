@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
-import com.softwaregiants.careertinder.adapters.CandidateMatchviewerAdapter;
+import com.softwaregiants.careertinder.adapters.CandidateMatchViewerAdapter;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
@@ -25,9 +25,9 @@ public class CandidateMatchViewerActivity extends BaseActivity {
     RetrofitClient mRetrofitClient;
     TextView TVNoItems;
 
-    private RecyclerView recyclerView;
-    private CandidateMatchviewerAdapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    RecyclerView recyclerView;
+    CandidateMatchViewerAdapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
 
     private JobOpeningsListModel jobOpeningsListModel;
 
@@ -65,7 +65,7 @@ public class CandidateMatchViewerActivity extends BaseActivity {
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
                 jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
+                if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
                         !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
                     TVNoItems.setVisibility(View.INVISIBLE);
                     buildRV();
@@ -82,14 +82,14 @@ public class CandidateMatchViewerActivity extends BaseActivity {
     };
 
     public void buildRV(){
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new CandidateMatchviewerAdapter(jobOpeningsListModel.getJobOpeningModelList());
+        mAdapter = new CandidateMatchViewerAdapter(jobOpeningsListModel.getJobOpeningModelList());
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new CandidateMatchviewerAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new CandidateMatchViewerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 nextActivity.putExtra("matched", true);

@@ -42,7 +42,7 @@ public class CompanyDashboardActivity extends BaseActivity {
     TextView TVNoItems;
     int items = 0;
     int swipedItems = 0;
-    static final int PAGE_SIZE = 10;
+    static final int PAGE_SIZE = 100;
     JobOpeningModel jobOpeningModel;
     Boolean needUndo;
 
@@ -107,8 +107,9 @@ public class CompanyDashboardActivity extends BaseActivity {
                     TVNoItems.setVisibility(View.VISIBLE);
                 }
                 if (needUndo) {
-//                    swipePlaceHolderView.undoLastSwipe();
                     needUndo = false;
+                    swipePlaceHolderView.undoLastSwipe();
+//                    undoSwipe();
                 }
             }
         });
@@ -136,8 +137,9 @@ public class CompanyDashboardActivity extends BaseActivity {
         CandidateProfileModel candidateProfileModel;
         while ( iterator <= PAGE_SIZE && items < candidateProfileModelList.size() ) {
             candidateProfileModel = candidateProfileModelList.get(items);
-            swipePlaceHolderView.addView(new TinderCandidateCard(candidateProfileModel,
-                    mBaseListener, items));
+            TinderCandidateCard tcc = new TinderCandidateCard(candidateProfileModel,
+                    mBaseListener, items);
+            swipePlaceHolderView.addView(tcc);
             iterator++;
             items++;
         }
@@ -205,4 +207,5 @@ public class CompanyDashboardActivity extends BaseActivity {
             }
         }
     }
+
 }

@@ -26,7 +26,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 public class LoginActivity extends Activity {
 
     //region globals
-    private Button btnHit;
+    Button btnHit;
     Context mContext;
     RetrofitClient mRetrofitClient;
 
@@ -54,8 +54,8 @@ public class LoginActivity extends Activity {
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
 
-        username = (EditText)findViewById(R.id.ETUsername);
-        password = (EditText)findViewById(R.id.ETPass);
+        username = findViewById(R.id.ETUsername);
+        password = findViewById(R.id.ETPass);
         password.setTypeface(Typeface.DEFAULT);
         password.setTransformationMethod(new PasswordTransformationMethod());
     }
@@ -124,25 +124,17 @@ public class LoginActivity extends Activity {
         usernameText = username.getText().toString();
         passwordText = password.getText().toString();
 
-        if(usernameText.equals("") || (!validateEmail(usernameText))){
-            if (usernameText.equals("")){
-                Toast.makeText(mContext,"Please enter Username",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (!validateEmail(usernameText)){
-                Toast.makeText(mContext,"Username is not valid",Toast.LENGTH_SHORT).show();
-                return;
-            }
+        if (usernameText.equals("")){
+            Toast.makeText(mContext,"Please enter Username",Toast.LENGTH_SHORT).show();
         }
-        else if (passwordText.equals("") || passwordText.length() < 8){
-            if (passwordText.equals("")){
-                Toast.makeText(mContext,"Please enter Password",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (passwordText.length() < 8){
-                Toast.makeText(mContext,"Please should be at least 8 characters",Toast.LENGTH_SHORT).show();
-                return;
-            }
+        else if (!validateEmail(usernameText)){
+            Toast.makeText(mContext,"Username is not valid",Toast.LENGTH_SHORT).show();
+        }
+        else if (passwordText.equals("")){
+            Toast.makeText(mContext,"Please enter Password",Toast.LENGTH_SHORT).show();
+        }
+        else if (passwordText.length() < 8){
+            Toast.makeText(mContext,"Please should be at least 8 characters",Toast.LENGTH_SHORT).show();
         }
         else {
             loginModel = new LoginModel();

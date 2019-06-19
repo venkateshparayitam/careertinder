@@ -40,7 +40,6 @@ public class CandidateDashboardActivity extends BaseActivity {
     int items = 0;
     int swipedItems = 0;
     static final int PAGE_SIZE = 10;
-    JobOpeningModel lastSwipedCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,8 +153,7 @@ public class CandidateDashboardActivity extends BaseActivity {
                         applicantSwipeModel.setApplicantId( Long.toString( jobMatchesListModel.getApplicant().getId() ) );
                         mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
                     } else {
-                        //TODO Undo
-//                        swipePlaceHolderView.undoLastSwipe();
+                        swipePlaceHolderView.undoLastSwipe();
                     }
                     break;
                 case SWIPE_RIGHT_ACCEPT://ACCEPT
@@ -167,8 +165,7 @@ public class CandidateDashboardActivity extends BaseActivity {
                         applicantSwipeModel.setApplicantId( Long.toString( jobMatchesListModel.getApplicant().getId() ) );
                         mRetrofitClient.mApiInterface.swipeForApplicant(authToken,applicantSwipeModel).enqueue(mRetrofitClient);
                     } else {
-                        //TODO Undo
-//                        swipePlaceHolderView.undoLastSwipe();
+                        swipePlaceHolderView.undoLastSwipe();
                     }
                     break;
             }

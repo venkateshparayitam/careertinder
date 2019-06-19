@@ -89,7 +89,7 @@ public class JobDetailActivity extends BaseActivity {
         TVJobDescription.setText(jobOpeningModel.getJobDescription());
 
         TVDesiredQualification.setText(jobOpeningModel.getDesiredQualification());
-        TVDesiredWorkExperience.setText(jobOpeningModel.getDesiredWorkExperience() + "months");
+        TVDesiredWorkExperience.setText(jobOpeningModel.getDesiredWorkExperience() + " months");
         TVPlaceOfWork.setText(jobOpeningModel.getPlaceOfWork());
 
         TVSkill1.setText(jobOpeningModel.getSkill1());

@@ -183,9 +183,7 @@ public class ImagePickerActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
-            return;
-        } else {
+        if (resultCode == RESULT_OK) {
             imageSelected = true;
             if (requestCode == GALLERY) {
                 if (data != null && data.getData() != null) {
