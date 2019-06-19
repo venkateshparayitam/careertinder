@@ -58,16 +58,15 @@ public class JobOpeningsListActivity extends BaseActivity {
     }
 
     public void init(){
-        authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
-
         mContext = this;
+        authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         TVNoItems = findViewById(R.id.TVNoItems);
 
         if ( UtilityMethods.isConnected(mContext) ) {
             mRetrofitClient.mApiInterface.getJobOpenings(authCode).enqueue(mRetrofitClient.createProgress(mContext));
         }
-        addDrawer("Your Vacancies",0);
+        addDrawer("Your Vacancies",R.id.nav_job_list);
     }
 
     public void buildRV(){

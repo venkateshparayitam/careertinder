@@ -2,6 +2,8 @@ package com.softwaregiants.careertinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,13 +33,13 @@ class BaseActivity extends AppCompatActivity
     Toolbar toolbar;
     TextView TVNavEmail;
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mContext = this;
+    }
+
     public void addDrawer(String title, int selection) {
-        switch ( PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE,"") ) {
-            case Constants.USER_TYPE_EMPLOYER:
-                break;
-            case Constants.USER_TYPE_JOB_SEEKER:
-                break;
-        }
         bindViews();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
@@ -71,6 +73,10 @@ class BaseActivity extends AppCompatActivity
                 break;
             case R.id.nav_edit_profile:
                 startActivity(new Intent( mContext,EditCandidateProfile.class ));
+                finish();
+                break;
+            case R.id.nav_job_list:
+                startActivity(new Intent( mContext,JobOpeningsListActivity.class ));
                 finish();
                 break;
             case R.id.nav_view_matches:

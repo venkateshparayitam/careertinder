@@ -37,6 +37,7 @@ public class CandidateMatchViewerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_candidate_matchviewer);
+        mContext = this;
         addDrawer("Your Matches", R.id.nav_view_matches);
 
         Button btn = findViewById(R.id.addJobOpeningBtn);
@@ -50,7 +51,6 @@ public class CandidateMatchViewerActivity extends BaseActivity {
     public void init(){
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
 
-        mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         TVNoItems = findViewById(R.id.TVNoItems);
         TVNoItems.setText("No Matches Found");
