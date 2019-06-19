@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,9 +23,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <ScrollView
             android:layout_below="@+id/AppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -42,8 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginLeft="60dp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -84,6 +81,37 @@
                     app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
                     app:layout_constraintTop_toBottomOf="@+id/picture" />
 
+                <TextView
+                    android:id="@+id/TVPreJobType"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textStyle="bold|italic"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:text="Job Type:"
+                    android:paddingLeft="15dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVPreCompanyName" />
+
+                <TextView
+                    android:id="@+id/TVJobType"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingRight="15dp"
+                    android:text="Job"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
+                    app:layout_constraintTop_toBottomOf="@+id/TVPreCompanyName" />
 
 
                 <TextView
@@ -101,7 +129,7 @@
                     android:textColor="@android:color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/TVPreCompanyName" />
+                    app:layout_constraintTop_toBottomOf="@+id/TVPreJobType" />
 
                 <TextView
                     android:id="@+id/TVJobDescription"
@@ -171,7 +199,7 @@
                     android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
                     android:paddingRight="15dp"
-                    android:text="Qualifiaction"
+                    android:text="Qualification"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -326,9 +354,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVSkill2" />
 
+                <TextView
+                    android:id="@+id/TVSkillAddl"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:text="@string/skillText"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVSkill3" />
+
                 <View
                     android:id="@+id/break3"
-                    app:layout_constraintTop_toBottomOf="@+id/TVSkill3"
+                    app:layout_constraintTop_toBottomOf="@+id/TVSkillAddl"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
@@ -384,12 +430,124 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="@android:color/black"
-                    app:layout_constraintBottom_toTopOf="@+id/LLButtons"
                     app:layout_constraintEnd_toEndOf="@id/LLButtons"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVLanguage1" />
 
+
+
+
+
+
+                <View
+                    android:id="@+id/break4"
+                    app:layout_constraintTop_toBottomOf="@+id/TVLanguage2"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="3dp"
+                    android:background="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/TVContactDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Contact Details"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/break4" />
+
+                <TextView
+                    android:id="@+id/TVPreEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textStyle="bold|italic"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:text="Email:"
+                    android:paddingLeft="15dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVContactDetails" />
+
+                <TextView
+                    android:id="@+id/TVEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingRight="15dp"
+                    android:text="Email"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
+                    app:layout_constraintTop_toBottomOf="@+id/TVContactDetails" />
+
+                <TextView
+                    android:id="@+id/TVPrePhone"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textStyle="bold|italic"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
+                    android:text="Phone: "
+                    android:paddingLeft="15dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVPreEmail" />
+
+
+                <TextView
+                    android:id="@+id/TVPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="15dp"
+                    android:text="Phone"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/TVPreDesiredWorkExperience"
+                    app:layout_constraintTop_toBottomOf="@+id/TVPreEmail" />
+
+                <View
+                    android:id="@+id/break5"
+                    app:layout_constraintTop_toBottomOf="@+id/TVPrePhone"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="3dp"
+                    app:layout_constraintBottom_toTopOf="@+id/LLButtons"
+                    android:background="@android:color/black" />
+
+
+
+
+
+
                 <LinearLayout
+                    android:layout_marginTop="30dp"
                     android:id="@+id/LLButtons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -64,6 +64,12 @@ public class TinderCandidateCard {
     @View(R.id.TVWorkEx)
     TextView TVWorkEx;
 
+    @View(R.id.TVLang1)
+    TextView TVLang1;
+
+    @View(R.id.TVLang2)
+    TextView TVLang2;
+
     @SwipeView
     android.view.View view;
 
@@ -82,13 +88,15 @@ public class TinderCandidateCard {
     @Resolve
     public void onResolve() {
         TVName.setText("Name: " + candidateProfileModel.getName());
-        TVJobTitle.setVisibility(android.view.View.INVISIBLE);
+        TVJobTitle.setText("Preferred Job Type:" + candidateProfileModel.getJobType());
         TVQualification.setText("Qualification: " + candidateProfileModel.getHighest_education());
-        TVCity.setText("City: " + candidateProfileModel.getPlace());
-        TVSkill1.setText("Skill 1: " + candidateProfileModel.getSkill_one());
-        TVSkill2.setText("Skill 2: " + candidateProfileModel.getSkill_two());
-        TVSkill3.setText("Skill 3: " + candidateProfileModel.getSkill_three());
-        TVWorkEx.setText("Required Work Exp: " + candidateProfileModel.getWork_experience() + " months");
+        TVCity.setText("Location: " + candidateProfileModel.getPlace());
+        TVSkill1.setText(candidateProfileModel.getSkill_one());
+        TVSkill2.setText(candidateProfileModel.getSkill_two());
+        TVSkill3.setText(candidateProfileModel.getSkill_three());
+        TVLang1.setText( candidateProfileModel.getFirst_language() );
+        TVLang2.setText( candidateProfileModel.getSecond_language() );
+        TVWorkEx.setText("Work Exp: " + candidateProfileModel.getWork_experience() + " months");
         if ( null != candidateProfileModel.getImageUrl() && !candidateProfileModel.getImageUrl().isEmpty()) {
             StorageReference storageRef = storage.getReference(candidateProfileModel.getImageUrl());
             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

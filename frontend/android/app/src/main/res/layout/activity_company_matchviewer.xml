@@ -28,7 +28,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:background="?attr/colorPrimary" />
 
-            <include layout="@layout/include_activity_job_openings_list"/>
+            <include layout="@layout/include_activity_company_matchviewer"/>
 
         </android.support.design.widget.AppBarLayout>
 

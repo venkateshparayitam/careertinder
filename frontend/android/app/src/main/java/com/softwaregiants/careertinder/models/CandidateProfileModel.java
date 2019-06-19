@@ -52,7 +52,18 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
 
     private String imageUrl;
     private String jobType;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     private String phone;
+    @SerializedName("emailid")
+    private String email;
     private long id;
 
     protected CandidateProfileModel(Parcel in) {
@@ -75,6 +86,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         imageUrl = in.readString();
         jobType = in.readString();
         phone = in.readString();
+        email = in.readString();
         id = in.readLong();
     }
 
@@ -98,6 +110,7 @@ public class CandidateProfileModel extends BaseBean implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeString(jobType);
         dest.writeString(phone);
+        dest.writeString(email);
         dest.writeLong(id);
     }
 

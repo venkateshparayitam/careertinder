@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +26,7 @@ public class CandidateDetailActivity extends BaseActivity {
 
     ImageView picture;
     TextView TVCompanyName;
+    TextView TVJobType;
     TextView TVJobDescription;
 
     TextView TVDesiredQualification;
@@ -34,12 +36,16 @@ public class CandidateDetailActivity extends BaseActivity {
     TextView TVSkill1;
     TextView TVSkill2;
     TextView TVSkill3;
+    TextView TVSkillAddl;
 
     TextView TVLanguage1;
     TextView TVLanguage2;
 
     Button btnAccept;
     Button btnReject;
+    TextView TVEmail;
+    TextView TVPhone;
+    boolean matched;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class CandidateDetailActivity extends BaseActivity {
 
         picture = findViewById(R.id.picture);
         TVCompanyName = findViewById(R.id.TVCompanyName);
+        TVJobType = findViewById(R.id.TVJobType);
         TVJobDescription = findViewById(R.id.TVJobDescription);
 
         TVDesiredQualification = findViewById(R.id.TVDesiredQualification);
@@ -70,23 +77,47 @@ public class CandidateDetailActivity extends BaseActivity {
         TVSkill1 = findViewById(R.id.TVSkill1);
         TVSkill2 = findViewById(R.id.TVSkill2);
         TVSkill3 = findViewById(R.id.TVSkill3);
+        TVSkillAddl = findViewById(R.id.TVSkillAddl);
 
         TVLanguage1 = findViewById(R.id.TVLanguage1);
         TVLanguage2 = findViewById(R.id.TVLanguage2);
 
+        TVEmail = findViewById(R.id.TVEmail);
+        TVPhone = findViewById(R.id.TVPhone);
+
         TVCompanyName.setText(candidateProfileModel.getName());
+        TVJobType.setText( candidateProfileModel.getJobType() );
         TVJobDescription.setText(candidateProfileModel.getAboutme());
 
         TVDesiredQualification.setText(candidateProfileModel.getHighest_education());
-        TVDesiredWorkExperience.setText(candidateProfileModel.getWork_experience() + "months");
+        TVDesiredWorkExperience.setText(candidateProfileModel.getWork_experience() + " months");
         TVPlaceOfWork.setText(candidateProfileModel.getPlace());
 
-        TVSkill1.setText(candidateProfileModel.getSkill_one());
-        TVSkill2.setText(candidateProfileModel.getSkill_two());
-        TVSkill3.setText(candidateProfileModel.getSkill_three());
+        if (candidateProfileModel.getSkill_one() != null && !candidateProfileModel.getSkill_one().isEmpty() ) {
+            TVSkill1.setText(candidateProfileModel.getSkill_one());
+        } else {
+            TVSkill1.setVisibility(View.GONE);
+        }
+        if (candidateProfileModel.getSkill_two() != null && !candidateProfileModel.getSkill_two().isEmpty() ) {
+            TVSkill2.setText(candidateProfileModel.getSkill_two());
+        } else {
+            TVSkill2.setVisibility(View.GONE);
+        }
+        if (candidateProfileModel.getSkill_three() != null && !candidateProfileModel.getSkill_three().isEmpty() ) {
+            TVSkill3.setText(candidateProfileModel.getSkill_three());
+        } else {
+            TVSkill3.setVisibility(View.GONE);
+        }
+        if (candidateProfileModel.getSkill_three() != null && !candidateProfileModel.getAdditional_skill().isEmpty() ) {
+            TVSkillAddl.setText(candidateProfileModel.getAdditional_skill());
+        } else {
+            TVSkillAddl.setVisibility(View.GONE);
+        }
 
         TVLanguage1.setText(candidateProfileModel.getFirst_language());
         TVLanguage2.setText(candidateProfileModel.getSecond_language());
+        TVEmail.setText(candidateProfileModel.getEmail());
+        TVPhone.setText(candidateProfileModel.getPhone());
 
         btnAccept = findViewById(R.id.BtnAccept);
         btnReject = findViewById(R.id.BtnReject);
@@ -106,7 +137,11 @@ public class CandidateDetailActivity extends BaseActivity {
         } else {
             picture.setImageResource(R.drawable.image_placeholder);
         }
-
+        matched = getIntent().getBooleanExtra("matched", false);
+        if (matched) {
+            LinearLayout linearLayout = findViewById(R.id.LLButtons);
+            linearLayout.setVisibility(View.GONE);
+        }
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {

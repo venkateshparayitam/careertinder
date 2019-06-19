@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.adapters.CandidateMatchviewerAdapter;
@@ -31,6 +29,8 @@ public class CompanyMatchViewerActivity extends BaseActivity {
 
     private JobOpeningsListModel jobOpeningsListModel;
 
+    Spinner spinnerJob;
+
     Intent nextActivity;
 
     @Override
@@ -39,42 +39,31 @@ public class CompanyMatchViewerActivity extends BaseActivity {
         setContentView(R.layout.activity_company_matchviewer);
         mContext = this;
         addDrawer("Your Matches", R.id.nav_view_matches);
+        nextActivity = new Intent(this, JobDetailActivity.class);
 
-        Button btn = findViewById(R.id.addJobOpeningBtn);
-        btn.setVisibility(View.GONE);
-
-        nextActivity = new Intent(this, CandidateDetailActivity.class);
-
-//        init();
+        init();
     }
 
     public void init(){
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
-
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         TVNoItems = findViewById(R.id.TVNoItems);
-        TVNoItems.setText("No Matches Found");
 
         if ( UtilityMethods.isConnected(mContext) ) {
-            mRetrofitClient.mApiInterface.getMatchesForCandidate(authCode).enqueue(mRetrofitClient.createProgress(mContext));
+            mRetrofitClient.mApiInterface.getMatchesForCompany(authCode).enqueue(mRetrofitClient.createProgress(mContext));
         }
     }
 
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals("Success")) {
-                jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
-                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
-                    TVNoItems.setVisibility(View.INVISIBLE);
-                    buildRV();
-                }
-            }
-            else {
-                Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
-            }
+//                jobOpeningsListModel = (JobOpeningsListModel) baseBean;
+//                if ( jobOpeningsListModel != null && jobOpeningsListModel.getJobOpeningModelList() != null &&
+//                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
+//                    TVNoItems.setVisibility(View.INVISIBLE);
+//                    buildRV();
+//                }
         }
 
         @Override
