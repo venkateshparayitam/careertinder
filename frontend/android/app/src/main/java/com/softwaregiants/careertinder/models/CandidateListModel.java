@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CandidateListModel extends BaseBean {
 
-    @SerializedName("applicantProfiles")
+    @SerializedName("applicantList")
     List<CandidateProfileModel> applicantProfiles;
 
     public List<CandidateProfileModel> getApplicantProfiles() {

@@ -14,38 +14,39 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.callback.OnItemClickListener;
-import com.softwaregiants.careertinder.models.JobOpeningModel;
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CandidateMatchViewerAdapter extends RecyclerView.Adapter<CandidateMatchViewerAdapter.CandidateMatchviewerViewHolder> {
+public class CompanyMatchViewerAdapter extends RecyclerView.Adapter<CompanyMatchViewerAdapter.CompanyMatchViewerViewHolder> {
 
-    private List<JobOpeningModel> jobOpeningModels;
-    private OnItemClickListener onItemClickListener;
+    private List<CandidateProfileModel> candidateProfileModels;
+    private OnItemClickListener listener;
 
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    public CandidateMatchViewerAdapter(List<JobOpeningModel> jobOpeningModelList){
-        this.jobOpeningModels = jobOpeningModelList;
+    public CompanyMatchViewerAdapter(List<CandidateProfileModel> candidateProfileModels, OnItemClickListener listener){
+        this.candidateProfileModels = candidateProfileModels;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public CandidateMatchviewerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CompanyMatchViewerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.candidate_matchviewer_item, parent, false);
-        return new CandidateMatchviewerViewHolder(itemView, onItemClickListener);
+        return new CompanyMatchViewerViewHolder(itemView,listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CandidateMatchviewerViewHolder holder, int position) {
-        JobOpeningModel jobOpeningModel = jobOpeningModels.get(position);
-        holder.jobTitle.setText(jobOpeningModel.getJobTitle());
-        holder.placeOfWork.setText(jobOpeningModel.getPlaceOfWork());
-        holder.preferredSkill.setText(jobOpeningModel.getSkill1());
-        if ( null != jobOpeningModel.getImageUrl() && !jobOpeningModel.getImageUrl().isEmpty()) {
-            StorageReference storageRef = storage.getReference(jobOpeningModel.getImageUrl());
+    public void onBindViewHolder(@NonNull final CompanyMatchViewerAdapter.CompanyMatchViewerViewHolder holder, int position) {
+        CandidateProfileModel candidateProfileModel = candidateProfileModels.get(position);
+        holder.jobTitle.setText(candidateProfileModel.getName());
+        holder.placeOfWork.setText(candidateProfileModel.getPlace());
+        holder.preferredSkill.setText(candidateProfileModel.getSkill_one());
+        if ( null != candidateProfileModel.getImageUrl() && !candidateProfileModel.getImageUrl().isEmpty()) {
+            StorageReference storageRef = storage.getReference(candidateProfileModel.getImageUrl());
             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
@@ -61,18 +62,17 @@ public class CandidateMatchViewerAdapter extends RecyclerView.Adapter<CandidateM
 
     @Override
     public int getItemCount() {
-        return jobOpeningModels.size();
+        return candidateProfileModels.size();
     }
 
-
-    static class CandidateMatchviewerViewHolder extends RecyclerView.ViewHolder{
+    static class CompanyMatchViewerViewHolder extends RecyclerView.ViewHolder{
 
         ImageView jobOpening;
         TextView jobTitle;
         TextView placeOfWork;
         TextView preferredSkill;
 
-        CandidateMatchviewerViewHolder(View itemView, final OnItemClickListener listener) {
+        CompanyMatchViewerViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             jobOpening = itemView.findViewById(R.id.IVJobOpening);
             jobTitle = itemView.findViewById(R.id.TVJobTitle);
@@ -91,9 +91,5 @@ public class CandidateMatchViewerAdapter extends RecyclerView.Adapter<CandidateM
                 }
             });
         }
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        this.onItemClickListener = listener;
     }
 }

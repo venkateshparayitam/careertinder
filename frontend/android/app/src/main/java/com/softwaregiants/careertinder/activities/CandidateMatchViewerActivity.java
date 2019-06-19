@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.adapters.CandidateMatchViewerAdapter;
+import com.softwaregiants.careertinder.callback.OnItemClickListener;
 import com.softwaregiants.careertinder.models.BaseBean;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
@@ -89,7 +90,7 @@ public class CandidateMatchViewerActivity extends BaseActivity {
         mAdapter = new CandidateMatchViewerAdapter(jobOpeningsListModel.getJobOpeningModelList());
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new CandidateMatchViewerAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 nextActivity.putExtra("matched", true);
