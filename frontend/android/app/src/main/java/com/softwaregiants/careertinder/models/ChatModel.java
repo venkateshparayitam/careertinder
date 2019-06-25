@@ -1,12 +1,9 @@
 package com.softwaregiants.careertinder.models;
 
 public class ChatModel {
-	String sender;
-	String message;
+	private String sender;
+	private String message;
 	private String id;
-
-	public ChatModel() {
-	}
 
 	public ChatModel(String sender, String message) {
 		this.sender = sender;
