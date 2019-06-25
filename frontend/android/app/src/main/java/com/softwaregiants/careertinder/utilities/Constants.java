@@ -35,6 +35,7 @@ public interface Constants {
     String PK_LOGIN_STATE = "PK_LOGIN_STATE";
     String PK_USER_TYPE = "PK_USER_TYPE";
     String PK_EMAIL = "PK_EMAIL";
+    String PK_APPLICANT_PROFILE_ID = "PK_APPLICANT_PROFILE_ID";
     String PK_PROFILE_CREATED = "PK_PROFILE_CREATED";
 
     //Misc

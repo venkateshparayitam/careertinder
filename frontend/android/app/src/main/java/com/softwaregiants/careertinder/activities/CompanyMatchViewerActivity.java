@@ -38,12 +38,9 @@ public class CompanyMatchViewerActivity extends BaseActivity {
     CompanyMatchViewerAdapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
 
-    private ListOfJobWiseMatchesModel listOfJobWiseMatchesModel;
     private List<JobWiseMatchesModel> jobWiseMatchesModelList;
-    private List<CharSequence> jobTitles;
     private Map<Integer,List<CandidateProfileModel>> positionToCandidateListMap;
-    private
-    List<CandidateProfileModel> currentMatches;
+    private List<CandidateProfileModel> currentMatches;
 
     Spinner spinnerJob;
     int currentSpinnerPosition;
@@ -56,7 +53,8 @@ public class CompanyMatchViewerActivity extends BaseActivity {
         setContentView(R.layout.activity_company_matchviewer);
         mContext = this;
         addDrawer("Your Matches", R.id.nav_view_matches);
-        nextActivity = new Intent(this, CandidateDetailActivity.class);
+//        nextActivity = new Intent(this, CandidateDetailActivity.class);
+        nextActivity = new Intent(this, ChatActivity.class);
 
         init();
     }
@@ -65,6 +63,7 @@ public class CompanyMatchViewerActivity extends BaseActivity {
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
         mContext = this;
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
+        recyclerView = findViewById(R.id.my_recycler_view);
         TVNoItems = findViewById(R.id.TVNoItems);
 
         if ( UtilityMethods.isConnected(mContext) ) {
@@ -76,7 +75,7 @@ public class CompanyMatchViewerActivity extends BaseActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-                listOfJobWiseMatchesModel = (ListOfJobWiseMatchesModel) baseBean;
+            ListOfJobWiseMatchesModel listOfJobWiseMatchesModel = (ListOfJobWiseMatchesModel) baseBean;
                 if ( listOfJobWiseMatchesModel != null && listOfJobWiseMatchesModel.getJobList() != null &&
                         !listOfJobWiseMatchesModel.getJobList().isEmpty()){
                     jobWiseMatchesModelList = listOfJobWiseMatchesModel.getJobList();
@@ -95,7 +94,7 @@ public class CompanyMatchViewerActivity extends BaseActivity {
 
     private void setUpSpinner(Boolean haveData) {
         if (haveData) {
-            jobTitles = new ArrayList<>();
+            List<CharSequence> jobTitles = new ArrayList<>();
             positionToCandidateListMap = new HashMap<>();
             int i=0;
             for (JobWiseMatchesModel jobWiseMatchesModel : jobWiseMatchesModelList) {
@@ -136,7 +135,7 @@ public class CompanyMatchViewerActivity extends BaseActivity {
         currentMatches = positionToCandidateListMap.get(currentSpinnerPosition);
         if ( currentMatches!=null && !currentMatches.isEmpty() ) {
             TVNoItems.setVisibility(View.GONE);
-            recyclerView = findViewById(R.id.my_recycler_view);
+            recyclerView.setVisibility(View.VISIBLE);
             recyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(mContext);
             recyclerView.setLayoutManager(layoutManager);
@@ -152,6 +151,9 @@ public class CompanyMatchViewerActivity extends BaseActivity {
         @Override
         public void onItemClick(int position) {
             nextActivity.putExtra("matched", true);
+            nextActivity.putExtra( "applicant", Long.toString( currentMatches.get(position).getId() ) );
+            nextActivity.putExtra("company", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
+            nextActivity.putExtra("currentUser", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
             startActivity(nextActivity.putExtra("job", currentMatches.get(position)));
         }
     };

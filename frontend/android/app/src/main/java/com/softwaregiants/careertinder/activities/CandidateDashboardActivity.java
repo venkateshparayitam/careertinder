@@ -175,14 +175,10 @@ public class CandidateDashboardActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case Constants.NEED_RESULT_COMPANY_DETAIL:
-                    if ( data != null ) {
-                        ACTION_PERFORMED action_performed = (ACTION_PERFORMED) data.getSerializableExtra("action");
-                        swipePlaceHolderView.doSwipe(action_performed == ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
-                    }
-                    break;
+        if (resultCode == RESULT_OK && requestCode == Constants.NEED_RESULT_COMPANY_DETAIL) {
+            if ( data != null ) {
+                ACTION_PERFORMED action_performed = (ACTION_PERFORMED) data.getSerializableExtra("action");
+                swipePlaceHolderView.doSwipe(action_performed == ACTION_PERFORMED.SWIPE_RIGHT_ACCEPT);
             }
         }
     }

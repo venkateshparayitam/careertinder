@@ -17,6 +17,10 @@ import android.widget.Toast;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UtilityMethods {
 
@@ -110,5 +114,29 @@ public class UtilityMethods {
     public static boolean validatePhone(String phone) {
         String regex ="^\\+?[0-9]{8,20}$";
         return phone.matches(regex);
+    }
+
+    public static String getTimestamp() {
+        long epochTime = 0;
+        Date today = Calendar.getInstance().getTime();
+
+        // Constructs a SimpleDateFormat using the given pattern
+        SimpleDateFormat crunchifyFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
+
+        // format() formats a Date into a date/time string.
+        String currentTime = crunchifyFormat.format(today);
+
+        try {
+
+            // parse() parses text from the beginning of the given string to produce a date.
+            Date date = crunchifyFormat.parse(currentTime);
+
+            // getTime() returns the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this Date object.
+            epochTime = date.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return Long.toString(epochTime);
     }
 }

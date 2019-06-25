@@ -13,6 +13,8 @@ import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.adapters.CandidateMatchViewerAdapter;
 import com.softwaregiants.careertinder.callback.OnItemClickListener;
 import com.softwaregiants.careertinder.models.BaseBean;
+import com.softwaregiants.careertinder.models.CandidateProfileModel;
+import com.softwaregiants.careertinder.models.GetCandidateDetailModel;
 import com.softwaregiants.careertinder.models.JobOpeningsListModel;
 import com.softwaregiants.careertinder.networking.ApiResponseCallback;
 import com.softwaregiants.careertinder.networking.RetrofitClient;
@@ -23,6 +25,7 @@ import com.softwaregiants.careertinder.utilities.UtilityMethods;
 public class CandidateMatchViewerActivity extends BaseActivity {
 
     String authCode;
+    String applicantProfileId;
     RetrofitClient mRetrofitClient;
     TextView TVNoItems;
 
@@ -44,13 +47,15 @@ public class CandidateMatchViewerActivity extends BaseActivity {
         Button btn = findViewById(R.id.addJobOpeningBtn);
         btn.setVisibility(View.GONE);
 
-        nextActivity = new Intent(this, JobDetailActivity.class);
+//        nextActivity = new Intent(this, JobDetailActivity.class);
+        nextActivity = new Intent(this, ChatActivity.class);
 
         init();
     }
 
     public void init(){
         authCode = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_AUTH_CODE, "");
+        applicantProfileId = PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_APPLICANT_PROFILE_ID, null);
 
         mRetrofitClient = RetrofitClient.getRetrofitClient(mApiResponseCallback,getApplicationContext());
         TVNoItems = findViewById(R.id.TVNoItems);
@@ -65,12 +70,31 @@ public class CandidateMatchViewerActivity extends BaseActivity {
         @Override
         public void onSuccess(BaseBean baseBean) {
             if (baseBean.getStatusCode().equals("Success")) {
-                jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
-                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
-                    TVNoItems.setVisibility(View.INVISIBLE);
-                    buildRV();
+                if(baseBean.getApiMethod().equals(Constants.API_METHOD_GET_MATCHES_FOR_CANDIDATE)) {
+                    jobOpeningsListModel = (JobOpeningsListModel) baseBean;
+                    if (applicantProfileId != null) {
+                        if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
+                                !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
+                            TVNoItems.setVisibility(View.INVISIBLE);
+                            buildRV();
+                        }
+                    } else {
+                        if (UtilityMethods.isConnected(mContext)) {
+                            mRetrofitClient.mApiInterface.getCandidateProfile(authCode).enqueue(mRetrofitClient.createProgress(mContext));
+                        }
+                    }
+                } else {
+                    CandidateProfileModel candidateProfileModel = ((GetCandidateDetailModel) baseBean).getApplicant();
+                    applicantProfileId = Long.toString( candidateProfileModel.getId() );
+                    PreferenceManager.getInstance(getApplicationContext()).putString(Constants.PK_APPLICANT_PROFILE_ID, applicantProfileId);
+                    if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
+                            !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
+                        TVNoItems.setVisibility(View.INVISIBLE);
+                        buildRV();
+                    }
                 }
+
+
             }
             else {
                 Toast.makeText(mContext, Constants.MSG_ERROR,Toast.LENGTH_SHORT).show();
@@ -94,7 +118,11 @@ public class CandidateMatchViewerActivity extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 nextActivity.putExtra("matched", true);
-                startActivity(nextActivity.putExtra("job", jobOpeningsListModel.getJobOpeningModelList().get(position)));
+                nextActivity.putExtra("applicant", applicantProfileId);
+                nextActivity.putExtra("company", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId());
+                nextActivity.putExtra("currentUser", applicantProfileId);
+                startActivity(nextActivity);
+//                startActivity(nextActivity.putExtra("job", jobOpeningsListModel.getJobOpeningModelList().get(position)));
             }
         });
     }
