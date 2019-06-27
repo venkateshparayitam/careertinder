@@ -5,6 +5,9 @@ public class ChatModel {
 	private String message;
 	private String id;
 
+	public ChatModel() {
+	}
+
 	public ChatModel(String sender, String message) {
 		this.sender = sender;
 		this.message = message;
