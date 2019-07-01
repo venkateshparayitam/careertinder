@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,24 +91,6 @@ public class ChatActivity extends BaseActivity {
 		mLinearLayoutManager = new LinearLayoutManager(this);
 		mLinearLayoutManager.setStackFromEnd(true);
 		mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
-		ETMessage.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-				if (charSequence.toString().trim().length() > 0) {
-					mSendButton.setEnabled(true);
-				} else {
-					mSendButton.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void afterTextChanged(Editable editable) {
-			}
-		});
 		loadMessages();
 	}
 
@@ -227,16 +207,11 @@ public class ChatActivity extends BaseActivity {
 	View.OnClickListener onClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mSendButton.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if ( ETMessage.getText()!=null && !ETMessage.getText().toString().trim().isEmpty() ) {
-						ChatModel friendlyMessage = new ChatModel(currentUser, ETMessage.getText().toString());
-						mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(friendlyMessage);
-						ETMessage.setText("");
-					}
+				if ( ETMessage.getText()!=null && !ETMessage.getText().toString().trim().isEmpty() ) {
+					ChatModel friendlyMessage = new ChatModel(currentUser, ETMessage.getText().toString().trim());
+					mFirebaseDatabaseReference.child(MESSAGES_CHILD).push().setValue(friendlyMessage);
+					ETMessage.setText("");
 				}
-			});
 		}
 	};
 
@@ -256,5 +231,6 @@ public class ChatActivity extends BaseActivity {
 			alertDialog = null;
 		}
 	}
+
 
 }

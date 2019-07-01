@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
@@ -34,6 +33,10 @@
             android:id="@+id/btnSubmit"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:padding="10dp"
+            android:layout_margin="10dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:src="@drawable/baseline_send_white_24"
             android:background="@drawable/btn_chat_send"
             android:layout_gravity="bottom"
