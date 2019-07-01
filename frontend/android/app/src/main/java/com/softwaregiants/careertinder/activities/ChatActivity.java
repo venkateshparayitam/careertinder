@@ -22,8 +22,11 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.softwaregiants.careertinder.R;
 import com.softwaregiants.careertinder.models.ChatModel;
 
@@ -114,6 +117,21 @@ public class ChatActivity extends BaseActivity {
 	private void loadMessages() {
 		mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference(applicant + "_" + company);
 
+		Query query = mFirebaseDatabaseReference.child(MESSAGES_CHILD);
+		query.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				if (! dataSnapshot.exists() ) {
+					cancelProgress();
+				}
+			}
+
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+
+			}
+		});
+
 		SnapshotParser<ChatModel> parser = new SnapshotParser<ChatModel>() {
 			@NonNull
 			@Override
@@ -128,7 +146,7 @@ public class ChatActivity extends BaseActivity {
 
 		FirebaseRecyclerOptions<ChatModel> options =
 				new FirebaseRecyclerOptions.Builder<ChatModel>()
-						.setQuery(mFirebaseDatabaseReference.child(MESSAGES_CHILD), parser)
+						.setQuery(query, parser)
 						.build();
 
 		mAdapter = new FirebaseRecyclerAdapter<ChatModel, MessageViewHolder>(options) {
