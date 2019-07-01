@@ -205,13 +205,13 @@ public class EditCandidateProfile extends ImagePickerActivity {
             }
             else{
                 if ( UtilityMethods.isConnected(mContext) ) {
-                    submit();
+                    submit(candidateProfileModel);
                 }
             }
         }
     };
 
-    private void submit() {
+    private void submit( CandidateProfileModel candidateProfileModel ) {
         mRetrofitClient.createProgress(mContext);
         if ( imageSelected ) {
             candidateProfileModel.setImageUrl(fileName);
