@@ -150,11 +150,13 @@ public class CompanyMatchViewerActivity extends BaseActivity {
     OnItemClickListener onItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            nextActivity.putExtra("matched", true);
-            nextActivity.putExtra( "applicant", Long.toString( currentMatches.get(position).getId() ) );
-            nextActivity.putExtra("company", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
-            nextActivity.putExtra("currentUser", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
-            startActivity(nextActivity.putExtra("job", currentMatches.get(position)));
+            if(UtilityMethods.isConnected(mContext)) {
+                nextActivity.putExtra("matched", true);
+                nextActivity.putExtra("applicant", Long.toString(currentMatches.get(position).getId()));
+                nextActivity.putExtra("company", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
+                nextActivity.putExtra("currentUser", jobWiseMatchesModelList.get(currentSpinnerPosition).getJobId());
+                startActivity(nextActivity.putExtra("job", currentMatches.get(position)));
+            }
         }
     };
 }

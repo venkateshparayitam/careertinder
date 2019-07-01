@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -84,7 +85,6 @@ public class ChatActivity extends BaseActivity {
 	}
 
 	private void init() {
-		//cpb = findViewById(R.id.cpb);
 		createProgress(this);
 		mSendButton = findViewById(R.id.btnSubmit);
 		mSendButton.setOnClickListener(onClickListener);
@@ -128,7 +128,9 @@ public class ChatActivity extends BaseActivity {
 
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
+				cancelProgress();
+				Toast.makeText(mContext,"There was an error loading your messages. Please try again.",Toast.LENGTH_SHORT).show();
+				finish();
 			}
 		});
 

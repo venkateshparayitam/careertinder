@@ -117,12 +117,14 @@ public class CandidateMatchViewerActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                nextActivity.putExtra("matched", true);
-                nextActivity.putExtra("applicant", applicantProfileId);
-                nextActivity.putExtra("company", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId());
-                nextActivity.putExtra("currentUser", applicantProfileId);
-                startActivity(nextActivity);
+                if(UtilityMethods.isConnected(mContext)) {
+                    nextActivity.putExtra("matched", true);
+                    nextActivity.putExtra("applicant", applicantProfileId);
+                    nextActivity.putExtra("company", jobOpeningsListModel.getJobOpeningModelList().get(position).getJobId());
+                    nextActivity.putExtra("currentUser", applicantProfileId);
+                    startActivity(nextActivity);
 //                startActivity(nextActivity.putExtra("job", jobOpeningsListModel.getJobOpeningModelList().get(position)));
+                }
             }
         });
     }
