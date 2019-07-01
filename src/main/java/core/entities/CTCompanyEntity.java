@@ -1,6 +1,9 @@
 package core.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import core.entities.*;
 
 /**
  * Entity implementation class for Entity: ApplicantEntity.
@@ -78,7 +83,8 @@ public class CTCompanyEntity implements Serializable {
 	@Column(name="imageUrl",  nullable = true)
 	private String imageUrl;
 	
-	
+	@Transient
+	List<CTApplicantEntity> applicantList;
 
 	@ManyToOne (cascade=CascadeType.ALL)
 	  private CTUserEntity user_company;
@@ -246,6 +252,16 @@ public class CTCompanyEntity implements Serializable {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	public List<CTApplicantEntity> getApplicantList() {
+		return applicantList;
+	}
+
+	public void setApplicantList(List<CTApplicantEntity> applicantList) {
+		this.applicantList = applicantList;
+	}
+
+	
 	
 	
 

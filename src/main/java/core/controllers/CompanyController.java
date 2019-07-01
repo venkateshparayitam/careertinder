@@ -9,14 +9,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.mysql.cj.x.protobuf.MysqlxExpect.Open.CtxOperation;
-
 import core.entities.CTApplicantEntity;
 import core.entities.CTCompanyEntity;
 import core.entities.CTUserEntity;
 import core.entities.CTMatchingEntity;
 import core.repositories.*;
 import core.supplementary.ResponseCode;
+import core.supplementary.ResponseCompanyMatches;
 import core.supplementary.RandomNumber;
 
 /**
@@ -228,15 +227,18 @@ public class CompanyController {
 	}
 	
 	@GetMapping(path ="/company/getMatches/{authcode}", produces = "application/json")
-	public ResponseCode companyGetMatches(@PathVariable(value = "authcode") String authcode) {
+	public ResponseCompanyMatches companyGetMatches(@PathVariable(value = "authcode") String authcode) {
 		
-		ResponseCode response = new ResponseCode();
+		ResponseCompanyMatches response = new ResponseCompanyMatches();
 		
 		CTUserEntity user = new CTUserEntity();
 		List<CTMatchingEntity> matchingList = new ArrayList<CTMatchingEntity>();
 		List<CTCompanyEntity> companyList = new ArrayList<CTCompanyEntity>();
-		ArrayList<CTApplicantEntity> applicantMatchList = new ArrayList<CTApplicantEntity>();
+		List<CTCompanyEntity> jobList = new ArrayList<CTCompanyEntity>();
+		ArrayList<CTApplicantEntity> applicantMatchList;
 		boolean nomatches = true;
+		int noMatchExists;
+		
 		try
 		{
 			user = user_repository.getByToken(authcode);
@@ -247,18 +249,36 @@ public class CompanyController {
 			{
 				for(CTCompanyEntity company : companyList)
 				{
-					matchingList = matchingRepository.getRecordsForCompany(company.getId());	
 					
-					for(CTMatchingEntity matching : matchingList)
+					noMatchExists = matchingRepository.swipeMatchesExists(company.getId());
+					
+					if(noMatchExists == 0)
 					{
-						
-						
-						if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 1)
-						{
-							nomatches = false;
-							applicantMatchList.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
-						}
+						//do nothing
+						jobList.add(company);
 					}
+					else
+					{
+						matchingList = matchingRepository.getRecordsForCompany(company.getId());
+						applicantMatchList = new ArrayList<CTApplicantEntity>();
+					
+						for(CTMatchingEntity matching : matchingList)
+						{
+							
+							
+							if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 1)
+							{
+								nomatches = false;
+								applicantMatchList.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
+								
+							}
+							
+						}
+						company.setApplicantList(applicantMatchList);
+						jobList.add(company);
+						
+					}
+					
 				}
 				
 			}
@@ -274,7 +294,7 @@ public class CompanyController {
 				response.setStatus_code("Success");
 				response.setMethod("get_matches_for_company");
 				response.setMessage("List of Matched Derived");
-				response.setApplicantProfiles(applicantMatchList);
+				response.setJoblist(jobList);
 			}
 			
 		}catch(Exception ex)
