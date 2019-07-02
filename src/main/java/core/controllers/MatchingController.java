@@ -175,13 +175,13 @@ public class MatchingController {
 			
 			for(CTMatchingEntity matching : matchingList)
 			{
-				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 70)
 				{
 					noMatchProfile = false;
 					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
 					
 				}
-				else if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 1 && matching.getPercentage() <= 90)
+				else if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 1 && matching.getPercentage() <= 70)
 				{
 					noMatchProfile = false;
 					companyList.add(companyRepository.getCompanyById(matching.getCompany_id()));
@@ -239,13 +239,13 @@ public class MatchingController {
 			for(CTMatchingEntity matching : matchingList)
 			{
 
-				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				if(matching.getApplicant_swipe() == 0 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 70)
 				{
 					noMatchProfile = false;
 					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
 					
 				}
-				else if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 90)
+				else if(matching.getApplicant_swipe() == 1 && matching.getCompany_swipe() == 0 && matching.getPercentage() <= 70)
 				{
 					noMatchProfile = false;
 					applicantlist.add(applicantRepository.getApplicantById(matching.getApplicant_id()));
