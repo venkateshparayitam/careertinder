@@ -71,10 +71,11 @@ public class MatchingService {
 			try {
 								
 			  CTMatchingEntity databaseMatching = new CTMatchingEntity();
-								
-			  distance1 = ld.distance(applicant.getFirstskill(), company.getSkill1());
-			  distance2 = ld.distance(applicant.getSecondskill(), company.getSkill2());
-			  distance3 = ld.distance(applicant.getThirdskill(), company.getSkill3());
+				
+			  
+			  distance1 = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill1().toLowerCase());
+			  distance2 = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill2().toLowerCase());
+			  distance3 = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill3().toLowerCase());
 							    
 			  result = Stats.meanOf(distance1, distance2, distance3);
 			  response = Double.valueOf(df.format(result));	
