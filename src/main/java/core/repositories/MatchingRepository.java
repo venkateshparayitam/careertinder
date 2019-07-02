@@ -39,4 +39,5 @@ public interface MatchingRepository extends JpaRepository<CTMatchingEntity, Long
     @Query(value = "select count(*) from ctmatching where company_id = ?1  and company_swipe = 1;", nativeQuery = true)
     public int swipeMatchesExists(Long company_id);
     
+    
 }

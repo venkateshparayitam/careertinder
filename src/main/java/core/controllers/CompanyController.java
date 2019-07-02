@@ -283,20 +283,12 @@ public class CompanyController {
 				
 			}
 			
-			if(nomatches)
-			{
-				response.setStatus_code("Success");
-				response.setMethod("get_matches_for_company");
-				response.setMessage("No Matches found");
-			}
-			else
-			{
+			
 				response.setStatus_code("Success");
 				response.setMethod("get_matches_for_company");
 				response.setMessage("List of Matched Derived");
 				response.setJoblist(jobList);
-			}
-			
+						
 		}catch(Exception ex)
 		{
 			response.setStatus_code("Fail");

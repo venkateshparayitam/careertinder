@@ -40,6 +40,7 @@ public class MatchingService {
 	private double distance1;
 	private double distance2;
 	private double distance3;
+	private double dissimilarities[][];
 	private double response;
 	private double result;
 	private double percentage;
@@ -58,9 +59,9 @@ public class MatchingService {
 							
 				for (CTCompanyEntity company : companies) {
 						
-				   if (matchingRepository.exists(applicant.getId(), company.getId()) == 0) {		        	
+				  		        	
 					  this.getDistance(applicant, company);
-				}
+				
 			 }
 		  } 
 	  }
@@ -70,22 +71,78 @@ public class MatchingService {
 												
 			try {
 								
-			  CTMatchingEntity databaseMatching = new CTMatchingEntity();
+			  CTMatchingEntity databaseMatching = matchingRepository.getMatchRow(company.getId(), applicant.getId());
+			  
+			  if(databaseMatching == null)
+			  {
+				  databaseMatching = new CTMatchingEntity();
+				  databaseMatching.setApplicant_id(applicant.getId());
+				  databaseMatching.setCompany_id(company.getId());
+			  }
+			  
+			  dissimilarities = new double[3][3];
+			  
+			  dissimilarities[0][0] = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill1().toLowerCase());
+			  dissimilarities[0][1] = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill2().toLowerCase());
+			  dissimilarities[0][2] = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill3().toLowerCase());
+			  dissimilarities[1][0] = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill1().toLowerCase());
+			  dissimilarities[1][1] = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill2().toLowerCase());
+			  dissimilarities[1][2] = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill3().toLowerCase());
+			  dissimilarities[2][0] = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill1().toLowerCase());
+			  dissimilarities[2][1] = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill2().toLowerCase());
+			  dissimilarities[2][2] = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill3().toLowerCase());
+			  
+			  distance1 = 101;
+			  int l1x=0,l1y=0;
+			  for ( int i=0; i<3; i++ ) {
+				  for ( int j=0; j<3; j++ ) {
+					  if ( dissimilarities[i][j] < distance1 ) {
+						  distance1 = dissimilarities[i][j];
+						  l1x = i;
+						  l1y = j;
+					  }
+				  }
+			  }
+			  
+			  dissimilarities[l1x][0] = 101.0;
+			  dissimilarities[l1x][1] = 101.0;
+			  dissimilarities[l1x][2] = 101.0;
+			  dissimilarities[0][l1y] = 101.0;
+			  dissimilarities[1][l1y] = 101.0;
+			  dissimilarities[2][l1y] = 101.0;
+			  
+			  distance2 = 101;
+			  int l2x=0,l2y=0;
+			  for ( int i=0; i<3; i++ ) {
+				  for ( int j=0; j<3; j++ ) {
+					  if ( dissimilarities[i][j] < distance2 ) {
+						  distance2 = dissimilarities[i][j];
+						  l2x = i;
+						  l2y = j;
+					  }
+				  }
+			  }
+			  
+			  int l3y = 3 - (l1y + l2y);
+			  int l3x = 3 - (l1x + l2x);
+			  distance3 = dissimilarities[l3x][l3y];
+			  
+			  
 				
 			  
-			  distance1 = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill1().toLowerCase());
-			  distance2 = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill2().toLowerCase());
-			  distance3 = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill3().toLowerCase());
+//			  distance1 = ld.distance(applicant.getFirstskill().toLowerCase(), company.getSkill1().toLowerCase());
+//			  distance2 = ld.distance(applicant.getSecondskill().toLowerCase(), company.getSkill2().toLowerCase());
+//			  distance3 = ld.distance(applicant.getThirdskill().toLowerCase(), company.getSkill3().toLowerCase());
 							    
 			  result = Stats.meanOf(distance1, distance2, distance3);
 			  response = Double.valueOf(df.format(result));	
 			  percentage = response * 100;
 							    
-			  databaseMatching.setApplicant_id(applicant.getId());
-			  databaseMatching.setCompany_id(company.getId());
+			
 			  databaseMatching.setPercentage(percentage);
-			  matchingRepository.save(databaseMatching);	
+			  matchingRepository.save(databaseMatching);
 
+			  
 			  } catch(Exception e) {
 				e.printStackTrace();
 						   }
