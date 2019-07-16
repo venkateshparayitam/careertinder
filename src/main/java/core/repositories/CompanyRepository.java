@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,11 @@ public interface CompanyRepository extends JpaRepository<CTCompanyEntity, Long> 
 	 @Transactional
 	 @Query(value = "SELECT * from ctcompany where user_company_id = ?1", nativeQuery = true)
 	 public List<CTCompanyEntity> getMatchesForCompany(Long companyId);
+	 
+	 @Transactional
+	 @Modifying
+	 @Query(value="DELETE from ctcompany where job_id = ?1", nativeQuery = true)
+	 public void deleteJobProfile(int jobid);
 	 
 	 
 }

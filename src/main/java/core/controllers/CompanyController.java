@@ -299,6 +299,40 @@ public class CompanyController {
 		return response;
 	}
 	
+	@PutMapping(path ="/company/deleteJobProfile/{authcode}", produces = "application/json")
+	public ResponseCompanyMatches companyDeleteJobProfile(@PathVariable(value = "authcode") String authcode, @Valid @RequestBody CTCompanyEntity company) {
+	
+		ResponseCompanyMatches response = new ResponseCompanyMatches();
+		CTCompanyEntity company_job = new CTCompanyEntity();
+		CTUserEntity user = new CTUserEntity();
+		try
+		{
+			user = user_repository.getByToken(authcode);
+			if(user!=null)
+			{
+				company_job = company_repository.getJobById(company.getJobid());
+				company_repository.deleteJobProfile(company.getJobid());
+				matchingRepository.deleteMatchProfile(company_job.getId());
+				response.setStatus_code("Success");
+				response.setMethod("delete_job_opening");
+				response.setMessage("Job profile Deleted");
+			}
+			else
+			{
+				response.setStatus_code("Fail");
+				response.setMethod("delete_job_opening");
+				response.setMessage("Invalid User");
+			}
+		}catch(Exception ex)
+		{
+			response.setStatus_code("Fail");
+			response.setMethod("delete_job_opening");
+			response.setMessage("No Job profiles ");
+		}
+		
+		return response;
+		
+	}
 
 }
 
