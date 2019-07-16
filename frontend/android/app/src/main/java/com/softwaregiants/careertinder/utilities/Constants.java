@@ -10,6 +10,7 @@ public interface Constants {
     String API_METHOD_GET_JOB_OPENINGS = "get_job_list";
     String API_METHOD_GET_JOB_MATCHES = "getPerspectiveJobMatches";
     String API_METHOD_EDIT_JOB_OPENING = "edit_job_opening";
+    String API_METHOD_DELETE_JOB_OPENING = "delete_job_opening";
     String API_METHOD_GET_CANDIDATE_PROFILE = "GET_CANDIDATE_PROFILE";
     String API_METHOD_GET_MATCHES_FOR_CANDIDATE = "get_matches_for_candidates";
     String API_METHOD_GET_MATCHES_FOR_COMPANY = "get_matches_for_company";

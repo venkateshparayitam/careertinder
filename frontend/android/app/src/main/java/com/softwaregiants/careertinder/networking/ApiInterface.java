@@ -10,6 +10,7 @@ import com.softwaregiants.careertinder.models.SignUpModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -47,6 +48,9 @@ public interface ApiInterface {
     @PUT("api/updateJobsCompany/{authToken}")
     Call<ResponseBody> updateJobOpening(@Body JobOpeningModel jobOpeningModel, @Path("authToken") String auth_code);
 
+    @PUT("api/company/deleteJobProfile/{authToken}")
+    Call<ResponseBody> deleteJobOpening(@Body JobOpeningModel jobOpeningModel, @Path("authToken") String auth_code);
+
     @GET("candidate/display/{authToken}")
     Call<ResponseBody> getCandidateProfile(@Path("authToken") String auth_code);
 
@@ -61,4 +65,6 @@ public interface ApiInterface {
 
     @PUT("applicantSwipe/{authToken}")
     Call<ResponseBody> swipeForApplicant(@Path("authToken") String auth_code,@Body ApplicantSwipeModel applicantSwipeModel);
+
+
 }
