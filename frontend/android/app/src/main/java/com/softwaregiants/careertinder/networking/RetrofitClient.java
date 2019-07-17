@@ -101,6 +101,9 @@ public class RetrofitClient implements Callback<ResponseBody> {
                             case Constants.API_METHOD_EDIT_JOB_OPENING:
                                 mApiResponseCallBack.onSuccess(baseBean);
                                 break;
+                            case Constants.API_METHOD_DELETE_JOB_OPENING:
+                                mApiResponseCallBack.onSuccess(baseBean);
+                                break;
                             case Constants.API_METHOD_GET_CANDIDATE_PROFILE:
                                 GetCandidateDetailModel candidateProfileModel = new Gson().fromJson(rawResponse, GetCandidateDetailModel.class);
                                 mApiResponseCallBack.onSuccess(candidateProfileModel);

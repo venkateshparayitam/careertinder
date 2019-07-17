@@ -3,6 +3,7 @@ package core.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -38,5 +39,11 @@ public interface MatchingRepository extends JpaRepository<CTMatchingEntity, Long
     @Transactional
     @Query(value = "select count(*) from ctmatching where company_id = ?1  and company_swipe = 1;", nativeQuery = true)
     public int swipeMatchesExists(Long company_id);
+    
+    @Transactional
+    @Modifying
+	@Query(value="DELETE from ctmatching where company_id = ?1", nativeQuery = true)
+	public void deleteMatchProfile(Long companyid);
+    
     
 }

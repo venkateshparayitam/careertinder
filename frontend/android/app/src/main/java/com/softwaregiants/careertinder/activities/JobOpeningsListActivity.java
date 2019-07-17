@@ -1,6 +1,8 @@
 package com.softwaregiants.careertinder.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,6 +43,8 @@ public class JobOpeningsListActivity extends BaseActivity {
 
     Intent companyDashboardIntent;
     Intent editJobOpeningIntent;
+
+    int deletePos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,8 @@ public class JobOpeningsListActivity extends BaseActivity {
 
             @Override
             public void onDeleteClick(int position) {
-
+               deletePos = position;
+               showDeleteDialog();
             }
         });
     }
@@ -100,12 +105,20 @@ public class JobOpeningsListActivity extends BaseActivity {
     ApiResponseCallback mApiResponseCallback = new ApiResponseCallback() {
         @Override
         public void onSuccess(BaseBean baseBean) {
-            if (baseBean.getStatusCode().equals("Success")) {
-                jobOpeningsListModel = (JobOpeningsListModel) baseBean;
-                if ( jobOpeningsListModel.getJobOpeningModelList() != null &&
-                        !jobOpeningsListModel.getJobOpeningModelList().isEmpty()){
-                    TVNoItems.setVisibility(View.INVISIBLE);
-                    buildRV();
+            if (baseBean.getApiMethod().equals("delete_job_opening")){
+                if (baseBean.getStatusCode().equals("Success")){
+                    deleteJobOpeningFromView(deletePos);
+                    Toast.makeText(mContext, "Job Opening Deleted",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if(baseBean.getApiMethod().equals("get_job_list")) {
+                if (baseBean.getStatusCode().equals("Success")) {
+                    jobOpeningsListModel = (JobOpeningsListModel) baseBean;
+                    if (jobOpeningsListModel.getJobOpeningModelList() != null &&
+                            !jobOpeningsListModel.getJobOpeningModelList().isEmpty()) {
+                        TVNoItems.setVisibility(View.INVISIBLE);
+                        buildRV();
+                    }
                 }
             }
             else {
@@ -152,5 +165,38 @@ public class JobOpeningsListActivity extends BaseActivity {
                     finish();
             }
         }
+    }
+
+    public void deleteJobOpeningFromView(int pos){
+        jobOpeningsListModel.getJobOpeningModelList().remove(pos);
+        mAdapter.notifyItemRemoved(pos);
+    }
+
+    public void showDeleteDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("DELETE JOB OPENING");
+        builder.setMessage("Are you sure you want to delete " + jobOpeningsListModel.getJobOpeningModelList().get(deletePos).getJobTitle() + "?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                mRetrofitClient.mApiInterface.deleteJobOpening(jobOpeningsListModel.getJobOpeningModelList().get(deletePos), authCode).enqueue(mRetrofitClient.createProgress(mContext));
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
