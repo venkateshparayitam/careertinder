@@ -280,7 +280,7 @@ public class EditJobOpeningActivity extends ImagePickerActivity {
     public void setupSpinners(){
         Spinner jobType = findViewById(R.id.spinnerJobType);
         ArrayAdapter<CharSequence> jobTypeAdapter = ArrayAdapter.createFromResource(this,
-                R.array.job_type, android.R.layout.simple_spinner_item);
+                R.array.opening_type, android.R.layout.simple_spinner_item);
         jobTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jobType.setAdapter(jobTypeAdapter);
         int spinnerPosition = jobTypeAdapter.getPosition(jobOpeningModel.getJobType());

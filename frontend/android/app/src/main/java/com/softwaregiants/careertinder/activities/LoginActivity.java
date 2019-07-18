@@ -89,7 +89,8 @@ public class LoginActivity extends Activity {
 
                 if (loginSuccessModel.getUser_type().equals(Constants.USER_TYPE_JOB_SEEKER)){
                     if (loginSuccessModel.getIs_profile_created().equalsIgnoreCase("no")) {
-                        nextIntent = new Intent(mContext, CreateCandidateProfileActivity.class);
+//                        nextIntent = new Intent(mContext, CreateCandidateProfileActivity.class);
+                        nextIntent = new Intent(mContext, OnboardingActivity.class);
                     } else {
                         PreferenceManager.getInstance(getApplicationContext()).putBoolean(Constants.PK_PROFILE_CREATED,true);
                         nextIntent = new Intent(mContext, CandidateDashboardActivity.class);

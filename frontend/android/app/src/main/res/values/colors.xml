@@ -11,6 +11,7 @@
     <color name="colorButtonBackgroundSel">#DEDEDE</color>
     <color name="colorProgressLoader">#001540</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 
     //PROGRESS BAR
     <integer-array name="colors">

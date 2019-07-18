@@ -38,6 +38,7 @@
         <activity android:name=".activities.JobDetailActivity" />
         <activity android:name=".activities.CandidateDetailActivity" />
         <activity android:name=".activities.ChatActivity" />
+        <activity android:name=".activities.OnboardingActivity" />
     </application>
 
 </manifest>

@@ -42,7 +42,8 @@ public class SplashActivity extends AppCompatActivity {
                             if ( PreferenceManager.getInstance(getApplicationContext()).getBoolean(Constants.PK_PROFILE_CREATED, false) ) {
                                 nextActivity = new Intent(mContext, CandidateDashboardActivity.class);
                             } else {
-                                nextActivity = new Intent(mContext, CreateCandidateProfileActivity.class);
+//                                nextActivity = new Intent(mContext, CreateCandidateProfileActivity.class);
+                                nextActivity = new Intent(mContext, OnboardingActivity.class);
                             }
                         } else if (PreferenceManager.getInstance(getApplicationContext()).getString(Constants.PK_USER_TYPE, "").equals(Constants.USER_TYPE_EMPLOYER)) {
                             nextActivity = new Intent(mContext, JobOpeningsListActivity.class);

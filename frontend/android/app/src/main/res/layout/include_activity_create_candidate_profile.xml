@@ -232,6 +232,7 @@
             android:drawableLeft="@drawable/baseline_assignment_ind_black_24"
             android:drawablePadding="10dp"
             android:hint="Tell us about yourself"
+            android:maxLength="300"
             android:lines="2"
             android:maxLines="2"
             android:paddingLeft="15dp"
