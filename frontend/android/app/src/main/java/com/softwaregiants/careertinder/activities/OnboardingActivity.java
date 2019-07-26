@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import java.util.List;
 public class OnboardingActivity extends BaseActivity {
 
 	TextView TVNext;
+	TextView TVExit;
 	Context mContext;
 
 	@Override
@@ -33,6 +35,7 @@ public class OnboardingActivity extends BaseActivity {
 		@Override
 		public void callback(ACTION_PERFORMED action, int pos, Object... args) {
 			TVNext.setVisibility(View.VISIBLE);
+			TVExit.setVisibility(View.VISIBLE);
 		}
 	};
 
@@ -40,10 +43,17 @@ public class OnboardingActivity extends BaseActivity {
 	private void initViews() {
 		mContext = this;
 		TVNext = findViewById(R.id.TVNext);
+		TVExit = findViewById(R.id.TVExit);
 		TVNext.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(mContext, CreateCandidateProfileActivity.class));
+				finish();
+			}
+		});
+		TVExit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				finish();
 			}
 		});
@@ -65,6 +75,7 @@ public class OnboardingActivity extends BaseActivity {
 		public void onPageSelected(int i) {
 			if ( i == createPageList().size() - 1 ) {
 				TVNext.setVisibility(View.VISIBLE);
+				TVExit.setVisibility(View.VISIBLE);
 			}
 		}
 
@@ -77,18 +88,21 @@ public class OnboardingActivity extends BaseActivity {
 	@NonNull
 	private List<View> createPageList() {
 		List<View> pageList = new ArrayList<>();
-		pageList.add(createPageView(R.color.gplus_color_4));
-		pageList.add(createPageView(R.color.gplus_color_3));
-		pageList.add(createPageView(R.color.gplus_color_2));
-		pageList.add(createPageView(R.color.gplus_color_1));
+		pageList.add(createPageView(R.layout.onboarding_view_1));
+		pageList.add(createPageView(R.layout.onboarding_view_2));
+		pageList.add(createPageView(R.layout.onboarding_view_3));
+		pageList.add(createPageView(R.layout.onboarding_view_4));
+		pageList.add(createPageView(R.layout.onboarding_view_5));
+		pageList.add(createPageView(R.layout.onboarding_view_final));
 
 		return pageList;
 	}
 
 	@NonNull
-	private View createPageView(int color) {
-		View view = new View(this);
-		view.setBackgroundColor(getResources().getColor(color));
+	private View createPageView(int layout) {
+		LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
+			(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(layout,null);
 
 		return view;
 	}
